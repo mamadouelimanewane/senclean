@@ -988,12 +988,134 @@
   padding: 0 4px;
 }
 
-/* ─── RESPONSIVE ARTISAN GRID ─── */
-@media (max-width: 768px) {
-  .dashboard-layout { grid-template-columns: 1fr; }
-  .dashboard-sidebar { position: static; }
-  .artisan-detail-header { flex-direction: column; }
-  .hero-stats { gap: var(--space-5); flex-wrap: wrap; }
-  .devis-stepper { gap: var(--space-2); }
-  .stepper-label { display: none; }
+/* ─── RESPONSIVE COMPREHENSIVE SYSTEM ─── */
+
+/* ── Tablet & Laptop (< 1024px) ── */
+@media (max-width: 1024px) {
+  .container { padding: 0 24px; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .artisans-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .hero-content { max-width: 100%; }
+  .hero-right { margin-top: 32px; width: 100%; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .dash-layout, .dashboard-layout { grid-template-columns: 1fr; gap: 24px; }
+  .dash-sidebar, .dashboard-sidebar { position: static !important; width: 100%; }
 }
+
+/* ── Mobile & Tablet Vertical (< 768px) ── */
+@media (max-width: 768px) {
+  .container { padding: 0 16px; }
+  .section { padding: 48px 0; }
+  
+  /* Navbar & Header */
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+  .nav-logo-text { font-size: 1.15rem; }
+  .nav-logo-sub { font-size: 0.55rem; }
+  .nav-actions .btn-ghost, .nav-actions .btn-outline { display: none; }
+  
+  /* Hero & Search */
+  .hero { min-height: auto; padding: 100px 0 60px; }
+  .hero-title { font-size: clamp(2rem, 8vw, 3rem); margin-bottom: 16px; }
+  .hero-subtitle { font-size: 0.98rem; margin-bottom: 24px; }
+  
+  .search-bar {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    padding: 14px;
+    border-radius: var(--radius-lg);
+  }
+  .search-input, select.search-input, .search-btn {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none;
+  }
+  
+  /* Grids to single column */
+  .grid-4, .grid-3, .grid-2, .categories-grid, .artisans-grid, .testimonials-grid, .grid-auto {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* Stats bar */
+  .hero-stats {
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+  }
+  .hero-stat-divider { display: none; }
+  .hero-stat { flex: 1 1 40%; text-align: center; }
+  .hero-stat-value { font-size: 1.5rem; }
+  
+  /* Stepper */
+  .devis-stepper {
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .stepper-num { width: 34px; height: 34px; font-size: 0.8rem; }
+  .stepper-label { font-size: 0.72rem; }
+  
+  /* Dashboard Sidebar Horizontal Scroll */
+  .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 8px;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .sidebar-nav::-webkit-scrollbar { display: none; }
+  .sidebar-nav-item { flex-shrink: 0; }
+  .sidebar-nav-item a { padding: 8px 14px; font-size: 0.82rem; }
+  
+  /* Form row grids */
+  form div[style*="grid-template-columns"],
+  div[style*="grid-template-columns:1fr 1fr"],
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+  
+  /* Chat Interface */
+  .chat-container { height: auto; min-height: 420px; }
+  div[style*="grid-template-columns:280px 1fr"],
+  div[style*="grid-template-columns: 280px 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  
+  /* Modals & Toasts */
+  .modal { max-width: 94vw; margin: 12px; padding: 16px; border-radius: var(--radius-lg); }
+  .toast-container { left: 16px; right: 16px; bottom: 16px; min-width: auto; }
+  .toast { min-width: auto; width: 100%; }
+  
+  /* CTA Box */
+  .cta-section, .cta-box { padding: 36px 20px; text-align: center; }
+  .cta-title { font-size: 1.6rem; }
+}
+
+/* ── Mobile Phone Small (< 480px) ── */
+@media (max-width: 480px) {
+  .container { padding: 0 12px; }
+  .section-title { font-size: 1.5rem; }
+  .hero-title { font-size: 1.85rem; }
+  .btn-lg, .btn-xl { width: 100%; padding: 14px 20px; font-size: 0.95rem; }
+  .stepper-label { display: none; }
+  
+  /* Table responsive scrolling wrapper */
+  .table-responsive, .card-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 16px;
+  }
+  
+  /* Avant/Après images stacked if needed */
+  .ba-images { grid-template-columns: 1fr; }
+  .ba-img { height: 140px; }
+}
+
