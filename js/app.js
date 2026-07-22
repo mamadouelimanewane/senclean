@@ -239,10 +239,91 @@ function toggleMobileMenu() {
   if(m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
 }
 
+// ─── ENGINE ÉTAT SYNCHRONISÉ EN TEMPS RÉEL (DEMO PITCH) ───
+
+function getStoredReservations() {
+  const saved = localStorage.getItem('cleansen_reservations_data');
+  if (saved) {
+    try { return JSON.parse(saved); } catch(e) {}
+  }
+  localStorage.setItem('cleansen_reservations_data', JSON.stringify(reservations));
+  return reservations;
+}
+
+function saveReservations(list) {
+  localStorage.setItem('cleansen_reservations_data', JSON.stringify(list));
+  window.dispatchEvent(new Event('cleansen_state_updated'));
+}
+
+function addReservationState(newRes) {
+  const list = getStoredReservations();
+  list.unshift(newRes);
+  saveReservations(list);
+  
+  // Attempt backend API sync
+  API_CLEANSEN.createReservation({
+    prenom: newRes.client ? newRes.client.split(' ')[0] : 'Client',
+    nom: newRes.client ? newRes.client.split(' ').slice(1).join(' ') : 'Demo',
+    telephone: newRes.tel || '+221 77 000 00 00',
+    email: newRes.email || 'client@demo.sn',
+    service_nom: newRes.service,
+    date_res: newRes.date,
+    heure_res: newRes.heure,
+    adresse: newRes.adresse,
+    ville: newRes.ville || 'Dakar',
+    equipe_nom: newRes.equipe,
+    montant: newRes.montant
+  });
+}
+
+function updateReservationStatusState(id, newStatut) {
+  const list = getStoredReservations();
+  const target = list.find(r => r.id === id);
+  if (target) {
+    target.statut = newStatut;
+    saveReservations(list);
+  }
+}
+
+// 🎲 SIMULATEUR D'INTERVENTION EN DIRECT (POUR LA DÉMO CLIENT)
+function simulerNouvelleReservationDemo() {
+  const servicesList = ['Ménage Standard', 'Nettoyage en Profondeur', 'Lavage de Vitres', 'Dégraissage Cuisine Pro', 'Canapés & Literie'];
+  const clientsList = [
+    { name: 'Abdoulaye Diallo', tel: '+221 77 654 32 10', addr: 'Almadies, Villa N°45', city: 'Dakar' },
+    { name: 'Awa Ndiaye', tel: '+221 76 890 12 34', addr: 'Point E, Rue 3', city: 'Dakar' },
+    { name: 'Ousmane Sarr', tel: '+221 70 123 99 88', addr: 'Saly Niakhniakhal', city: 'Mbour' },
+    { name: 'Coumba Faye', tel: '+221 77 444 88 22', addr: 'Sacré-Cœur 3, Apt 12', city: 'Dakar' }
+  ];
+  const c = clientsList[Math.floor(Math.random() * clientsList.length)];
+  const s = servicesList[Math.floor(Math.random() * servicesList.length)];
+  const eq = EQUIPES[Math.floor(Math.random() * EQUIPES.length)];
+  
+  const newRes = {
+    id: `RES-${Math.floor(100000 + Math.random() * 900000)}`,
+    client: c.name,
+    tel: c.tel,
+    email: 'client.demo@senegal.sn',
+    service: s,
+    icone: '✨',
+    date: '2026-07-28',
+    heure: '10:00',
+    adresse: c.addr,
+    ville: c.city,
+    equipe: eq.nom,
+    montant: 15000 + Math.floor(Math.random() * 5) * 5000,
+    statut: 'en_attente'
+  };
+
+  addReservationState(newRes);
+  showToast(`🎉 Nouvelle réservation reçue de ${c.name} (${s}) !`, 'success');
+  return newRes;
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   initNavbar();
   initAnimations();
   initCounters();
   const loader = document.getElementById('page-loader');
-  if(loader) setTimeout(()=>loader.classList.add('hidden'), 1500);
+  if(loader) setTimeout(()=>loader.classList.add('hidden'), 1200);
 });
+

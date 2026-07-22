@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Espace Client | CleanSen</title>
+  <title>Espace Client | CleanSen Sénégal</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -21,7 +21,7 @@
       --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.4);
       --border: rgba(255, 255, 255, 0.1);
     }
-    body { background-color: var(--bg-dark); color: var(--text-primary); font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+    body { background-color: var(--bg-dark); color: var(--text-primary); font-family: var(--font-body); margin: 0; }
     
     .dashboard-layout {
       display: grid;
@@ -36,36 +36,37 @@
       display: flex;
       flex-direction: column;
     }
-    .user-profile { text-align: center; margin-bottom: 32px; }
+    .user-profile { text-align: center; margin-bottom: 28px; }
     .user-avatar {
-      width: 80px; height: 80px;
+      width: 76px; height: 76px;
       border-radius: 50%;
       background: var(--grad-primary);
-      margin: 0 auto 16px;
+      margin: 0 auto 14px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 2rem; font-weight: bold;
+      font-size: 1.8rem; font-weight: bold;
       box-shadow: var(--shadow-glow);
     }
     .user-name { font-weight: bold; font-size: 1.1rem; margin-bottom: 4px; }
-    .user-city { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
+    .user-city { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 8px; }
     
-    .nav-menu { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
-    .nav-item { margin-bottom: 8px; }
+    .nav-menu { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 6px; }
+    .nav-item { margin-bottom: 0; }
     .nav-link {
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 16px;
       color: var(--text-secondary);
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 12px;
+      font-size: 0.9rem;
       transition: all 0.2s;
     }
     .nav-link:hover, .nav-link.active {
-      background: rgba(0,200,83,0.1);
+      background: rgba(0,200,83,0.12);
       color: var(--primary);
       font-weight: bold;
     }
-    .badge-count { background: var(--primary); color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
-    .badge-red { background: #e53935; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
+    .badge-count { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; }
+    .badge-red { background: #e53935; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 800; }
 
     .main-content { padding: 32px; overflow-y: auto; }
     .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
@@ -77,36 +78,37 @@
       padding: 24px;
       border-radius: 16px;
     }
-    .stat-card-title { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 8px; }
-    .stat-card-value { font-size: 2rem; font-weight: bold; color: var(--primary); }
+    .stat-card-title { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 8px; }
+    .stat-card-value { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
 
     .section-title { font-size: 1.2rem; margin: 0 0 20px 0; }
     
     .upcoming-card {
-      background: linear-gradient(to right, rgba(0,200,83,0.1), transparent);
+      background: linear-gradient(135deg, rgba(0,200,83,0.12) 0%, rgba(10,14,26,0.8) 100%);
       border: 1px solid var(--primary);
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 24px;
       margin-bottom: 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: var(--shadow-glow);
     }
     
     .res-list { display: flex; flex-direction: column; gap: 16px; }
     .res-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .res-info { display: flex; gap: 16px; align-items: center; }
-    .res-icon { width: 48px; height: 48px; background: var(--bg-surface); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
-    .res-meta { color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px; }
-    .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+    .res-icon { width: 48px; height: 48px; background: var(--bg-surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+    .res-meta { color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px; }
+    .status-badge { padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
     .status-active { background: rgba(0,200,83,0.2); color: var(--primary); }
     .status-pending { background: rgba(255,214,0,0.2); color: var(--accent); }
 
@@ -129,109 +131,281 @@
   </style>
 </head>
 <body>
+<div class="toast-container" id="toast-container"></div>
 
 <div class="dashboard-layout">
   <aside class="sidebar">
     <div class="user-profile">
       <div class="user-avatar">SN</div>
       <div class="user-name">Seynabou Ndiaye</div>
-      <div class="user-city">Dakar</div>
-      <div class="badge-green" style="display:inline-block; font-size:0.8rem;">Client vérifié ✓</div>
+      <div class="user-city">📍 Dakar (Almadies)</div>
+      <div class="badge-green" style="display:inline-block; font-size:0.78rem; padding:4px 10px; margin-top:4px;">Client Privilège ✓</div>
     </div>
     
     <ul class="nav-menu">
-      <li class="nav-item"><a href="#" class="nav-link active">📊 Vue d'ensemble</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">📋 Mes Réservations <span class="badge-count">3</span></a></li>
-      <li class="nav-item"><a href="#" class="nav-link">💬 Messages <span class="badge-red">1</span></a></li>
-      <li class="nav-item"><a href="#" class="nav-link">🏗️ Historique</a></li>
-      <li class="nav-item"><a href="#" class="nav-link">👤 Mon Profil</a></li>
+      <li class="nav-item"><a href="#" onclick="showClientTab('overview', this)" class="nav-link active" id="tab-client-overview">📊 Vue d'ensemble</a></li>
+      <li class="nav-item"><a href="#" onclick="showClientTab('reservations', this)" class="nav-link" id="tab-client-res">📋 Mes Réservations <span class="badge-count" id="res-count-badge">3</span></a></li>
+      <li class="nav-item"><a href="#" onclick="showClientTab('messages', this)" class="nav-link">💬 Messages <span class="badge-red">1</span></a></li>
+      <li class="nav-item"><a href="#" onclick="showClientTab('fidelite', this)" class="nav-link">🏆 Fidelité (350 pts)</a></li>
+      <li class="nav-item"><a href="#" onclick="showClientTab('profil', this)" class="nav-link">👤 Mon Profil</a></li>
     </ul>
 
-    <a href="reservation.html" class="btn btn-primary" style="text-align:center; display:block; margin-top:20px;">+ Nouvelle Réservation</a>
-    <a href="index.html" class="btn btn-ghost" style="text-align:center; display:block; margin-top:8px;">← Quitter</a>
+    <a href="reservation.html" class="btn btn-primary" style="text-align:center; display:block; margin-top:20px; font-weight:700;">+ Nouvelle Réservation</a>
+    <a href="index.html" class="btn btn-ghost" style="text-align:center; display:block; margin-top:8px; font-size:0.85rem;">← Retour à l'accueil</a>
   </aside>
 
   <main class="main-content">
     <div class="header-top">
       <div>
-        <h1 style="margin:0;">Bonjour, Seynabou 👋</h1>
-        <p style="color:var(--text-secondary); margin:4px 0 0;">Bienvenue dans votre espace CleanSen.</p>
+        <h1 style="margin:0; font-family:var(--font-display);" id="client-page-title">Bonjour, Seynabou 👋</h1>
+        <p style="color:var(--text-secondary); margin:4px 0 0;">Bienvenue dans votre espace client CleanSen.</p>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="simulerNouvelleReservationDemo()" style="background:var(--grad-gold);color:#000;border:none;border-radius:10px;padding:8px 14px;font-size:0.8rem;font-weight:700;cursor:pointer;">
+          🎲 Test Demo Direct
+        </button>
       </div>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-title">Réservations actives</div>
-        <div class="stat-card-value">3</div>
+    <!-- ─── SECTION 1: VUE D'ENSEMBLE ─── -->
+    <div id="client-section-overview">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-title">Réservations actives</div>
+          <div class="stat-card-value" id="client-kpi-active">3</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">Interventions réalisées</div>
+          <div class="stat-card-value">12</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">Cumul Dépenses</div>
+          <div class="stat-card-value" style="font-size:1.5rem;">185 000 FCFA</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-title">Points Fidélité</div>
+          <div class="stat-card-value" style="color:var(--accent);">350 pts</div>
+        </div>
       </div>
-      <div class="stat-card">
-        <div class="stat-card-title">Interventions totales</div>
-        <div class="stat-card-value">12</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-title">Dépenses (FCFA)</div>
-        <div class="stat-card-value">185 000</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-title">Note donnée</div>
-        <div class="stat-card-value" style="color:var(--accent);">4.8 <span style="font-size:1rem;">⭐</span></div>
-      </div>
-    </div>
 
-    <h2 class="section-title">Prochaine intervention</h2>
-    <div class="upcoming-card">
-      <div style="display:flex; gap:20px; align-items:center;">
-        <div style="font-size:3rem;">📅</div>
+      <h2 class="section-title">Prochaine intervention programmée</h2>
+      <div class="upcoming-card" id="upcoming-box">
+        <div style="display:flex; gap:20px; align-items:center;">
+          <div style="font-size:3rem;background:rgba(0,200,83,0.15);width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;">🧹</div>
+          <div>
+            <h3 style="margin:0 0 8px;" id="upcoming-service-name">Ménage Standard</h3>
+            <div style="color:var(--text-secondary);" id="upcoming-service-date">Mardi 28 Juillet 2026 à 09h00 • Dakar, Almadies</div>
+            <div style="margin-top:8px; display:flex; align-items:center; gap:8px;">
+              <div style="width:24px; height:24px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:bold; color:#000;" id="upcoming-equipe-avatar">KD</div>
+              <span style="font-size:0.9rem;font-weight:600;" id="upcoming-equipe-name">Khady Diallo (Chef d'équipe)</span>
+            </div>
+          </div>
+        </div>
         <div>
-          <h3 style="margin:0 0 8px;">Ménage Classique</h3>
-          <div style="color:var(--text-secondary);">Demain à 09h00 • Dakar, Almadies</div>
-          <div style="margin-top:8px; display:flex; align-items:center; gap:8px;">
-            <div style="width:24px; height:24px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:bold;">KD</div>
-            <span style="font-size:0.9rem;">Khady Diallo</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <button class="btn btn-ghost">Modifier</button>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2 class="section-title" style="margin:0;">Réservations récentes</h2>
-      <a href="#" style="color:var(--primary); text-decoration:none; font-size:0.9rem;">Voir tout →</a>
-    </div>
-    
-    <div class="res-list">
-      <div class="res-card">
-        <div class="res-info">
-          <div class="res-icon">✨</div>
-          <div>
-            <div style="font-weight:bold; font-size:1.1rem;">Grand Nettoyage</div>
-            <div class="res-meta">Le 20 Juillet 2026 • 25 000 FCFA</div>
-          </div>
-        </div>
-        <div style="display:flex; gap:16px; align-items:center;">
-          <span class="status-badge status-active">Confirmé</span>
-          <button class="btn btn-ghost btn-sm">Détails</button>
+          <button class="btn btn-ghost" onclick="showToast('Rappel SMS / WhatsApp envoyé !','info')">💬 Contacter l'équipe</button>
         </div>
       </div>
 
-      <div class="res-card">
-        <div class="res-info">
-          <div class="res-icon">🏢</div>
-          <div>
-            <div style="font-weight:bold; font-size:1.1rem;">Entretien Bureau</div>
-            <div class="res-meta">Le 15 Juillet 2026 • 15 000 FCFA</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2 class="section-title" style="margin:0;">Réservations récentes</h2>
+        <a href="#" onclick="showClientTab('reservations', document.getElementById('tab-client-res'))" style="color:var(--primary); text-decoration:none; font-size:0.9rem; font-weight:600;">Voir toutes les réservations →</a>
+      </div>
+      
+      <div class="res-list" id="client-recent-list"></div>
+    </div>
+
+    <!-- ─── SECTION 2: MES RÉSERVATIONS ─── -->
+    <div id="client-section-reservations" style="display:none;">
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        <button class="filter-chip active" onclick="renderClientReservations('all', this)">Toutes</button>
+        <button class="filter-chip" onclick="renderClientReservations('confirme', this)">Confirmées</button>
+        <button class="filter-chip" onclick="renderClientReservations('en_attente', this)">En attente</button>
+        <button class="filter-chip" onclick="renderClientReservations('termine', this)">Terminées</button>
+      </div>
+      <div class="res-list" id="client-full-res-list"></div>
+    </div>
+
+    <!-- ─── SECTION 3: MESSAGERIE ─── -->
+    <div id="client-section-messages" style="display:none;">
+      <div class="card card-body" style="padding:0;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:260px 1fr;height:480px;">
+          <div style="border-right:1px solid var(--border);padding:16px;background:var(--bg-surface);">
+            <div style="font-weight:700;margin-bottom:12px;">Discussions</div>
+            <div style="padding:10px;background:rgba(0,200,83,0.12);border-radius:10px;border-left:3px solid var(--primary);cursor:pointer;">
+              <div style="font-weight:700;font-size:0.9rem;">Khady Diallo</div>
+              <div style="font-size:0.75rem;color:var(--text-secondary);">Bonjour ! Nous serons là à 9h...</div>
+            </div>
           </div>
-        </div>
-        <div style="display:flex; gap:16px; align-items:center;">
-          <span class="status-badge status-pending">En attente</span>
-          <button class="btn btn-ghost btn-sm">Détails</button>
+          <div style="display:flex;flex-direction:column;">
+            <div style="padding:16px;border-bottom:1px solid var(--border);font-weight:700;display:flex;align-items:center;gap:10px;">
+              <span>💬</span> Conversation avec Khady Diallo (CleanSen Almadies)
+            </div>
+            <div style="flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;" id="chat-box">
+              <div style="align-self:flex-start;background:var(--bg-surface);padding:10px 14px;border-radius:12px 12px 12px 2px;max-width:75%;font-size:0.88rem;">
+                Bonjour Madame Ndiaye ! Votre équipe est bien planifiée pour demain 09h00. Avez-vous des consignes particulières ?
+              </div>
+              <div style="align-self:flex-end;background:var(--grad-primary);color:white;padding:10px 14px;border-radius:12px 12px 2px 12px;max-width:75%;font-size:0.88rem;">
+                Bonjour Khady ! Merci, merci d'insister sur les baies vitrées du salon.
+              </div>
+            </div>
+            <div style="padding:12px;border-top:1px solid var(--border);display:flex;gap:10px;">
+              <input type="text" id="chat-input" class="form-control" placeholder="Écrire un message..." style="flex:1;font-size:0.88rem;" onkeypress="if(event.key==='Enter')sendChatMessage()">
+              <button onclick="sendChatMessage()" class="btn btn-primary btn-sm">Envoyer</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- ─── SECTION 4: FIDÉLITÉ ─── -->
+    <div id="client-section-fidelite" style="display:none;">
+      <div class="card card-body" style="padding:28px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:3rem;margin-bottom:8px;">👑</div>
+        <h2>Programme Club Privilège CleanSen</h2>
+        <p style="color:var(--text-secondary);max-width:500px;margin:0 auto 20px;">Chaque intervention vous rapporte 10 points par tranche de 1 000 FCFA dépensée.</p>
+        <div style="max-width:400px;margin:0 auto;background:var(--bg-surface);height:12px;border-radius:6px;overflow:hidden;">
+          <div style="width:70%;height:100%;background:var(--grad-gold);"></div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">350 / 500 points pour débloquer votre prochain Lavage de Vitres Offert</div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION 5: PROFIL ─── -->
+    <div id="client-section-profil" style="display:none;">
+      <div class="card card-body" style="padding:28px;max-width:600px;">
+        <h3 style="margin-top:0;">Mes Coordonnées</h3>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="font-size:0.82rem;color:var(--text-muted);">Nom & Prénom</label>
+            <input type="text" class="form-control" value="Seynabou Ndiaye">
+          </div>
+          <div>
+            <label style="font-size:0.82rem;color:var(--text-muted);">Téléphone WhatsApp</label>
+            <input type="text" class="form-control" value="+221 77 123 45 67">
+          </div>
+          <div>
+            <label style="font-size:0.82rem;color:var(--text-muted);">Adresse de résidence</label>
+            <input type="text" class="form-control" value="Almadies, Villa N°12, Dakar">
+          </div>
+          <button onclick="showToast('Profil mis à jour !','success')" class="btn btn-primary" style="margin-top:10px;">Enregistrer les modifications</button>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
+<script src="js/app.js"></script>
+<script>
+  let clientReservations = getStoredReservations();
+
+  function syncClientData() {
+    clientReservations = getStoredReservations();
+    renderOverviewClient();
+  }
+
+  window.addEventListener('cleansen_state_updated', syncClientData);
+  window.addEventListener('storage', syncClientData);
+
+  function showClientTab(tabName, linkEl) {
+    ['overview','reservations','messages','fidelite','profil'].forEach(t => {
+      const el = document.getElementById(`client-section-${t}`);
+      if(el) el.style.display = 'none';
+    });
+    const target = document.getElementById(`client-section-${tabName}`);
+    if(target) target.style.display = 'block';
+
+    document.querySelectorAll('.sidebar .nav-link').forEach(a => a.classList.remove('active'));
+    if(linkEl) linkEl.classList.add('active');
+
+    if(tabName === 'overview') renderOverviewClient();
+    if(tabName === 'reservations') renderClientReservations('all');
+  }
+
+  function renderOverviewClient() {
+    document.getElementById('client-kpi-active').textContent = clientReservations.filter(r => r.statut !== 'termine').length;
+    document.getElementById('res-count-badge').textContent = clientReservations.length;
+
+    if(clientReservations.length > 0) {
+      const next = clientReservations[0];
+      document.getElementById('upcoming-service-name').textContent = next.service;
+      document.getElementById('upcoming-service-date').textContent = `${next.date} à ${next.heure} • ${next.adresse}`;
+      document.getElementById('upcoming-equipe-name').textContent = next.equipe || 'Khady Diallo';
+    }
+
+    const recentContainer = document.getElementById('client-recent-list');
+    recentContainer.innerHTML = clientReservations.slice(0, 3).map(r => {
+      const st = getStatutBadge(r.statut);
+      return `
+        <div class="res-card">
+          <div class="res-info">
+            <div class="res-icon">${r.icone || '✨'}</div>
+            <div>
+              <div style="font-weight:bold; font-size:1.05rem;">${r.service}</div>
+              <div class="res-meta">Date: ${r.date} à ${r.heure} • ${r.montant.toLocaleString('fr-SN')} FCFA</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span class="status-badge ${st.cls}">${st.label}</span>
+            <button onclick="showToast('Détails de ${r.id}','info')" class="btn btn-ghost btn-sm">Détails</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderClientReservations(filtre='all', btn) {
+    if(btn) {
+      document.querySelectorAll('#client-section-reservations .filter-chip').forEach(c=>c.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    const filtered = filtre === 'all' ? clientReservations : clientReservations.filter(r => r.statut === filtre);
+    const container = document.getElementById('client-full-res-list');
+    container.innerHTML = filtered.map(r => {
+      const st = getStatutBadge(r.statut);
+      return `
+        <div class="res-card">
+          <div class="res-info">
+            <div class="res-icon">${r.icone || '🧹'}</div>
+            <div>
+              <div style="font-weight:bold; font-size:1.1rem; color:var(--primary);">${r.id} — ${r.service}</div>
+              <div class="res-meta">📅 ${r.date} à ${r.heure} | 📍 ${r.adresse} | 👥 ${r.equipe}</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span style="font-weight:700;font-size:0.95rem;">${r.montant.toLocaleString('fr-SN')} FCFA</span>
+            <span class="status-badge ${st.cls}">${st.label}</span>
+            ${r.statut==='termine' ? `<button class="btn btn-gold btn-sm" onclick="showToast('Avis 5/5 enregistré ! Merci','success')">⭐ Avis</button>` : `<button class="btn btn-ghost btn-sm" onclick="showToast('Code QR intervention prêt','info')">📱 QR Code</button>`}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if(!msg) return;
+    const box = document.getElementById('chat-box');
+    
+    const userMsg = document.createElement('div');
+    userMsg.style.cssText = 'align-self:flex-end;background:var(--grad-primary);color:white;padding:10px 14px;border-radius:12px 12px 2px 12px;max-width:75%;font-size:0.88rem;';
+    userMsg.textContent = msg;
+    box.appendChild(userMsg);
+    input.value = '';
+    box.scrollTop = box.scrollHeight;
+
+    setTimeout(()=>{
+      const reply = document.createElement('div');
+      reply.style.cssText = 'align-self:flex-start;background:var(--bg-surface);padding:10px 14px;border-radius:12px 12px 12px 2px;max-width:75%;font-size:0.88rem;';
+      reply.textContent = "Bien reçu Madame Ndiaye ! Je transmets immédiatement la consigne à l'équipe sur le terrain.";
+      box.appendChild(reply);
+      box.scrollTop = box.scrollHeight;
+    }, 1000);
+  }
+
+  // Init
+  renderOverviewClient();
+</script>
 </body>
 </html>

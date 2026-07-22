@@ -411,7 +411,7 @@
       <div class="success-state">
         <div class="success-icon">🎉</div>
         <h2 style="background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Réservation confirmée !</h2>
-        <p style="color:var(--text-secondary); font-size:1.1rem;">Votre demande porte le numéro <strong style="color:#fff;">RES-007</strong></p>
+        <p style="color:var(--text-secondary); font-size:1.1rem;">Votre demande porte le numéro <strong style="color:#fff;" id="res-ref-display">RES-007</strong></p>
         
         <div class="stat-boxes">
           <div class="stat-box">
@@ -437,6 +437,7 @@
   </div>
 </div>
 
+<script src="js/app.js"></script>
 <script>
   function goToStep(step) {
     document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
@@ -462,6 +463,25 @@
   }
 
   function showSuccess() {
+    const newRes = {
+      id: `RES-${Math.floor(100000 + Math.random() * 900000)}`,
+      client: 'Seynabou Ndiaye',
+      tel: '+221 77 123 45 67',
+      email: 'seynabou@demo.sn',
+      service: 'Nettoyage en profondeur',
+      icone: '✨',
+      date: '2026-07-29',
+      heure: '09:00',
+      adresse: 'Almadies, Villa N°14',
+      ville: 'Dakar',
+      equipe: 'Khady Diallo',
+      montant: 28000,
+      statut: 'en_attente'
+    };
+
+    addReservationState(newRes);
+    const refEl = document.getElementById('res-ref-display');
+    if(refEl) refEl.textContent = newRes.id;
     document.getElementById('stepper').style.display = 'none';
     goToStep(4);
   }

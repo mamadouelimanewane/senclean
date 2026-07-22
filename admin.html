@@ -450,13 +450,16 @@
 
 <script src="js/app.js"></script>
 <script>
-  let adminResList = [
-    { id:'RES-001', client:'Seynabou Ndiaye', tel:'+221 77 123 45 67', service:'Ménage Standard', date:'28/07/2026', heure:'09:00', adresse:'Almadies, Villa 12', ville:'Dakar', equipe:'Khady Diallo', montant:15000, statut:'confirme' },
-    { id:'RES-002', client:'Seynabou Ndiaye', tel:'+221 77 123 45 67', service:'Nettoyage en profondeur', date:'30/07/2026', heure:'08:00', adresse:'Sacré-Cœur 3, Apt 4B', ville:'Dakar', equipe:'Mariama Sow', montant:28000, statut:'en_attente' },
-    { id:'RES-003', client:'Moussa Traoré', tel:'+221 77 987 65 43', service:'Dégraissage Cuisine Pro', date:'26/07/2026', heure:'14:00', adresse:'Plateau, Imm. Magal', ville:'Dakar', equipe:'Fatou Badji', montant:22000, statut:'en_cours' },
-    { id:'RES-004', client:'Oumar Ba', tel:'+221 76 555 44 33', service:'Fin de chantier Villa', date:'24/07/2026', heure:'08:00', adresse:'Saly Portudal', ville:'Mbour', equipe:'Cheikh Gueye', montant:45000, statut:'termine' },
-    { id:'RES-005', client:'Bineta Sall', tel:'+221 70 333 22 11', service:'Lavage de Vitres', date:'29/07/2026', heure:'11:00', adresse:'Mermoz, Rue 10', ville:'Dakar', equipe:'Khady Diallo', montant:8000, statut:'confirme' },
-  ];
+  let adminResList = getStoredReservations();
+
+  function syncAdminData() {
+    adminResList = getStoredReservations();
+    renderOverview();
+    renderAllRes('all');
+  }
+
+  window.addEventListener('cleansen_state_updated', syncAdminData);
+  window.addEventListener('storage', syncAdminData);
 
   function toggleAdminDrawer() {
     const sidebar = document.getElementById('admin-sidebar');
@@ -600,12 +603,8 @@
   }
 
   function changeStatutRes(id, newStatut) {
-    const r = adminResList.find(x => x.id === id);
-    if(r) {
-      r.statut = newStatut;
-      renderAllRes();
-      showToast(`Réservation ${id} mise à jour en '${newStatut}'`, 'success');
-    }
+    updateReservationStatusState(id, newStatut);
+    showToast(`Réservation ${id} mise à jour en '${newStatut}'`, 'success');
   }
 
   function renderAdminEquipes() {
