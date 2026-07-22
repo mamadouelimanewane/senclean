@@ -232,21 +232,33 @@
       <div class="card card-body" style="padding:28px;">
         <h3 style="font-size:1.1rem;margin:0 0 20px 0;">📊 Répartition du Chiffre d'Affaires par Univers (Juillet 2026)</h3>
         <div style="display:flex;flex-direction:column;gap:16px;">
-          ${[
-            {name:'🏠 Nettoyage Domicile (Villas & Appartements)', pct:55, color:'var(--primary)', val:'2 090 000 FCFA'},
-            {name:'🏢 Bureaux & Locaux Commerciaux', pct:30, color:'var(--accent)', val:'1 140 000 FCFA'},
-            {name:'🏭 Sites Industriels & Chantiers', pct:15, color:'var(--info)', val:'570 000 FCFA'},
-          ].map(r => `
-            <div>
-              <div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:6px;">
-                <span style="font-weight:600;">${r.name}</span>
-                <span style="font-weight:700;color:var(--text-primary);">${r.val} (${r.pct}%)</span>
-              </div>
-              <div style="height:10px;background:var(--bg-surface);border-radius:5px;overflow:hidden;">
-                <div style="height:100%;width:${r.pct}%;background:${r.color};border-radius:5px;transition:width 1s ease;"></div>
-              </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:6px;">
+              <span style="font-weight:600;">🏠 Nettoyage Domicile (Villas & Appartements)</span>
+              <span style="font-weight:700;color:var(--text-primary);">2 090 000 FCFA (55%)</span>
             </div>
-          `).join('')}
+            <div style="height:10px;background:var(--bg-surface);border-radius:5px;overflow:hidden;">
+              <div style="height:100%;width:55%;background:var(--primary);border-radius:5px;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:6px;">
+              <span style="font-weight:600;">🏢 Bureaux & Locaux Commerciaux</span>
+              <span style="font-weight:700;color:var(--text-primary);">1 140 000 FCFA (30%)</span>
+            </div>
+            <div style="height:10px;background:var(--bg-surface);border-radius:5px;overflow:hidden;">
+              <div style="height:100%;width:30%;background:var(--accent);border-radius:5px;transition:width 1s ease;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:6px;">
+              <span style="font-weight:600;">🏭 Sites Industriels & Chantiers</span>
+              <span style="font-weight:700;color:var(--text-primary);">570 000 FCFA (15%)</span>
+            </div>
+            <div style="height:10px;background:var(--bg-surface);border-radius:5px;overflow:hidden;">
+              <div style="height:100%;width:15%;background:var(--info);border-radius:5px;transition:width 1s ease;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -317,13 +329,41 @@
       <div class="card card-body" style="padding:28px;">
         <h3 style="font-size:1.1rem;margin:0 0 20px 0;">Histogramme des Revenus Mensuels 2026</h3>
         <div style="display:flex;align-items:flex-end;gap:16px;height:220px;padding-top:20px;">
-          ${[2.1,2.8,3.2,3.5,3.6,3.4,3.8].map((v,i)=>`
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
-              <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">${v}M</div>
-              <div style="width:100%;height:${(v/4)*100}%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
-              <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">${['Jan','Fév','Mar','Avr','Mai','Jun','Jul'][i]}</div>
-            </div>
-          `).join('')}
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">2.1M</div>
+            <div style="width:100%;height:52.5%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Jan</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">2.8M</div>
+            <div style="width:100%;height:70%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Fév</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">3.2M</div>
+            <div style="width:100%;height:80%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Mar</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">3.5M</div>
+            <div style="width:100%;height:87.5%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Avr</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">3.6M</div>
+            <div style="width:100%;height:90%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Mai</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">3.4M</div>
+            <div style="width:100%;height:85%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Jun</div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">3.8M</div>
+            <div style="width:100%;height:95%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+            <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">Jul</div>
+          </div>
         </div>
       </div>
     </div>
