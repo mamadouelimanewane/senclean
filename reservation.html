@@ -1,403 +1,465 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réserver - CleanSen</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        body { background: #f4f7f6; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
-        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
-        
-        .container { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
-        
-        /* Stepper */
-        .stepper { display: flex; justify-content: space-between; margin-bottom: 3rem; position: relative; }
-        .stepper::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: #ddd; z-index: 1; }
-        .step { position: relative; z-index: 2; text-align: center; flex: 1; }
-        .step-num { width: 32px; height: 32px; background: #ddd; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-weight: bold; transition: all 0.3s; }
-        .step.active .step-num { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0,191,255,0.2); }
-        .step.completed .step-num { background: var(--navy); }
-        .step-label { font-size: 0.85rem; color: #666; font-weight: 500; }
-        .step.active .step-label { color: var(--cyan); font-weight: bold; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réservation | CleanSen - Nettoyage au Sénégal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    :root {
+      --primary: #00C853;
+      --accent: #FFD600;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-surface: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --grad-primary: linear-gradient(135deg, #00C853, #009624);
+      --grad-gold: linear-gradient(135deg, #FFD600, #F57F17);
+      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.4);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body { background-color: var(--bg-dark); color: var(--text-primary); font-family: system-ui, -apple-system, sans-serif; }
+    
+    .reservation-container {
+      max-width: 800px;
+      margin: 100px auto 60px;
+      padding: 0 20px;
+    }
+    
+    .devis-stepper {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .devis-stepper::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .devis-stepper-progress {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      height: 2px;
+      background: var(--primary);
+      z-index: 1;
+      transition: width 0.3s ease;
+    }
+    .step-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-dark);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .step-item.active .step-circle {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow-glow);
+    }
+    .step-item.completed .step-circle {
+      border-color: var(--primary);
+      background: var(--bg-dark);
+      color: var(--primary);
+    }
+    .step-label { font-size: 0.9rem; color: var(--text-secondary); }
+    .step-item.active .step-label { color: var(--primary); font-weight: bold; }
 
-        .step-content { display: none; background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .step-content.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        h2 { color: var(--navy); margin-bottom: 1.5rem; }
+    .step-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .step-section { display: none; }
+    .step-section.active { display: block; animation: fadeIn 0.4s ease; }
 
-        /* Step 1 */
-        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
-        .tab-btn { background: none; border: none; font-size: 1.1rem; color: #666; cursor: pointer; padding: 0.5rem 1rem; font-weight: 500; }
-        .tab-btn.active { color: var(--cyan); border-bottom: 2px solid var(--cyan); margin-bottom: -1rem; }
-        
-        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .service-card { border: 2px solid #eee; border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .service-card:hover { border-color: #b3e5fc; }
-        .service-card.selected { border-color: var(--cyan); background: #e1f5fe; }
-        .service-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .tab-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      justify-content: center;
+    }
+    .tab-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 12px 24px;
+      border-radius: 24px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+    }
 
-        .form-group { margin-bottom: 1.5rem; text-align: left; }
-        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--navy); font-weight: 500; }
-        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; }
-        
-        /* Step 2 - Calendar & Times */
-        .calendar-widget { border: 1px solid #eee; border-radius: 12px; padding: 1rem; margin-bottom: 2rem; }
-        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-weight: bold; color: var(--navy); }
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-        .cal-day-name { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
-        .cal-day { padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: 0.2s; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
-        .cal-day:hover:not(.disabled) { background: #eee; }
-        .cal-day.disabled { color: #ccc; cursor: not-allowed; }
-        .cal-day.today { border: 2px solid var(--cyan); color: var(--cyan); font-weight: bold; }
-        .cal-day.selected { background: var(--grad-main); color: white; border: none; }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .service-card {
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    .service-card:hover { border-color: rgba(0,200,83,0.5); }
+    .service-card.selected {
+      border-color: var(--primary);
+      background: rgba(0,200,83,0.05);
+      box-shadow: var(--shadow-glow);
+    }
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0,200,83,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 1.5rem;
+    }
+    .service-price { color: var(--primary); font-weight: bold; margin-top: 8px; }
 
-        .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
-        .time-slot { border: 1px solid #ddd; padding: 0.75rem; border-radius: 8px; text-align: center; cursor: pointer; }
-        .time-slot.disabled { background: #f9f9f9; color: #aaa; cursor: not-allowed; text-decoration: line-through; }
-        .time-slot.selected { background: var(--cyan); color: white; border-color: var(--cyan); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 0.9rem; }
+    .form-control {
+      width: 100%;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 12px;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .form-control:focus { border-color: var(--primary); outline: none; }
 
-        /* Step 3 */
-        .recap-box { background: #f8f9fa; border: 1px solid #eee; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; }
-        .recap-item { display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px dashed #ddd; padding-bottom: 0.5rem; }
-        .recap-total { display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: bold; color: var(--cyan); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #ddd; }
+    .cal-widget { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+    .cal-header { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--bg-surface); text-align: center; padding: 12px 0; font-size: 0.9rem; color: var(--text-secondary); }
+    .cal-body { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); }
+    .cal-day { background: var(--bg-card); padding: 16px 0; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .cal-day:hover:not(.cal-disabled) { background: var(--bg-surface); }
+    .cal-day.cal-selected { background: var(--grad-primary); color: #fff; font-weight: bold; }
+    .cal-day.cal-today { border: 2px solid var(--primary); }
+    .cal-day.cal-disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .actions { display: flex; justify-content: space-between; margin-top: 2rem; }
-        .btn { padding: 0.75rem 2rem; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; }
-        .btn-outline { background: white; color: var(--navy); border: 1px solid #ddd; }
-        .btn-cyan { background: var(--cyan); color: white; }
-        
-        /* Success state */
-        .success-state { text-align: center; padding: 3rem 1rem; display: none; }
-        .success-icon { font-size: 4rem; color: #2ecc71; margin-bottom: 1rem; }
-        
-        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
-    </style>
+    .time-slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .time-slot { background: var(--bg-surface); border: 1px solid var(--border); padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; }
+    .time-slot:hover:not(.disabled) { border-color: var(--primary); color: var(--primary); }
+    .time-slot.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .time-slot.disabled { opacity: 0.3; cursor: not-allowed; background: var(--bg-dark); }
+
+    .step-actions { display: flex; justify-content: space-between; margin-top: 24px; }
+    .recap-box { background: var(--bg-surface); border: 1px dashed var(--primary); padding: 20px; border-radius: 12px; margin-bottom: 24px; }
+    
+    .success-state { text-align: center; padding: 40px 20px; }
+    .success-icon { font-size: 5rem; margin-bottom: 20px; animation: bounce 1s ease; }
+    .stat-boxes { display: flex; gap: 16px; justify-content: center; margin: 32px 0; }
+    .stat-box { background: var(--bg-surface); padding: 16px; border-radius: 12px; flex: 1; border: 1px solid var(--border); }
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">🫧 CleanSen</a>
-        <nav class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="services.html">Nos Services</a>
-            <a href="tarifs.html">Tarifs</a>
-            <a href="equipes.html">Nos Équipes</a>
-            <a href="galerie.html">Galerie</a>
-        </nav>
-        <a href="#" class="btn btn-cyan" style="visibility:hidden">Réserver</a>
-    </header>
 
-    <div class="container">
-        <div class="stepper" id="stepper">
-            <div class="step active" data-step="1">
-                <div class="step-num">1</div>
-                <div class="step-label">Service</div>
-            </div>
-            <div class="step" data-step="2">
-                <div class="step-num">2</div>
-                <div class="step-label">Date & Lieu</div>
-            </div>
-            <div class="step" data-step="3">
-                <div class="step-num">3</div>
-                <div class="step-label">Confirmation</div>
-            </div>
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🫧</div>
+        <div><div class="nav-logo-text">CleanSen</div><span class="nav-logo-sub">Dakar • Mbour</span></div>
+      </a>
+      <div class="nav-actions">
+        <a href="dashboard-client.html" class="btn btn-primary btn-sm">👤 Mon Espace</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="reservation-container">
+  
+  <div class="devis-stepper" id="stepper">
+    <div class="devis-stepper-progress" id="stepper-progress" style="width: 15%;"></div>
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <div class="step-label">Service</div>
+    </div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Date & Heure</div>
+    </div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Coordonnées</div>
+    </div>
+  </div>
+
+  <div class="step-content">
+    <!-- Etape 1 -->
+    <div class="step-section active" id="step1">
+      <h2 style="margin-top:0;">Quel service désirez-vous ?</h2>
+      <div class="tab-buttons">
+        <div class="tab-btn active" onclick="selectTab('domicile')">🏠 Domicile</div>
+        <div class="tab-btn" onclick="selectTab('bureau')">🏢 Bureau</div>
+        <div class="tab-btn" onclick="selectTab('industrie')">🏭 Industrie</div>
+      </div>
+
+      <div class="service-grid" id="servicesGrid">
+        <div class="service-card selected" onclick="selectService(this)">
+          <div class="service-icon">🧹</div>
+          <h3 style="margin:0 0 8px;">Ménage Classique</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">Entretien régulier de votre intérieur</p>
+          <div class="badge-green" style="margin-top:12px;display:inline-block;">2-4 heures</div>
+          <div class="service-price">À partir de 15 000 FCFA</div>
         </div>
-
-        <!-- Step 1: Service -->
-        <div class="step-content active" id="step-1">
-            <h2>Choisissez votre service</h2>
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="domicile">Domicile</button>
-                <button class="tab-btn" data-tab="bureau">Bureau</button>
-                <button class="tab-btn" data-tab="industrie">Industrie</button>
-            </div>
-            
-            <div class="service-grid" id="service-options">
-                <!-- Injected via JS -->
-            </div>
-
-            <div class="form-group">
-                <label>Surface estimée (en m²)</label>
-                <input type="number" class="form-control" id="surface" placeholder="Ex: 80">
-            </div>
-            <div class="form-group">
-                <label>Notes ou demandes particulières</label>
-                <textarea class="form-control" id="notes" rows="3" placeholder="Où trouver les clés, présence d'animaux..."></textarea>
-            </div>
-
-            <div class="actions">
-                <div></div>
-                <button class="btn btn-cyan next-btn">Continuer →</button>
-            </div>
+        <div class="service-card" onclick="selectService(this)">
+          <div class="service-icon">✨</div>
+          <h3 style="margin:0 0 8px;">Grand Nettoyage</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary);margin:0;">Nettoyage en profondeur</p>
+          <div class="badge-green" style="margin-top:12px;display:inline-block;">Demi-journée</div>
+          <div class="service-price">À partir de 25 000 FCFA</div>
         </div>
+      </div>
 
-        <!-- Step 2: Date & Lieu -->
-        <div class="step-content" id="step-2">
-            <h2>Date et Lieu de l'intervention</h2>
-            
-            <div class="calendar-widget">
-                <div class="cal-header">
-                    <span>Juillet 2026</span>
-                    <div>
-                        <button style="border:none;background:none;cursor:pointer">&lt;</button>
-                        <button style="border:none;background:none;cursor:pointer">&gt;</button>
-                    </div>
-                </div>
-                <div class="cal-grid" id="calendar-grid">
-                    <div class="cal-day-name">Lun</div><div class="cal-day-name">Mar</div><div class="cal-day-name">Mer</div><div class="cal-day-name">Jeu</div><div class="cal-day-name">Ven</div><div class="cal-day-name">Sam</div><div class="cal-day-name">Dim</div>
-                    <!-- Days injected via JS. Today = 22 -->
-                </div>
-            </div>
+      <div class="form-group">
+        <label>Surface estimée (m²)</label>
+        <input type="number" class="form-control" placeholder="Ex: 120" value="80">
+      </div>
+      <div class="form-group">
+        <label>Précisions / Besoins particuliers</label>
+        <textarea class="form-control" rows="3" placeholder="Insistez sur les vitres, présence d'animaux..."></textarea>
+      </div>
 
-            <label style="display:block;margin-bottom:0.5rem;font-weight:500;color:var(--navy);">Heure souhaitée</label>
-            <div class="time-grid" id="time-grid">
-                <div class="time-slot">09h00</div>
-                <div class="time-slot disabled">10h00</div>
-                <div class="time-slot">11h00</div>
-                <div class="time-slot">14h00</div>
-                <div class="time-slot disabled">15h00</div>
-                <div class="time-slot">16h00</div>
-            </div>
-
-            <div class="form-group">
-                <label>Ville</label>
-                <select class="form-control" id="ville">
-                    <option value="Dakar">Dakar</option>
-                    <option value="Mbour">Mbour</option>
-                </select>
-            </div>
-            
-            <div class="form-group">
-                <label>Adresse complète</label>
-                <input type="text" class="form-control" id="adresse" placeholder="Quartier, rue, numéro...">
-            </div>
-            
-            <div class="form-group">
-                <label>Préférence d'équipe (Optionnel)</label>
-                <select class="form-control" id="equipe">
-                    <option value="">Peu importe</option>
-                    <option value="1">Khady Diallo</option>
-                    <option value="2">Moussa Sarr</option>
-                    <option value="3">Fatou Ndiaye</option>
-                </select>
-            </div>
-
-            <div class="actions">
-                <button class="btn btn-outline prev-btn">← Retour</button>
-                <button class="btn btn-cyan next-btn">Continuer →</button>
-            </div>
-        </div>
-
-        <!-- Step 3: Confirmation -->
-        <div class="step-content" id="step-3">
-            <h2>Vos coordonnées</h2>
-            
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-                <div class="form-group">
-                    <label>Prénom</label>
-                    <input type="text" class="form-control" id="prenom" required>
-                </div>
-                <div class="form-group">
-                    <label>Nom</label>
-                    <input type="text" class="form-control" id="nom" required>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>Téléphone</label>
-                <div style="display:flex;">
-                    <span style="background:#eee; padding:0.75rem; border:1px solid #ddd; border-right:none; border-radius:8px 0 0 8px;">+221</span>
-                    <input type="tel" class="form-control" id="telephone" style="border-radius:0 8px 8px 0;" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" id="email">
-            </div>
-
-            <div class="recap-box">
-                <h3 style="margin-top:0; color:var(--navy); font-size:1.1rem; margin-bottom:1rem;">Récapitulatif</h3>
-                <div class="recap-item"><span>Service</span> <strong id="recap-service">-</strong></div>
-                <div class="recap-item"><span>Date & Heure</span> <strong id="recap-datetime">-</strong></div>
-                <div class="recap-item"><span>Adresse</span> <strong id="recap-address">-</strong></div>
-                <div class="recap-total"><span>Total estimé</span> <span id="recap-price">25 000 FCFA</span></div>
-            </div>
-
-            <div class="form-group" style="display:flex; align-items:flex-start; gap:0.5rem;">
-                <input type="checkbox" id="cgu" style="margin-top:0.3rem;" required>
-                <label for="cgu" style="font-weight:normal; font-size:0.9rem;">J'accepte les Conditions Générales d'Utilisation et confirme l'exactitude de mes informations.</label>
-            </div>
-
-            <div class="actions">
-                <button class="btn btn-outline prev-btn">← Retour</button>
-                <button class="btn btn-cyan submit-btn" id="submit-btn">Confirmer la réservation</button>
-            </div>
-        </div>
-
-        <!-- Success State -->
-        <div class="step-content success-state" id="success-state">
-            <div class="success-icon">✓</div>
-            <h2 style="color: #2ecc71;">Réservation Confirmée !</h2>
-            <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Votre numéro de réservation : <strong>#CS-8942</strong></p>
-            <p>Notre équipe a été notifiée. Khady Diallo sera votre chef d'équipe.</p>
-            
-            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-                <a href="dashboard-client.html" class="btn btn-cyan">Accéder à mon espace client</a>
-                <button class="btn btn-outline" style="border-color: #25D366; color: #25D366; display: flex; align-items: center; gap: 0.5rem;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                    Recevoir confirmation sur WhatsApp
-                </button>
-            </div>
-        </div>
+      <div class="step-actions" style="justify-content: flex-end;">
+        <button class="btn btn-primary" onclick="goToStep(2)">Suivant → Date & Heure</button>
+      </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
-    </footer>
+    <!-- Etape 2 -->
+    <div class="step-section" id="step2">
+      <h2 style="margin-top:0;">Quand souhaitez-vous l'intervention ?</h2>
+      
+      <div class="cal-widget">
+        <div style="padding:16px; text-align:center; background:var(--bg-card); font-weight:bold;">Juillet 2026</div>
+        <div class="cal-header">
+          <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-day cal-disabled">29</div><div class="cal-day cal-disabled">30</div>
+          <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day">3</div><div class="cal-day">4</div><div class="cal-day">5</div>
+          <div class="cal-day">6</div><div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div><div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day">12</div>
+          <div class="cal-day">13</div><div class="cal-day">14</div><div class="cal-day">15</div><div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div><div class="cal-day">19</div>
+          <div class="cal-day cal-today cal-selected">20</div><div class="cal-day">21</div><div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div><div class="cal-day">25</div><div class="cal-day">26</div>
+          <div class="cal-day">27</div><div class="cal-day">28</div><div class="cal-day">29</div><div class="cal-day">30</div><div class="cal-day">31</div>
+          <div class="cal-day cal-disabled">1</div><div class="cal-day cal-disabled">2</div>
+        </div>
+      </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            let currentStep = 1;
-            let selection = { service: null, serviceName: '', date: null, time: null, price: '25 000 FCFA' };
+      <h3 style="font-size:1.1rem;">Heure d'arrivée souhaitée</h3>
+      <div class="time-slot-grid">
+        <div class="time-slot selected">09h00</div>
+        <div class="time-slot">10h00</div>
+        <div class="time-slot disabled">11h00</div>
+        <div class="time-slot">14h00</div>
+        <div class="time-slot disabled">15h00</div>
+        <div class="time-slot">16h00</div>
+        <div class="time-slot">17h00</div>
+      </div>
 
-            // Step Navigation
-            const showStep = (step) => {
-                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-                document.querySelectorAll('.step').forEach(el => {
-                    el.classList.remove('active');
-                    if(parseInt(el.dataset.step) < step) el.classList.add('completed');
-                    else el.classList.remove('completed');
-                });
-                
-                document.getElementById(`step-${step}`).classList.add('active');
-                document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
-                
-                if(step === 3) updateRecap();
-            };
+      <div class="form-group">
+        <label>Équipe / Agent (Optionnel)</label>
+        <select class="form-control">
+          <option value="">Peu importe, le plus disponible</option>
+          <option value="1">Khady Diallo</option>
+          <option value="2">Moussa Sow</option>
+          <option value="3">Fatou Ndiaye</option>
+        </select>
+      </div>
 
-            document.querySelectorAll('.next-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if(currentStep === 1 && !selection.service) return alert("Veuillez choisir un service.");
-                    if(currentStep === 2 && (!selection.date || !selection.time)) return alert("Veuillez choisir une date et une heure.");
-                    
-                    if(currentStep < 3) { currentStep++; showStep(currentStep); }
-                });
-            });
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div class="form-group">
+          <label>Ville</label>
+          <select class="form-control">
+            <option>Dakar</option>
+            <option>Mbour</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quartier</label>
+          <input type="text" class="form-control" placeholder="Ex: Almadies">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adresse complète</label>
+        <input type="text" class="form-control" placeholder="N° Villa / Rue">
+      </div>
 
-            document.querySelectorAll('.prev-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if(currentStep > 1) { currentStep--; showStep(currentStep); }
-                });
-            });
+      <div class="step-actions">
+        <button class="btn btn-ghost" onclick="goToStep(1)">← Retour</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Suivant → Coordonnées</button>
+      </div>
+    </div>
 
-            // Service Selection
-            const services = {
-                domicile: [
-                    { id: 'd1', name: 'Nettoyage Standard', icon: '✨' },
-                    { id: 'd2', name: 'Grand Nettoyage', icon: '🧽' },
-                    { id: 'd3', name: 'Canapé & Tapis', icon: '🛋️' }
-                ],
-                bureau: [
-                    { id: 'b1', name: 'Entretien Quotidien', icon: '🏢' },
-                    { id: 'b2', name: 'Vitrerie', icon: '🪟' }
-                ],
-                industrie: [
-                    { id: 'i1', name: 'Fin de Chantier', icon: '🏗️' }
-                ]
-            };
+    <!-- Etape 3 -->
+    <div class="step-section" id="step3">
+      <h2 style="margin-top:0;">Vos Coordonnées</h2>
+      
+      <div class="recap-box">
+        <h4 style="margin:0 0 12px; color:var(--primary);">Résumé de la demande</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.9rem;">
+          <div><strong>Service:</strong> Ménage Classique</div>
+          <div><strong>Surface:</strong> 80 m²</div>
+          <div><strong>Date:</strong> 20 Juillet 2026 à 09h00</div>
+          <div><strong>Lieu:</strong> Dakar, Almadies</div>
+          <div style="grid-column: span 2; font-size:1.1rem; color:var(--primary); font-weight:bold; margin-top:8px;">Prix estimé: ~15 000 FCFA</div>
+        </div>
+      </div>
 
-            const renderServices = (type) => {
-                const grid = document.getElementById('service-options');
-                grid.innerHTML = services[type].map(s => `
-                    <div class="service-card ${selection.service === s.id ? 'selected' : ''}" data-id="${s.id}" data-name="${s.name}">
-                        <div class="service-icon">${s.icon}</div>
-                        <strong>${s.name}</strong>
-                    </div>
-                `).join('');
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Téléphone</label>
+        <div style="display:flex;">
+          <span style="background:var(--bg-surface); padding:12px; border:1px solid var(--border); border-radius:8px 0 0 8px; border-right:none; color:var(--text-secondary);">+221</span>
+          <input type="tel" class="form-control" style="border-radius:0 8px 8px 0;">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email (Optionnel)</label>
+        <input type="email" class="form-control">
+      </div>
 
-                document.querySelectorAll('.service-card').forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-                        e.currentTarget.classList.add('selected');
-                        selection.service = e.currentTarget.dataset.id;
-                        selection.serviceName = e.currentTarget.dataset.name;
-                    });
-                });
-            };
+      <div class="form-group">
+        <label>Préférence de contact</label>
+        <div style="display:flex; gap:12px;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="radio" name="contact" checked> WhatsApp</label>
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;"><input type="radio" name="contact"> Appel</label>
+        </div>
+      </div>
 
-            renderServices('domicile');
+      <div style="margin:24px 0;">
+        <label style="display:flex; gap:12px; align-items:flex-start; cursor:pointer; font-size:0.9rem; color:var(--text-secondary);">
+          <input type="checkbox" style="margin-top:4px; accent-color:var(--primary);" checked>
+          J'accepte les conditions générales d'utilisation et je confirme que les informations fournies sont exactes.
+        </label>
+      </div>
 
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    selection.service = null;
-                    renderServices(e.currentTarget.dataset.tab);
-                });
-            });
+      <div class="step-actions">
+        <button class="btn btn-ghost" onclick="goToStep(2)">← Retour</button>
+        <button class="btn btn-primary" onclick="showSuccess()" style="padding: 12px 32px; font-size: 1.1rem;">Confirmer la réservation</button>
+      </div>
+    </div>
 
-            // Calendar July 2026 (starts Wed)
-            const calGrid = document.getElementById('calendar-grid');
-            let daysHtml = '';
-            // empty slots for mon, tue (July 1 is Wed)
-            daysHtml += `<div></div><div></div>`;
-            for(let i=1; i<=31; i++) {
-                let cls = 'cal-day';
-                if(i < 22) cls += ' disabled';
-                if(i === 22) cls += ' today';
-                daysHtml += `<div class="${cls}" ${i>=22 ? `data-day="${i}"` : ''}>${i}</div>`;
-            }
-            calGrid.innerHTML += daysHtml;
+    <!-- Etape 4 (Success) -->
+    <div class="step-section" id="step4">
+      <div class="success-state">
+        <div class="success-icon">🎉</div>
+        <h2 style="background:var(--grad-primary); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Réservation confirmée !</h2>
+        <p style="color:var(--text-secondary); font-size:1.1rem;">Votre demande porte le numéro <strong style="color:#fff;">RES-007</strong></p>
+        
+        <div class="stat-boxes">
+          <div class="stat-box">
+            <div style="font-size:1.5rem; margin-bottom:8px;">📱</div>
+            <div style="font-weight:bold;">Agent notifié</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size:1.5rem; margin-bottom:8px;">⏱️</div>
+            <div style="font-weight:bold;">&lt; 1h réponse</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size:1.5rem; margin-bottom:8px;">💳</div>
+            <div style="font-weight:bold;">Paiement sur place</div>
+          </div>
+        </div>
 
-            document.querySelectorAll('.cal-day:not(.disabled)').forEach(day => {
-                day.addEventListener('click', (e) => {
-                    document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
-                    e.currentTarget.classList.add('selected');
-                    selection.date = `${e.currentTarget.dataset.day} Juillet 2026`;
-                });
-            });
+        <div style="display:flex; gap:16px; justify-content:center; margin-top:32px;">
+          <a href="dashboard-client.html" class="btn btn-primary">Aller au Tableau de Bord</a>
+          <a href="index.html" class="btn btn-ghost">Retour à l'accueil</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-            // Times
-            document.querySelectorAll('.time-slot:not(.disabled)').forEach(slot => {
-                slot.addEventListener('click', (e) => {
-                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-                    e.currentTarget.classList.add('selected');
-                    selection.time = e.currentTarget.innerText;
-                });
-            });
+<script>
+  function goToStep(step) {
+    document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    
+    document.querySelectorAll('.step-item').forEach((el, index) => {
+      if (index + 1 < step) {
+        el.classList.add('completed');
+        el.classList.remove('active');
+      } else if (index + 1 === step) {
+        el.classList.add('active');
+        el.classList.remove('completed');
+      } else {
+        el.classList.remove('active', 'completed');
+      }
+    });
 
-            // Recap
-            const updateRecap = () => {
-                document.getElementById('recap-service').innerText = selection.serviceName;
-                document.getElementById('recap-datetime').innerText = `${selection.date} à ${selection.time}`;
-                document.getElementById('recap-address').innerText = document.getElementById('adresse').value || 'Dakar';
-            };
+    let progress = 15;
+    if(step === 2) progress = 50;
+    if(step === 3) progress = 85;
+    if(step === 4) progress = 100;
+    document.getElementById('stepper-progress').style.width = progress + '%';
+  }
 
-            // Submit
-            document.getElementById('submit-btn').addEventListener('click', () => {
-                if(!document.getElementById('cgu').checked) return alert("Veuillez accepter les CGU.");
-                
-                const btn = document.getElementById('submit-btn');
-                btn.innerText = "Traitement...";
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    document.getElementById('stepper').style.display = 'none';
-                    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
-                    document.getElementById('success-state').style.display = 'block';
-                }, 1500);
-            });
-            
-            // Check URL params
-            const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.get('equipe')) {
-                document.getElementById('equipe').value = urlParams.get('equipe');
-            }
-        });
-    </script>
+  function showSuccess() {
+    document.getElementById('stepper').style.display = 'none';
+    goToStep(4);
+  }
+
+  function selectService(el) {
+    document.querySelectorAll('.service-card').forEach(card => card.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    // In real app, re-render servicesGrid
+  }
+</script>
 </body>
 </html>

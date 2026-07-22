@@ -1,164 +1,340 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Services - CleanSen</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .page-header { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; }
-        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        .services-layout { display: flex; gap: 2rem; position: relative; }
-        .side-nav { position: sticky; top: 100px; width: 250px; height: fit-content; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none; }
-        @media(min-width: 768px) { .side-nav { display: block; } }
-        .side-nav a { display: block; padding: 0.75rem 1rem; color: var(--navy); text-decoration: none; border-radius: 8px; margin-bottom: 0.5rem; transition: all 0.3s ease; }
-        .side-nav a:hover, .side-nav a.active { background: var(--grad-main); color: white; }
-        .content { flex: 1; }
-        .section-label { color: var(--cyan); font-weight: bold; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px; }
-        .service-section { margin-bottom: 4rem; scroll-margin-top: 100px; }
-        .service-section h2 { color: var(--navy); font-size: 2rem; margin: 0.5rem 0 1rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
-        .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
-        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: inline-block; padding: 1rem; background: var(--fresh); border-radius: 50%; }
-        .card h3 { color: var(--navy); margin-bottom: 0.5rem; font-size: 1.25rem; }
-        .card p { color: #666; margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
-        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
-        .price { font-weight: bold; color: var(--cyan); font-size: 1.1rem; }
-        .duration { color: #888; font-size: 0.9rem; }
-        .cta-bar { background: var(--grad-main); color: white; padding: 3rem 2rem; text-align: center; border-radius: 16px; margin: 4rem 0; }
-        .cta-bar h2 { margin-bottom: 1.5rem; font-size: 1.8rem; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; }
-        .btn-cyan { background: var(--cyan); color: white; border: none; }
-        .btn-outline-cyan { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
-        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Services - CleanSen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    :root {
+      --primary: #00C853;
+      --accent: #FFD600;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(17,24,39,0.7);
+      --bg-surface: rgba(17,24,39,0.9);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --grad-primary: linear-gradient(135deg, #00C853 0%, #009624 100%);
+      --grad-gold: linear-gradient(135deg, #FFD600 0%, #F57F17 100%);
+      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.3);
+      --border: rgba(0,200,83,0.2);
+    }
+    body { background-color: var(--bg-dark); color: var(--text-primary); }
+    
+    .page-header { background: linear-gradient(135deg, #00391A 0%, #00212A 50%, #0a0e1a 100%); padding: 120px 0 60px; text-align: center; border-bottom: 1px solid var(--border); }
+    
+    .services-layout { display: flex; gap: 40px; align-items: flex-start; margin-top: 60px; margin-bottom: 100px; }
+    .sidebar { width: 250px; position: sticky; top: 100px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .sidebar a { display: block; padding: 12px 16px; color: var(--text-secondary); border-radius: 8px; transition: all 0.3s ease; text-decoration: none; }
+    .sidebar a:hover, .sidebar a.active { background: rgba(0,200,83,0.1); color: var(--primary); }
+    
+    .main-content { flex: 1; }
+    .service-section { margin-bottom: 80px; padding-top: 60px; margin-top: -60px; } /* Anchor offset */
+    
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    
+    .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; height: 100%; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-glow); }
+    
+    .icon-circle { width: 50px; height: 50px; border-radius: 50%; background: rgba(0,200,83,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 16px; border: 1px solid var(--primary); }
+    
+    @media (max-width: 768px) {
+      .services-layout { flex-direction: column; }
+      .sidebar { width: 100%; position: static; }
+    }
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">🫧 CleanSen</a>
-        <nav class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="services.html" style="color: var(--cyan)">Nos Services</a>
-            <a href="tarifs.html">Tarifs</a>
-            <a href="equipes.html">Nos Équipes</a>
-            <a href="galerie.html">Galerie</a>
-        </nav>
-        <a href="reservation.html" class="btn btn-cyan">Réserver</a>
-    </header>
 
-    <div class="page-header">
-        <h1>Nos Services de Nettoyage</h1>
-        <p>Découvrez notre catalogue complet d'interventions pour tous vos besoins</p>
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🫧</div>
+        <div><div class="nav-logo-text">CleanSen</div><span class="nav-logo-sub">Dakar • Mbour</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html" style="color: var(--primary);">Services</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="equipes.html">Équipes</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="reservation.html">Réserver</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="reservation.html" class="btn btn-ghost btn-sm">📅 Réservation</a>
+        <a href="dashboard-client.html" class="btn btn-primary btn-sm">👤 Mon Espace</a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     </div>
+  </div>
+</nav>
 
-    <div class="container services-layout">
-        <aside class="side-nav">
-            <a href="#domicile" class="active">🏠 Nettoyage Domicile</a>
-            <a href="#bureau">🏢 Nettoyage Bureau</a>
-            <a href="#industrie">🏭 Nettoyage Industriel</a>
-        </aside>
+<!-- Mobile Menu -->
+<div id="mobile-menu" style="display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px;backdrop-filter:blur(20px);">
+  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+    <li><a href="index.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🏠 Accueil</a></li>
+    <li><a href="services.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--primary);">🧹 Services</a></li>
+    <li><a href="tarifs.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">💰 Tarifs</a></li>
+    <li><a href="equipes.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">👥 Équipes</a></li>
+    <li><a href="reservation.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">📅 Réserver</a></li>
+  </ul>
+</div>
 
-        <main class="content">
-            <!-- Domicile -->
-            <section id="domicile" class="service-section">
-                <span class="section-label">Particuliers</span>
-                <h2>Nettoyage à Domicile</h2>
-                <p>Des services sur mesure pour garder votre maison impeccable au quotidien.</p>
-                <div class="grid" id="grid-domicile">
-                    <!-- Populated by JS -->
-                </div>
-            </section>
-
-            <div class="cta-bar">
-                <h2>Besoin d'un devis sur mesure ?</h2>
-                <a href="reservation.html" class="btn" style="background: white; color: var(--navy);">Contactez-nous</a>
-            </div>
-
-            <!-- Bureau -->
-            <section id="bureau" class="service-section">
-                <span class="section-label">Professionnels</span>
-                <h2>Nettoyage de Bureaux</h2>
-                <p>Un environnement de travail sain et productif pour vos équipes.</p>
-                <div class="grid" id="grid-bureau">
-                    <!-- Populated by JS -->
-                </div>
-            </section>
-
-            <!-- Industrie -->
-            <section id="industrie" class="service-section">
-                <span class="section-label">Spécialisé</span>
-                <h2>Nettoyage Industriel</h2>
-                <p>Expertise et équipements professionnels pour les environnements exigeants.</p>
-                <div class="grid" id="grid-industrie">
-                    <!-- Populated by JS -->
-                </div>
-            </section>
-        </main>
+<!-- Header -->
+<header class="page-header">
+  <div class="container">
+    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px;">
+      <a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Accueil</a> &rsaquo; Nos Services
     </div>
+    <h1 style="font-size: 3rem; margin-bottom: 16px;">Nos <span style="background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Services de Nettoyage</span></h1>
+    <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">Découvrez l'ensemble de nos prestations adaptées à vos besoins, réalisées par des agents qualifiés et équipés.</p>
+  </div>
+</header>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 CleanSen. L'excellence du nettoyage au Sénégal.</p>
+<div class="container services-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h3 style="margin-bottom: 16px; font-size: 1.1rem; padding-left: 16px; color: var(--text-primary);">Univers</h3>
+    <ul>
+      <li><a href="#domicile" class="active">🏠 Domicile</a></li>
+      <li><a href="#bureau">🏢 Bureaux & Commerces</a></li>
+      <li><a href="#industrie">🏭 Sites Industriels</a></li>
+    </ul>
+  </aside>
+  
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Section Domicile -->
+    <section id="domicile" class="service-section">
+      <div class="section-label" style="color: var(--primary); font-weight: bold; margin-bottom: 8px;">PARTICULIERS</div>
+      <h2 style="font-size: 2rem; margin-bottom: 30px; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Nettoyage Domicile</h2>
+      
+      <div class="service-grid" id="services-domicile-grid">
+        <!-- Card 1 -->
+        <div class="service-card" style="position: relative;">
+          <div class="badge-green" style="position: absolute; top: -10px; right: 20px; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; background: var(--primary); color: #000; font-weight: bold;">⭐ Populaire</div>
+          <div class="icon-circle">🧹</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Ménage Classique</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Entretien régulier de votre appartement ou villa. Dépoussiérage, aspiration, lavage des sols.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ 2h - 4h</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 15.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
         </div>
-    </footer>
 
-    <script src="js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const renderCards = (dataArray, containerId) => {
-                const container = document.getElementById(containerId);
-                if(!container) return;
-                
-                // Fallback dummy data if app.js arrays are not available
-                const fallbackData = dataArray || [
-                    { id: '1', icon: '✨', name: 'Service Standard', description: 'Nettoyage complet.', duration: '2h', price: '15 000 FCFA' },
-                    { id: '2', icon: '🧼', name: 'Service Approfondi', description: 'Nettoyage en profondeur.', duration: '4h', price: '25 000 FCFA' }
-                ];
-                
-                container.innerHTML = fallbackData.map(item => `
-                    <div class="card">
-                        <div class="card-icon">${item.icon || '🫧'}</div>
-                        <h3>${item.name || 'Service'}</h3>
-                        <p>${item.description || 'Description du service'}</p>
-                        <div class="card-meta">
-                            <span class="duration">⏱️ ${item.duration || 'Sur devis'}</span>
-                            <span class="price">${item.price || 'Sur devis'}</span>
-                        </div>
-                        <a href="reservation.html?service=${item.id}" class="btn btn-outline-cyan" style="margin-top:1.5rem; display:block;">Réserver</a>
-                    </div>
-                `).join('');
-            };
+        <!-- Card 2 -->
+        <div class="service-card">
+          <div class="icon-circle">🧽</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Grand Nettoyage</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Nettoyage en profondeur de toutes les pièces, y compris plinthes, portes et intérieurs de placards.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ Journée</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 40.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
 
-            // Assuming arrays SERVICES_DOMICILE, SERVICES_BUREAU, SERVICES_INDUSTRIE exist globally
-            renderCards(typeof SERVICES_DOMICILE !== 'undefined' ? SERVICES_DOMICILE : null, 'grid-domicile');
-            renderCards(typeof SERVICES_BUREAU !== 'undefined' ? SERVICES_BUREAU : null, 'grid-bureau');
-            renderCards(typeof SERVICES_INDUSTRIE !== 'undefined' ? SERVICES_INDUSTRIE : null, 'grid-industrie');
+        <!-- Card 3 -->
+        <div class="service-card">
+          <div class="icon-circle">👕</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Repassage</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Service professionnel de repassage à domicile pour tout type de vêtements et linge de maison.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ À l'heure</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">5.000 FCFA / h</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
 
-            // Side nav highlighting
-            const sections = document.querySelectorAll('.service-section');
-            const navLinks = document.querySelectorAll('.side-nav a');
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if(pageYOffset >= sectionTop - 150) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if(link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-        });
-    </script>
+        <!-- Card 4 -->
+        <div class="service-card">
+          <div class="icon-circle">🪟</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Vitrerie</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Lavage intérieur et extérieur de vos vitres, baies vitrées et vérandas sans traces.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ Sur mesure</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 20.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="service-card">
+          <div class="icon-circle">📦</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Après Déménagement</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Remise à neuf de votre ancien ou nouveau logement. Prêt pour l'état des lieux.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ Journée</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 50.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
+        
+        <!-- Card 6 -->
+        <div class="service-card">
+          <div class="icon-circle">🛋️</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Nettoyage Canapés</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Shampouinage et traitement anti-taches pour canapés, tapis et moquettes.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">⏱️ Sur mesure</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 25.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner -->
+    <div style="background: var(--grad-primary); border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 80px; color: white;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 16px; font-weight: bold;">Besoin d'un entretien régulier ?</h3>
+      <p style="margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto;">Optez pour nos formules mensuelles et bénéficiez de tarifs préférentiels pour le nettoyage de votre espace.</p>
+      <a href="tarifs.html" class="btn btn-gold" style="background: var(--bg-dark); color: white; border: 1px solid rgba(255,255,255,0.2);">Voir nos formules</a>
+    </div>
+
+    <!-- Section Bureaux -->
+    <section id="bureau" class="service-section">
+      <div class="section-label" style="color: var(--primary); font-weight: bold; margin-bottom: 8px;">PROFESSIONNELS</div>
+      <h2 style="font-size: 2rem; margin-bottom: 30px; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Entretien Bureaux & Commerces</h2>
+      
+      <div class="service-grid">
+        <!-- Card 1 -->
+        <div class="service-card">
+          <div class="icon-circle">💼</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Entretien Quotidien</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Maintien de la propreté de vos locaux, vidage corbeilles, sanitaires et espaces communs.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-blue" style="background: rgba(59,130,246,0.1); color: #3b82f6; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Mensuel</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Sur devis</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Demander devis</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card">
+          <div class="icon-circle">💻</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Désinfection Tech</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Nettoyage spécifique du matériel informatique (claviers, écrans, téléphones) avec produits adaptés.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-gray" style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Passage</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Dès 30.000 FCFA</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Réserver</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="service-card">
+          <div class="icon-circle">🏪</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Commerces & Boutiques</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Entretien des surfaces de vente, vitrines, sols et espaces clients. Horaires flexibles.</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+            <span class="badge-blue" style="background: rgba(59,130,246,0.1); color: #3b82f6; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">Mensuel</span>
+          </div>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Sur devis</div>
+          <a href="reservation.html" class="btn btn-primary" style="width: 100%; justify-content: center;">Demander devis</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Industrie -->
+    <section id="industrie" class="service-section">
+      <div class="section-label" style="color: var(--primary); font-weight: bold; margin-bottom: 8px;">INDUSTRIE & SPÉCIALISÉ</div>
+      <h2 style="font-size: 2rem; margin-bottom: 30px; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Nettoyage Industriel</h2>
+      
+      <div class="service-grid">
+        <!-- Card 1 -->
+        <div class="service-card" style="border-color: var(--accent);">
+          <div class="icon-circle" style="background: rgba(255,214,0,0.1); border-color: var(--accent);">🏭</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Entrepôts & Usines</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Nettoyage de grandes surfaces, balayage mécanique, dégraissage de sols industriels.</p>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Sur devis personnalisé</div>
+          <a href="reservation.html" class="btn btn-gold" style="width: 100%; justify-content: center;">Demander un devis industriel</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="service-card" style="border-color: var(--accent);">
+          <div class="icon-circle" style="background: rgba(255,214,0,0.1); border-color: var(--accent);">🚧</div>
+          <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Fin de Chantier</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; flex: 1; margin-bottom: 16px;">Évacuation de gravats légers, dépoussiérage total, grattage des sols et vitres après travaux.</p>
+          <div style="font-size: 1.25rem; font-weight: bold; color: var(--accent); margin-bottom: 16px;">Sur devis personnalisé</div>
+          <a href="reservation.html" class="btn btn-gold" style="width: 100%; justify-content: center;">Demander un devis industriel</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="margin-bottom:16px;">
+          <div class="nav-logo-icon">🫧</div>
+          <div><div class="nav-logo-text">CleanSen</div></div>
+        </a>
+        <p style="font-size:0.88rem;max-width:260px;margin:16px 0 24px;">La référence du nettoyage professionnel au Sénégal. Domicile, bureaux et industrie.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link">📘</a>
+          <a href="#" class="footer-social-link">💬</a>
+          <a href="#" class="footer-social-link">📸</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html#domicile">Nettoyage domicile</a></li>
+          <li><a href="services.html#bureau">Entretien bureaux</a></li>
+          <li><a href="services.html#industrie">Nettoyage industriel</a></li>
+          <li><a href="tarifs.html">Nos formules</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Villes</div>
+        <ul class="footer-links">
+          <li><a href="#">Dakar - Plateau</a></li>
+          <li><a href="#">Dakar - Almadies</a></li>
+          <li><a href="#">Mbour - Saly</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">CleanSen</div>
+        <ul class="footer-links">
+          <li><a href="equipes.html">Nos équipes</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="reservation.html">Réserver</a></li>
+          <li><a href="dashboard-client.html">Mon Espace</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 CleanSen · Dakar & Mbour, Sénégal 🇸🇳</div>
+      <div style="display:flex;gap:20px;"><a href="#" style="color:var(--text-muted);">CGU</a><a href="#" style="color:var(--text-muted);">Confidentialité</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Smooth scroll and active state for sidebar
+  document.querySelectorAll('.sidebar a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
 </body>
 </html>

@@ -1,199 +1,310 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie & Réalisations - CleanSen</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .page-header { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; }
-        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        
-        .stats-bar { display: flex; justify-content: space-around; background: var(--grad-main); color: white; padding: 2rem; border-radius: 12px; margin: -4rem auto 3rem; max-width: 900px; position: relative; z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .stats-bar div { text-align: center; }
-        .stats-bar strong { display: block; font-size: 2rem; margin-bottom: 0.5rem; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galerie | CleanSen - Nettoyage au Sénégal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    :root {
+      --primary: #00C853;
+      --accent: #FFD600;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-surface: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --grad-primary: linear-gradient(135deg, #00C853, #009624);
+      --grad-gold: linear-gradient(135deg, #FFD600, #F57F17);
+      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.4);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body { background-color: var(--bg-dark); color: var(--text-primary); font-family: system-ui, -apple-system, sans-serif; }
+    
+    .hero { text-align: center; padding: 100px 0 60px; }
+    .hero h1 { font-size: 3rem; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+    
+    .filters { display: flex; justify-content: center; gap: 12px; margin: 40px 0; flex-wrap: wrap; }
+    .filter-chip { background: var(--bg-surface); border: 1px solid var(--border); color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; }
+    .filter-chip.active, .filter-chip:hover { background: var(--primary); color: #fff; border-color: var(--primary); box-shadow: var(--shadow-glow); }
 
-        .filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
-        .filter-chip { padding: 0.5rem 1.5rem; border-radius: 30px; background: #f0f4f8; color: var(--navy); cursor: pointer; font-weight: 500; transition: all 0.3s; border: none; }
-        .filter-chip:hover, .filter-chip.active { background: var(--cyan); color: white; }
+    .featured-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .ba-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 400px;
+    }
+    .ba-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+    }
+    .ba-panel.avant { background: #1a1a2e; }
+    .ba-panel.apres { background: rgba(0,200,83,0.1); }
+    .ba-label {
+      position: absolute;
+      top: 16px; left: 16px;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.5);
+      font-weight: bold;
+    }
+    .featured-info { padding: 24px; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 60px; }
+    .ba-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .ba-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .ba-card .ba-panels { min-height: 200px; }
+    .ba-card .ba-panel { font-size: 3rem; }
+    .ba-card-info { padding: 20px; }
+    .ba-card-info h3 { margin: 0 0 8px 0; font-size: 1.1rem; }
+    .ba-card-meta { display: flex; justify-content: space-between; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+    .ba-card-stars { color: var(--accent); }
 
-        .galerie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
-        .galerie-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        .galerie-card.featured { grid-column: 1 / -1; display: flex; flex-direction: row; }
-        
-        .ba-container { display: flex; width: 100%; aspect-ratio: 16/9; background: #eee; }
-        .featured .ba-container { width: 60%; }
-        .panel { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
-        .panel-avant { background: #dcdde1; }
-        .panel-apres { background: #e0f7fa; }
-        .ba-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
-        
-        .card-info { padding: 1.5rem; }
-        .featured .card-info { width: 40%; display: flex; flex-direction: column; justify-content: center; }
-        .card-title { color: var(--navy); font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .card-meta { display: flex; gap: 1rem; color: #666; font-size: 0.9rem; margin-bottom: 1rem; }
-        .badge { background: var(--fresh); color: var(--navy); padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
-        
-        /* Testimonials */
-        .testimonials { background: #f8f9fa; padding: 4rem 2rem; border-radius: 16px; margin-bottom: 4rem; text-align: center; }
-        .testimonials h2 { color: var(--navy); margin-bottom: 2rem; }
-        .carousel { display: flex; overflow-x: auto; gap: 2rem; padding: 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .carousel::-webkit-scrollbar { display: none; }
-        .testi-card { flex: 0 0 300px; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); scroll-snap-align: center; text-align: left; }
-        .stars { color: #f39c12; margin-bottom: 1rem; }
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 60px 0;
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item { text-align: center; }
+    .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--primary); }
 
-        /* Navbar & Button */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
-        .btn { padding: 1rem 2rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; }
-        .btn-cyan { background: var(--cyan); color: white; border: none; }
-        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; }
-        
-        @media (max-width: 768px) {
-            .galerie-card.featured { flex-direction: column; }
-            .featured .ba-container { width: 100%; }
-            .featured .card-info { width: 100%; }
-        }
-    </style>
+    .testimonials { padding: 60px 0; }
+    .testimonials h2 { text-align: center; margin-bottom: 40px; }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .testi-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+    .testi-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .testi-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--primary); }
+    
+    .cta-container { text-align: center; margin: 60px 0; }
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">🫧 CleanSen</a>
-        <nav class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="services.html">Nos Services</a>
-            <a href="tarifs.html">Tarifs</a>
-            <a href="equipes.html">Nos Équipes</a>
-            <a href="galerie.html" style="color: var(--cyan)">Galerie</a>
-        </nav>
-        <a href="reservation.html" class="btn btn-cyan">Réserver</a>
-    </header>
 
-    <div class="page-header">
-        <h1>Nos Réalisations</h1>
-        <p>L'excellence en images. Découvrez l'effet CleanSen.</p>
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🫧</div>
+        <div><div class="nav-logo-text">CleanSen</div><span class="nav-logo-sub">Dakar • Mbour</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="equipes.html">Équipes</a></li>
+        <li><a href="galerie.html" class="active">Galerie</a></li>
+        <li><a href="reservation.html">Réserver</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="reservation.html" class="btn btn-ghost btn-sm">📅 Réservation</a>
+        <a href="dashboard-client.html" class="btn btn-primary btn-sm">👤 Mon Espace</a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu" style="display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px;backdrop-filter:blur(20px);">
+  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+    <li><a href="index.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🏠 Accueil</a></li>
+    <li><a href="services.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🧹 Services</a></li>
+    <li><a href="tarifs.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">💰 Tarifs</a></li>
+    <li><a href="equipes.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">👥 Équipes</a></li>
+    <li><a href="reservation.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">📅 Réserver</a></li>
+  </ul>
+</div>
+
+<main>
+  <section class="hero container">
+    <h1>Nos Réalisations</h1>
+    <p style="color:var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+      Découvrez l'efficacité de nos interventions en images. Des résultats impeccables, avant et après notre passage.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="filters">
+      <div class="filter-chip active">Tous</div>
+      <div class="filter-chip">Domicile</div>
+      <div class="filter-chip">Bureaux</div>
+      <div class="filter-chip">Industrie</div>
     </div>
 
-    <div class="container">
-        <div class="stats-bar">
-            <div><strong>850+</strong> Projets Réalisés</div>
-            <div><strong>4</strong> Villes Couvertes</div>
-            <div><strong>99%</strong> Satisfaction</div>
+    <div class="featured-card">
+      <div class="ba-panels">
+        <div class="ba-panel avant">
+          <div class="ba-label">AVANT</div>
+          🏚️
         </div>
-
-        <div class="filters" id="filters">
-            <button class="filter-chip active" data-filter="all">Tous</button>
-            <button class="filter-chip" data-filter="domicile">Domicile</button>
-            <button class="filter-chip" data-filter="bureau">Bureaux</button>
-            <button class="filter-chip" data-filter="industrie">Industrie</button>
+        <div class="ba-panel apres">
+          <div class="ba-label" style="background: var(--primary);">APRÈS</div>
+          ✨
         </div>
-
-        <div class="galerie-grid" id="galerie-grid">
-            <!-- Dynamically injected -->
+      </div>
+      <div class="featured-info">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h2 style="margin:0 0 8px 0;">Nettoyage Fin de Chantier - Villa</h2>
+            <div style="color:var(--text-secondary);">Service Industrie • Dakar Almadies • Durée: 2 jours</div>
+          </div>
+          <div class="ba-card-stars" style="font-size: 1.5rem;">★★★★★</div>
         </div>
-
-        <div class="testimonials">
-            <h2>Ils nous font confiance</h2>
-            <div class="carousel" id="testi-carousel">
-                <!-- Dynamically injected -->
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h2>Convaincu ?</h2>
-            <p style="color: #666; margin-bottom: 1.5rem;">Réservez votre intervention en quelques clics.</p>
-            <a href="reservation.html" class="btn btn-cyan">Réserver maintenant →</a>
-        </div>
+      </div>
     </div>
 
-    <footer class="footer">
-        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
-    </footer>
+    <div class="grid">
+      <!-- Item 1 -->
+      <div class="ba-card">
+        <div class="ba-panels">
+          <div class="ba-panel avant"><div class="ba-label">AVANT</div>🛋️</div>
+          <div class="ba-panel apres"><div class="ba-label" style="background:var(--primary);">APRÈS</div>✨</div>
+        </div>
+        <div class="ba-card-info">
+          <h3>Remise en état Salon</h3>
+          <div class="ba-card-meta">
+            <span>Domicile • Mbour</span>
+            <span>4 heures</span>
+          </div>
+          <div class="ba-card-stars">★★★★★</div>
+        </div>
+      </div>
 
-    <script src="js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.getElementById('galerie-grid');
-            const carousel = document.getElementById('testi-carousel');
+      <!-- Item 2 -->
+      <div class="ba-card">
+        <div class="ba-panels">
+          <div class="ba-panel avant"><div class="ba-label">AVANT</div>🏢</div>
+          <div class="ba-panel apres"><div class="ba-label" style="background:var(--primary);">APRÈS</div>✨</div>
+        </div>
+        <div class="ba-card-info">
+          <h3>Entretien Open Space</h3>
+          <div class="ba-card-meta">
+            <span>Bureaux • Dakar Plateau</span>
+            <span>Régulier</span>
+          </div>
+          <div class="ba-card-stars">★★★★☆</div>
+        </div>
+      </div>
 
-            const galerieData = typeof GALERIE !== 'undefined' ? GALERIE : [
-                { id: 1, type: 'domicile', title: 'Grand nettoyage de printemps', ville: 'Dakar', duree: '4h', note: 5, emojiAvant: '🏚️', emojiApres: '✨' },
-                { id: 2, type: 'bureau', title: 'Remise en état Open Space', ville: 'Mbour', duree: '6h', note: 5, emojiAvant: '📉', emojiApres: '📈' },
-                { id: 3, type: 'industrie', title: 'Nettoyage fin de chantier', ville: 'Dakar', duree: '12h', note: 4.8, emojiAvant: '🏗️', emojiApres: '🏢' },
-                { id: 4, type: 'domicile', title: 'Nettoyage Canapé & Tapis', ville: 'Dakar', duree: '2h', note: 5, emojiAvant: '🛋️', emojiApres: '💎' }
-            ];
+      <!-- Item 3 -->
+      <div class="ba-card">
+        <div class="ba-panels">
+          <div class="ba-panel avant"><div class="ba-label">AVANT</div>🏭</div>
+          <div class="ba-panel apres"><div class="ba-label" style="background:var(--primary);">APRÈS</div>✨</div>
+        </div>
+        <div class="ba-card-info">
+          <h3>Nettoyage Entrepôt</h3>
+          <div class="ba-card-meta">
+            <span>Industrie • Diamniadio</span>
+            <span>1 journée</span>
+          </div>
+          <div class="ba-card-stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            const testimonalsData = typeof TEMOIGNAGES_CLEAN !== 'undefined' ? TEMOIGNAGES_CLEAN : [
-                { author: 'Awa C.', text: 'Service impeccable, équipe ponctuelle et très professionnelle. Mon appartement n\'a jamais été aussi propre !', stars: 5 },
-                { author: 'TechCorp SN', text: 'Nous utilisons CleanSen pour nos bureaux depuis 6 mois. Une vraie différence au quotidien.', stars: 5 },
-                { author: 'Ibrahim F.', text: 'Intervention post-travaux parfaite. Ils ont fait des miracles en une journée.', stars: 4 }
-            ];
+  <section class="stats-bar container">
+    <div class="stat-item">
+      <div class="stat-number">2500+</div>
+      <div class="stat-label" style="color:var(--text-secondary);">Projets Réalisés</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">98%</div>
+      <div class="stat-label" style="color:var(--text-secondary);">Satisfaction Client</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">2</div>
+      <div class="stat-label" style="color:var(--text-secondary);">Villes Desservies</div>
+    </div>
+  </section>
 
-            const renderGalerie = (filter) => {
-                const filtered = filter === 'all' ? galerieData : galerieData.filter(item => item.type === filter);
-                
-                grid.innerHTML = filtered.map((item, index) => {
-                    const isFeatured = index === 0 && filter === 'all';
-                    return `
-                        <div class="galerie-card ${isFeatured ? 'featured' : ''}">
-                            <div class="ba-container">
-                                <div class="panel panel-avant">
-                                    <span class="ba-label">AVANT</span>
-                                    ${item.emojiAvant}
-                                </div>
-                                <div class="panel panel-apres">
-                                    <span class="ba-label">APRÈS</span>
-                                    ${item.emojiApres}
-                                </div>
-                            </div>
-                            <div class="card-info">
-                                <span class="badge">${item.type.toUpperCase()}</span>
-                                <h3 class="card-title" style="margin-top: 1rem;">${item.title}</h3>
-                                <div class="card-meta">
-                                    <span>📍 ${item.ville}</span>
-                                    <span>⏱️ ${item.duree}</span>
-                                </div>
-                                <div style="color:#f39c12;">${'★'.repeat(Math.floor(item.note))}</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            };
+  <section class="testimonials container">
+    <h2>Ce que disent nos clients</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">AD</div>
+          <div>
+            <div style="font-weight:bold;">Awa Diop</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary);">Dakar</div>
+          </div>
+        </div>
+        <div class="ba-card-stars" style="margin-bottom:12px;">★★★★★</div>
+        <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.5;">"Service impeccable ! L'équipe est arrivée à l'heure et a laissé mon appartement brillant. Je recommande vivement CleanSen."</p>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">MB</div>
+          <div>
+            <div style="font-weight:bold;">Mamadou Ba</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary);">Mbour</div>
+          </div>
+        </div>
+        <div class="ba-card-stars" style="margin-bottom:12px;">★★★★★</div>
+        <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.5;">"Pour l'entretien de nos bureaux, nous faisons confiance à CleanSen depuis 1 an. Toujours professionnels et discrets."</p>
+      </div>
+      <div class="testi-card">
+        <div class="testi-header">
+          <div class="testi-avatar">FS</div>
+          <div>
+            <div style="font-weight:bold;">Fatou Sylla</div>
+            <div style="font-size:0.85rem; color:var(--text-secondary);">Dakar</div>
+          </div>
+        </div>
+        <div class="ba-card-stars" style="margin-bottom:12px;">★★★★☆</div>
+        <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.5;">"J'ai fait appel à eux pour un grand ménage de printemps. Le résultat était bluffant. Merci à Khady et son équipe !"</p>
+      </div>
+    </div>
+  </section>
 
-            const renderTestimonials = () => {
-                carousel.innerHTML = testimonalsData.map(t => `
-                    <div class="testi-card">
-                        <div class="stars">${'★'.repeat(t.stars)}</div>
-                        <p style="color:#444; font-style:italic; margin-bottom:1rem; line-height:1.5;">"${t.text}"</p>
-                        <strong style="color:var(--navy);">${t.author}</strong>
-                    </div>
-                `).join('');
-            };
+  <div class="cta-container">
+    <a href="reservation.html" class="btn btn-primary" style="padding: 16px 32px; font-size: 1.1rem;">Réserver une intervention</a>
+  </div>
+</main>
 
-            renderGalerie('all');
-            renderTestimonials();
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="margin-bottom:16px;"><div class="nav-logo-icon">🫧</div><div><div class="nav-logo-text">CleanSen</div></div></a>
+        <p style="font-size:0.88rem;max-width:260px;margin:16px 0 24px;">La référence du nettoyage professionnel au Sénégal.</p>
+        <div class="footer-social"><a href="#" class="footer-social-link">📘</a><a href="#" class="footer-social-link">💬</a></div>
+      </div>
+      <div><div class="footer-title">Services</div><ul class="footer-links"><li><a href="services.html#domicile">Domicile</a></li><li><a href="services.html#bureau">Bureaux</a></li><li><a href="services.html#industrie">Industrie</a></li></ul></div>
+      <div><div class="footer-title">Villes</div><ul class="footer-links"><li><a href="#">Dakar</a></li><li><a href="#">Mbour - Saly</a></li></ul></div>
+      <div><div class="footer-title">CleanSen</div><ul class="footer-links"><li><a href="equipes.html">Équipes</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="reservation.html">Réserver</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 CleanSen · Sénégal 🇸🇳</div></div>
+  </div>
+</footer>
 
-            // Filters
-            const filterBtns = document.querySelectorAll('.filter-chip');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    renderGalerie(e.target.dataset.filter);
-                });
-            });
-            
-            // Auto scroll carousel
-            setInterval(() => {
-                if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
-                    carousel.scrollLeft = 0;
-                } else {
-                    carousel.scrollBy({ left: 300, behavior: 'smooth' });
-                }
-            }, 3000);
-        });
-    </script>
+<script src="js/app.js"></script>
+<script>
+  function toggleMobileMenu() {
+    var menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
 </body>
 </html>

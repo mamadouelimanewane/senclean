@@ -3,343 +3,544 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CleanSen — Services de Nettoyage Professionnels à Dakar & Mbour | Sénégal</title>
-  <meta name="description" content="CleanSen : la référence du nettoyage professionnel au Sénégal. Domicile, bureaux, usines. Équipes certifiées à Dakar et Mbour. Réservez en ligne en 2 minutes.">
-  <meta name="keywords" content="nettoyage Dakar, nettoyage Mbour, femme de ménage Sénégal, nettoyage industriel Dakar, entretien bureaux Dakar">
+  <title>CleanSen - N°1 du nettoyage professionnel au Sénégal</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    /* Redefining identity variables to guarantee exact styling if CSS missing */
+    :root {
+      --primary: #00C853;
+      --accent: #FFD600;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(17,24,39,0.7);
+      --bg-surface: rgba(17,24,39,0.9);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --grad-primary: linear-gradient(135deg, #00C853 0%, #009624 100%);
+      --grad-gold: linear-gradient(135deg, #FFD600 0%, #F57F17 100%);
+      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.3);
+      --border: rgba(0,200,83,0.2);
+    }
+    body { background-color: var(--bg-dark); color: var(--text-primary); }
+    
+    /* Hero customizations */
+    .hero {
+      position: relative;
+      background: linear-gradient(135deg, #00391A 0%, #00212A 50%, #0a0e1a 100%);
+      padding: 160px 0 100px;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,200,83,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,200,83,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+    }
+    .hero-bubbles {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    }
+    .hero-bubble {
+      position: absolute; background: radial-gradient(circle at 30% 30%, rgba(0,200,83,0.4), transparent);
+      border-radius: 50%; border: 1px solid rgba(0,200,83,0.1);
+      animation: float 8s infinite ease-in-out;
+    }
+    .hero-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    @media (max-width: 992px) { .hero-content { grid-template-columns: 1fr; text-align: center; } }
+    
+    .text-gradient { background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-gradient-gold { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .search-bar { background: var(--bg-surface); padding: 8px; border-radius: 50px; display: flex; gap: 10px; border: 1px solid var(--border); box-shadow: var(--shadow-glow); }
+    .search-bar select { background: transparent; border: none; color: white; padding: 10px 20px; outline: none; border-right: 1px solid var(--border); }
+    .search-bar option { background: var(--bg-dark); color: white; }
+    
+    .floating-card { background: var(--bg-card); backdrop-filter: blur(20px); border: 1px solid var(--border); padding: 20px; border-radius: 20px; box-shadow: var(--shadow-glow); position: relative; }
+    
+    .step-number { font-size: 6rem; font-weight: 800; color: rgba(0,200,83,0.1); position: absolute; top: -20px; right: 20px; line-height: 1; }
+    
+    .gallery-card { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; border-radius: 12px; overflow: hidden; }
+    .gallery-panel { padding: 40px 20px; text-align: center; position: relative; }
+    .gallery-panel.avant { background: rgba(255,255,255,0.05); }
+    .gallery-panel.apres { background: rgba(0,200,83,0.1); }
+    .panel-label { position: absolute; top: 10px; left: 10px; font-size: 0.7rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px; }
+  </style>
 </head>
 <body>
 
-<div class="page-loader" id="page-loader">
-  <div class="loader-logo">CleanSen</div>
-  <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:16px;">✨ Nettoyage Professionnel · Sénégal</div>
-  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-</div>
-<div class="toast-container" id="toast-container"></div>
-
-<!-- ═══════════ NAVBAR ═══════════ -->
+<!-- Navbar -->
 <nav class="navbar" id="navbar">
   <div class="container">
     <div class="navbar-inner">
       <a href="index.html" class="nav-logo">
         <div class="nav-logo-icon">🫧</div>
-        <div>
-          <div class="nav-logo-text">CleanSen</div>
-          <span class="nav-logo-sub">Dakar • Mbour</span>
-        </div>
+        <div><div class="nav-logo-text">CleanSen</div><span class="nav-logo-sub">Dakar • Mbour</span></div>
       </a>
       <ul class="nav-links">
-        <li><a href="index.html" class="active">Accueil</a></li>
-        <li><a href="services.html">Nos Services</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
         <li><a href="tarifs.html">Tarifs</a></li>
-        <li><a href="equipes.html">Nos Équipes</a></li>
+        <li><a href="equipes.html">Équipes</a></li>
         <li><a href="galerie.html">Galerie</a></li>
         <li><a href="reservation.html">Réserver</a></li>
       </ul>
       <div class="nav-actions">
-        <a href="reservation.html" class="btn btn-outline-cyan btn-sm">📅 Réservation</a>
-        <a href="dashboard-client.html" class="btn btn-cyan btn-sm">👤 Mon Espace</a>
+        <a href="reservation.html" class="btn btn-ghost btn-sm">📅 Réservation</a>
+        <a href="dashboard-client.html" class="btn btn-primary btn-sm">👤 Mon Espace</a>
       </div>
-      <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     </div>
   </div>
 </nav>
 
-<div id="mob-menu" style="display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:var(--navy-card);border-bottom:1px solid var(--border);padding:16px;backdrop-filter:blur(20px);">
+<!-- Mobile Menu -->
+<div id="mobile-menu" style="display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px;backdrop-filter:blur(20px);">
   <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
-    <li><a href="index.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--cyan);">🏠 Accueil</a></li>
+    <li><a href="index.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🏠 Accueil</a></li>
     <li><a href="services.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🧹 Services</a></li>
     <li><a href="tarifs.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">💰 Tarifs</a></li>
     <li><a href="equipes.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">👥 Équipes</a></li>
-    <li><a href="galerie.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">📸 Galerie</a></li>
-    <li><a href="reservation.html" class="btn btn-cyan" style="width:100%;justify-content:center;margin-top:8px;">📅 Réserver maintenant</a></li>
+    <li><a href="reservation.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">📅 Réserver</a></li>
   </ul>
 </div>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero-cleansen" id="hero">
+<!-- Hero Section -->
+<section class="hero">
   <div class="hero-grid"></div>
-  <!-- Orbs -->
-  <div style="position:absolute;width:500px;height:500px;top:-100px;right:-100px;border-radius:50%;background:radial-gradient(circle,rgba(0,188,212,0.08),transparent);pointer-events:none;"></div>
-  <div style="position:absolute;width:350px;height:350px;bottom:-50px;left:100px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.06),transparent);pointer-events:none;"></div>
+  <div class="hero-bubbles">
+    <div class="hero-bubble" style="width:100px;height:100px;top:20%;left:10%;"></div>
+    <div class="hero-bubble" style="width:150px;height:150px;top:60%;right:15%;animation-delay:2s;"></div>
+  </div>
+  
+  <div class="container hero-content">
+    <div>
+      <div class="badge-pill badge-green" style="display:inline-block; margin-bottom: 20px; padding: 6px 16px; border-radius: 50px; background: rgba(0,200,83,0.1); border: 1px solid var(--primary); color: var(--primary);">
+        🇸🇳 N°1 du nettoyage professionnel au Sénégal
+      </div>
+      <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 24px; font-weight: 800;">
+        Un Espace <br><span class="text-gradient">Impeccablement Propre</span>
+      </h1>
+      <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 32px; max-width: 480px;">
+        Des agents de nettoyage certifiés pour votre domicile, vos bureaux ou votre site industriel. Excellence garantie à Dakar et Mbour.
+      </p>
+      
+      <div class="search-bar" style="margin-bottom: 24px;">
+        <select>
+          <option>Type de service...</option>
+          <option>Nettoyage Domicile</option>
+          <option>Entretien Bureaux</option>
+          <option>Nettoyage Industriel</option>
+        </select>
+        <select>
+          <option>Votre ville...</option>
+          <option>Dakar</option>
+          <option>Mbour</option>
+        </select>
+        <a href="reservation.html" class="btn btn-primary" style="border-radius: 50px;">Trouver</a>
+      </div>
+      
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.5rem; font-weight: bold; color: var(--primary);" class="data-count">4500</span>+
+          <span style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1;">Interventions<br>réussies</span>
+        </div>
+        <div style="width: 1px; height: 30px; background: var(--border);"></div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.5rem; font-weight: bold; color: var(--accent);" class="data-count">98</span>%
+          <span style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1;">Clients<br>satisfaits</span>
+        </div>
+      </div>
+    </div>
+    
+    <div style="position: relative;">
+      <div class="floating-card" style="max-width: 320px; margin: 0 auto; animation: float 6s infinite ease-in-out;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div class="badge-blue" style="font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; background: rgba(59,130,246,0.1); color: #3b82f6;">Prochaine intervention</div>
+          <div style="color: var(--text-secondary); font-size: 0.8rem;">Demain, 09:00</div>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 16px;">
+          <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">FA</div>
+          <div>
+            <div style="font-weight: bold;">Fatou Ndiaye</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Expert Nettoyage</div>
+          </div>
+        </div>
+        <div style="background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; font-size: 0.9rem;">
+          <div style="color: var(--text-secondary); margin-bottom: 4px;">Service</div>
+          <div>Nettoyage Complet Appartement</div>
+        </div>
+      </div>
+      
+      <div style="position: absolute; top: -20px; right: -20px; background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--accent); box-shadow: 0 0 15px rgba(255,214,0,0.2); animation: float 5s infinite ease-in-out reverse;">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 1.2rem;">⭐</span>
+          <span style="font-weight: bold; font-size: 0.9rem;">Garantie résultat</span>
+        </div>
+      </div>
+      
+      <div style="position: absolute; bottom: 40px; left: -40px; background: var(--bg-card); padding: 12px; border-radius: 12px; border: 1px solid var(--primary); box-shadow: var(--shadow-glow); animation: float 7s infinite ease-in-out;">
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="font-size: 1.2rem;">⚡</span>
+          <span style="font-weight: bold; font-size: 0.9rem;">Intervention 24h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <div class="container" style="padding-top:40px;padding-bottom:60px;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+<!-- Univers -->
+<section style="padding: 100px 0;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <div class="section-label" style="color: var(--primary); text-transform: uppercase; font-weight: bold; margin-bottom: 8px;">Expertise</div>
+      <h2 class="section-title" style="font-size: 2.5rem;">3 Univers de Nettoyage</h2>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+      <!-- Domicile -->
+      <div class="card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 30px; transition: all 0.3s ease; cursor: pointer;">
+        <div style="font-size: 3rem; margin-bottom: 20px; text-shadow: var(--shadow-glow);">🏠</div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Domicile</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Appartements & Villas</p>
+        <ul style="list-style: none; margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px;">
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Nettoyage régulier</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Grand ménage</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Repassage</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Après déménagement</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Vitrerie</li>
+        </ul>
+        <div style="font-weight: bold; margin-bottom: 20px;">À partir de <span style="color: var(--accent); font-size: 1.2rem;">15.000 FCFA</span></div>
+        <a href="services.html#domicile" class="btn btn-primary" style="width: 100%; justify-content: center;">Découvrir</a>
+      </div>
+      
+      <!-- Bureaux -->
+      <div class="card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 30px; transition: all 0.3s ease; cursor: pointer;">
+        <div style="font-size: 3rem; margin-bottom: 20px; text-shadow: var(--shadow-glow);">🏢</div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Bureaux & Commerce</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Espaces professionnels</p>
+        <ul style="list-style: none; margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px;">
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Entretien quotidien</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Désinfection</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Dépoussiérage tech</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Espaces communs</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Gestion des déchets</li>
+        </ul>
+        <div style="font-weight: bold; margin-bottom: 20px;">À partir de <span style="color: var(--accent); font-size: 1.2rem;">40.000 FCFA</span></div>
+        <a href="services.html#bureau" class="btn btn-primary" style="width: 100%; justify-content: center;">Découvrir</a>
+      </div>
+      
+      <!-- Industrie -->
+      <div class="card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 30px; transition: all 0.3s ease; cursor: pointer;">
+        <div style="font-size: 3rem; margin-bottom: 20px; text-shadow: var(--shadow-glow);">🏭</div>
+        <h3 style="font-size: 1.5rem; margin-bottom: 10px;">Sites Industriels</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Usines & Entrepôts</p>
+        <ul style="list-style: none; margin-bottom: 30px; display: flex; flex-direction: column; gap: 10px;">
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Nettoyage machines</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Lavage haute pression</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Entretien sols pro</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Fin de chantier</li>
+          <li style="display: flex; gap: 10px; align-items: center;"><span style="color: var(--primary);">✓</span> Traitement spécial</li>
+        </ul>
+        <div style="font-weight: bold; margin-bottom: 20px; color: var(--accent); font-size: 1.2rem;">Sur devis</div>
+        <a href="services.html#industrie" class="btn btn-primary" style="width: 100%; justify-content: center;">Découvrir</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Gauche -->
+<!-- Comment ça marche -->
+<section style="padding: 80px 0; background: rgba(0,200,83,0.02);">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <h2 class="section-title">Comment ça marche</h2>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+      <div class="card" style="background: var(--bg-card); padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; text-align: center;">
+        <div class="step-number">01</div>
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0,200,83,0.1); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; position: relative; z-index: 2;">📝</div>
+        <h3 style="position: relative; z-index: 2; margin-bottom: 15px;">Choisissez</h3>
+        <p style="color: var(--text-secondary); position: relative; z-index: 2;">Sélectionnez la formule de nettoyage qui correspond à vos besoins.</p>
+      </div>
+      
+      <div class="card" style="background: var(--bg-card); padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; text-align: center;">
+        <div class="step-number">02</div>
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0,200,83,0.1); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; position: relative; z-index: 2;">📅</div>
+        <h3 style="position: relative; z-index: 2; margin-bottom: 15px;">Planifiez</h3>
+        <p style="color: var(--text-secondary); position: relative; z-index: 2;">Réservez le créneau horaire qui vous arrange le plus, 7j/7.</p>
+      </div>
+      
+      <div class="card" style="background: var(--bg-card); padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; text-align: center;">
+        <div class="step-number">03</div>
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0,200,83,0.1); border: 1px solid var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px; position: relative; z-index: 2;">✨</div>
+        <h3 style="position: relative; z-index: 2; margin-bottom: 15px;">Profitez</h3>
+        <p style="color: var(--text-secondary); position: relative; z-index: 2;">Nos experts interviennent, vous retrouvez un espace éclatant de propreté.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Equipes vedettes -->
+<section style="padding: 100px 0;">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px;">
       <div>
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,188,212,0.1);border:1px solid rgba(0,188,212,0.25);border-radius:99px;padding:6px 16px;font-size:0.8rem;font-weight:600;color:var(--cyan);margin-bottom:24px;animation:fadeInDown 0.8s ease both;">
-          <span style="width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 1.5s infinite;"></span>
-          🇸🇳 N°1 du nettoyage professionnel au Sénégal
-        </div>
-
-        <h1 style="font-size:clamp(2.2rem,5vw,4.2rem);font-weight:900;line-height:1.05;margin-bottom:24px;animation:fadeInUp 0.8s ease 0.1s both;">
-          Un Espace<br>
-          <span style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Impeccablement</span><br>
-          Propre
-        </h1>
-
-        <p style="font-size:1.1rem;color:rgba(232,244,255,0.7);margin-bottom:32px;max-width:480px;animation:fadeInUp 0.8s ease 0.2s both;">
-          Domicile, bureau ou usine — nos équipes certifiées interviennent partout à <strong style="color:var(--cyan)">Dakar</strong> et <strong style="color:var(--fresh)">Mbour</strong>. Résultats garantis ou remboursé.
-        </p>
-
-        <!-- Sélecteur service -->
-        <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur);border:1.5px solid rgba(0,188,212,0.2);border-radius:20px;padding:12px;display:flex;gap:12px;margin-bottom:20px;animation:fadeInUp 0.8s ease 0.3s both;box-shadow:var(--shadow-lg);">
-          <select id="hero-service-type" class="form-control" style="flex:1;border-color:transparent;background:transparent;font-size:0.95rem;" onchange="updateHeroSelect()">
-            <option value="">🧹 Type de service</option>
-            <option value="domicile">🏠 Nettoyage Domicile</option>
-            <option value="bureau">🏢 Entretien Bureaux</option>
-            <option value="industrie">🏭 Nettoyage Industriel</option>
-          </select>
-          <select id="hero-ville" class="form-control" style="width:140px;flex-shrink:0;border-color:transparent;background:transparent;font-size:0.95rem;">
-            <option value="">📍 Ville</option>
-            <option value="Dakar">🌆 Dakar</option>
-            <option value="Mbour">🏖️ Mbour</option>
-          </select>
-          <a href="reservation.html" class="btn btn-cyan" style="border-radius:14px;flex-shrink:0;">Réserver →</a>
-        </div>
-
-        <!-- Quick links -->
-        <div style="display:flex;gap:10px;flex-wrap:wrap;animation:fadeInUp 0.8s ease 0.4s both;">
-          <span style="font-size:0.78rem;color:var(--text-muted);align-self:center;">Rapide :</span>
-          <a href="services.html#domicile" class="btn btn-ghost btn-sm" style="font-size:0.78rem;padding:6px 14px;">🏠 Domicile</a>
-          <a href="services.html#bureau" class="btn btn-ghost btn-sm" style="font-size:0.78rem;padding:6px 14px;">🏢 Bureaux</a>
-          <a href="services.html#industrie" class="btn btn-ghost btn-sm" style="font-size:0.78rem;padding:6px 14px;">🏭 Industrie</a>
-        </div>
-
-        <!-- Stats -->
-        <div style="display:flex;gap:32px;margin-top:32px;animation:fadeInUp 0.8s ease 0.5s both;">
+        <div class="section-label" style="color: var(--primary); font-weight: bold; margin-bottom: 8px;">NOS AGENTS</div>
+        <h2 class="section-title">Équipes Vedettes</h2>
+      </div>
+      <a href="equipes.html" class="btn btn-ghost" style="color: var(--primary);">Voir tous →</a>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+      <div class="card" style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); padding: 24px;">
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">AD</div>
           <div>
-            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;" data-count="4500">0</div>
-            <div style="font-size:0.78rem;color:var(--text-muted);">Interventions réalisées</div>
+            <h3 style="margin: 0 0 4px 0;">Aminata Diallo</h3>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px;">Chef d'Équipe Domicile</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <span style="color: var(--accent);">⭐ 4.9</span>
+              <span style="color: var(--text-muted);">(124 avis)</span>
+            </div>
           </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 16px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); box-shadow: var(--shadow-glow);"></div>
+            <span style="font-size: 0.9rem;">Disponible</span>
+          </div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem;">250+ Interventions</div>
+        </div>
+      </div>
+      
+      <div class="card" style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); padding: 24px;">
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--grad-gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: #000;">MS</div>
           <div>
-            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;" data-count="98">0</div>
-            <div style="font-size:0.78rem;color:var(--text-muted);">% Satisfaction client</div>
+            <h3 style="margin: 0 0 4px 0;">Moussa Sarr</h3>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px;">Spécialiste Industrie</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <span style="color: var(--accent);">⭐ 5.0</span>
+              <span style="color: var(--text-muted);">(89 avis)</span>
+            </div>
           </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 16px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); box-shadow: var(--shadow-glow);"></div>
+            <span style="font-size: 0.9rem;">Disponible</span>
+          </div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem;">140+ Interventions</div>
+        </div>
+      </div>
+
+      <div class="card" style="background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); padding: 24px;">
+        <div style="display: flex; gap: 16px; margin-bottom: 20px;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--grad-primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;">KB</div>
           <div>
-            <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:800;" data-count="120">0</div>
-            <div style="font-size:0.78rem;color:var(--text-muted);">Agents certifiés</div>
+            <h3 style="margin: 0 0 4px 0;">Khadija Ba</h3>
+            <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px;">Expert Bureaux</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <span style="color: var(--accent);">⭐ 4.8</span>
+              <span style="color: var(--text-muted);">(210 avis)</span>
+            </div>
           </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 16px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary); box-shadow: var(--shadow-glow);"></div>
+            <span style="font-size: 0.9rem;">Disponible demain</span>
+          </div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem;">300+ Interventions</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Droite — Dashboard visuel -->
-      <div style="position:relative;" class="animate-fadeInUp" style="animation-delay:0.3s">
-        <!-- Carte principale -->
-        <div style="background:var(--glass-bg);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:24px;padding:28px;box-shadow:var(--shadow-lg);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-            <div style="font-weight:700;font-size:1rem;">Prochaine intervention</div>
-            <span class="badge badge-fresh">● Confirmé</span>
-          </div>
-          <div style="background:rgba(0,188,212,0.08);border-radius:14px;padding:16px;margin-bottom:16px;">
-            <div style="display:flex;align-items:center;gap:12px;">
-              <div style="width:48px;height:48px;border-radius:12px;background:var(--grad-main);display:flex;align-items:center;justify-content:center;font-size:1.4rem;">🧹</div>
-              <div>
-                <div style="font-weight:700;margin-bottom:2px;">Ménage Standard</div>
-                <div style="font-size:0.78rem;color:var(--text-muted);">Almadies, Villa N°12</div>
-              </div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
-            <div style="text-align:center;">
-              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px;">DATE</div>
-              <div style="font-weight:700;font-size:0.9rem;">Lun 28 Juil</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px;">HEURE</div>
-              <div style="font-weight:700;font-size:0.9rem;">09h00</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px;">DURÉE</div>
-              <div style="font-weight:700;font-size:0.9rem;">2-3h</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:2px;">PRIX</div>
-              <div style="font-weight:700;font-size:0.9rem;color:var(--cyan);">15 000</div>
-            </div>
-          </div>
-          <!-- Équipière -->
-          <div style="display:flex;align-items:center;gap:10px;background:var(--navy-surface);border-radius:12px;padding:12px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:rgba(0,188,212,0.2);border:2px solid rgba(0,188,212,0.4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:var(--cyan);">KD</div>
-            <div>
-              <div style="font-size:0.85rem;font-weight:600;">Khady Diallo</div>
-              <div style="font-size:0.72rem;color:var(--text-muted);">Chef d'équipe · ⭐ 4.9</div>
-            </div>
-            <a href="reservation.html" style="margin-left:auto;" class="btn btn-outline-cyan btn-sm">Modifier</a>
-          </div>
+<!-- Galerie Avant/Après -->
+<section style="padding: 80px 0; background: var(--bg-surface);">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h2 class="section-title">Résultats en Images</h2>
+      <p style="color: var(--text-secondary);">Des résultats visibles et professionnels.</p>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+      <!-- Card 1 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🧹</div>
         </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+      <!-- Card 2 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🏭</div>
+        </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+      <!-- Card 3 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🛋️</div>
+        </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+      <!-- Card 4 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🪟</div>
+        </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+      <!-- Card 5 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🏢</div>
+        </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+      <!-- Card 6 -->
+      <div class="gallery-card">
+        <div class="gallery-panel avant">
+          <div class="panel-label">AVANT</div>
+          <div style="font-size: 2.5rem; opacity: 0.5;">🛁</div>
+        </div>
+        <div class="gallery-panel apres">
+          <div class="panel-label">APRÈS</div>
+          <div style="font-size: 2.5rem;">✨</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Cartes flottantes -->
-        <div style="position:absolute;top:-20px;right:-30px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md);animation:float 4s ease-in-out infinite;white-space:nowrap;">
-          <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,229,160,0.2);display:flex;align-items:center;justify-content:center;">✅</div>
+<!-- Témoignages -->
+<section style="padding: 100px 0;">
+  <div class="container">
+    <h2 class="section-title" style="text-align: center; margin-bottom: 50px;">Avis de nos clients</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+      
+      <!-- Review 1 -->
+      <div class="card" style="background: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; gap: 4px; color: var(--accent); margin-bottom: 16px;">★★★★★</div>
+        <p style="font-style: italic; color: var(--text-secondary); margin-bottom: 20px;">"Service impeccable pour mon appartement. L'équipe est arrivée à l'heure et le résultat est bluffant."</p>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #374151; display: flex; align-items: center; justify-content: center; font-weight: bold;">SM</div>
           <div>
-            <div style="font-size:0.8rem;font-weight:700;">Garantie résultat</div>
-            <div style="font-size:0.68rem;color:var(--text-muted);">Ou remboursé</div>
+            <div style="font-weight: bold; font-size: 0.9rem;">Sophie M.</div>
+            <div style="color: var(--text-muted); font-size: 0.8rem;">Dakar Plateau</div>
           </div>
+          <div class="badge-green" style="margin-left: auto; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; background: rgba(0,200,83,0.1); color: var(--primary);">Domicile</div>
         </div>
+      </div>
 
-        <div style="position:absolute;bottom:-15px;left:-30px;background:var(--glass-bg);backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-md);animation:float2 5s ease-in-out 1s infinite;white-space:nowrap;">
-          <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,188,212,0.2);display:flex;align-items:center;justify-content:center;">⚡</div>
+      <!-- Review 2 -->
+      <div class="card" style="background: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; gap: 4px; color: var(--accent); margin-bottom: 16px;">★★★★★</div>
+        <p style="font-style: italic; color: var(--text-secondary); margin-bottom: 20px;">"Nous avons confié l'entretien de nos bureaux à CleanSen. Un professionnalisme rare et une discrétion totale."</p>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #374151; display: flex; align-items: center; justify-content: center; font-weight: bold;">IT</div>
           <div>
-            <div style="font-size:0.8rem;font-weight:700;">Intervention 24h</div>
-            <div style="font-size:0.68rem;color:var(--text-muted);">Urgences acceptées</div>
+            <div style="font-weight: bold; font-size: 0.9rem;">Ibrahim T.</div>
+            <div style="color: var(--text-muted); font-size: 0.8rem;">Dakar Almadies</div>
           </div>
+          <div class="badge-gold" style="margin-left: auto; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; background: rgba(255,214,0,0.1); color: var(--accent);">Bureaux</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══════════ 3 UNIVERS ═══════════ -->
-<section class="section" id="univers">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Nos Univers</div>
-      <h2 class="section-title">3 Solutions de Nettoyage</h2>
-      <p class="section-subtitle">Une expertise dédiée pour chaque type d'espace, des équipes spécialisées et du matériel professionnel</p>
-    </div>
-
-    <div class="grid-3" id="univers-grid"></div>
-  </div>
-</section>
-
-<!-- ═══════════ COMMENT ÇA MARCHE ═══════════ -->
-<section class="section" style="background:var(--navy-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Simple & Rapide</div>
-      <h2 class="section-title">Réservez en 3 Étapes</h2>
-    </div>
-    <div class="grid-3">
-      <div class="card card-body text-center" data-animate data-delay="100">
-        <div style="width:64px;height:64px;background:rgba(0,188,212,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;">📋</div>
-        <div style="font-size:3rem;font-weight:900;color:rgba(0,188,212,0.15);line-height:1;font-family:var(--font-display);margin-bottom:8px;">01</div>
-        <h3 style="margin-bottom:10px;">Choisissez votre service</h3>
-        <p style="font-size:0.88rem;">Sélectionnez parmi nos 3 univers et précisez votre superficie et vos besoins spécifiques.</p>
-      </div>
-      <div class="card card-body text-center" data-animate data-delay="300">
-        <div style="width:64px;height:64px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;">📅</div>
-        <div style="font-size:3rem;font-weight:900;color:rgba(0,229,160,0.15);line-height:1;font-family:var(--font-display);margin-bottom:8px;">02</div>
-        <h3 style="margin-bottom:10px;">Planifiez la date</h3>
-        <p style="font-size:0.88rem;">Choisissez la date et l'heure qui vous convient. Disponibilités en temps réel, 7j/7.</p>
-      </div>
-      <div class="card card-body text-center" data-animate data-delay="500">
-        <div style="width:64px;height:64px;background:rgba(255,179,0,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;">✨</div>
-        <div style="font-size:3rem;font-weight:900;color:rgba(255,179,0,0.15);line-height:1;font-family:var(--font-display);margin-bottom:8px;">03</div>
-        <h3 style="margin-bottom:10px;">Profitez du résultat</h3>
-        <p style="font-size:0.88rem;">Nos équipes arrivent à l'heure avec leur matériel. Vous rentrez dans un espace impeccable.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ ÉQUIPES VEDETTES ═══════════ -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Nos Experts</div>
-      <h2 class="section-title">Des Équipes Certifiées</h2>
-      <p class="section-subtitle">Tous nos agents sont formés, assurés et vérifiés avant leur première intervention</p>
-    </div>
-    <div class="grid-3" id="equipes-accueil"></div>
-    <div style="text-align:center;margin-top:32px;">
-      <a href="equipes.html" class="btn btn-outline-cyan btn-lg">Voir toutes les équipes →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ GALERIE AVANT/APRÈS ═══════════ -->
-<section class="section" style="background:var(--navy-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Résultats Réels</div>
-      <h2 class="section-title">Avant / Après</h2>
-      <p class="section-subtitle">Des transformations spectaculaires réalisées par nos équipes à Dakar et Mbour</p>
-    </div>
-    <div class="grid-3" id="galerie-accueil"></div>
-    <div style="text-align:center;margin-top:32px;">
-      <a href="galerie.html" class="btn btn-outline-cyan btn-lg">Voir toute la galerie →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ TÉMOIGNAGES ═══════════ -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-label">Avis Clients</div>
-      <h2 class="section-title">Ils Nous Font Confiance</h2>
-      <p class="section-subtitle">Plus de 4 500 interventions réalisées avec une satisfaction à 98%</p>
-    </div>
-    <div class="grid-3" id="temoignages-accueil"></div>
-  </div>
-</section>
-
-<!-- ═══════════ STATS ═══════════ -->
-<section style="background:linear-gradient(135deg,rgba(0,188,212,0.08) 0%,rgba(0,229,160,0.05) 100%);border-top:1px solid rgba(0,188,212,0.1);border-bottom:1px solid rgba(0,188,212,0.1);padding:60px 0;">
-  <div class="container">
-    <div class="grid-4" style="text-align:center;">
-      <div data-animate data-delay="0">
-        <div style="font-family:var(--font-display);font-size:3rem;font-weight:900;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" data-count="4500">0</div>
-        <div style="color:var(--text-secondary);margin-top:8px;">Interventions</div>
-      </div>
-      <div data-animate data-delay="200">
-        <div style="font-family:var(--font-display);font-size:3rem;font-weight:900;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" data-count="120">0</div>
-        <div style="color:var(--text-secondary);margin-top:8px;">Agents certifiés</div>
-      </div>
-      <div data-animate data-delay="400">
-        <div style="font-family:var(--font-display);font-size:3rem;font-weight:900;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" data-count="98">0</div>
-        <div style="color:var(--text-secondary);margin-top:8px;">% Satisfaction</div>
-      </div>
-      <div data-animate data-delay="600">
-        <div style="font-family:var(--font-display);font-size:3rem;font-weight:900;background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" data-count="2">0</div>
-        <div style="color:var(--text-secondary);margin-top:8px;">Villes couvertes</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════ CTA ═══════════ -->
-<section class="section">
-  <div class="container">
-    <div class="cta-box" data-animate>
-      <div style="position:relative;z-index:1;">
-        <div class="section-label" style="margin-bottom:16px;">🚀 Réservez maintenant</div>
-        <h2 style="font-size:clamp(1.8rem,4vw,3rem);margin-bottom:16px;font-family:var(--font-display);">
-          Un Espace Propre en<br>
-          <span style="background:var(--grad-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Quelques Clics</span>
-        </h2>
-        <p style="max-width:460px;margin:0 auto 32px;font-size:0.95rem;">
-          Rejoignez des milliers de clients satisfaits à Dakar et Mbour. Réservation en 2 minutes, intervention sous 24h.
-        </p>
-        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-          <a href="reservation.html" class="btn btn-cyan btn-xl">📅 Réserver une Intervention</a>
-          <a href="tarifs.html" class="btn btn-ghost btn-xl">💰 Voir les Tarifs</a>
-        </div>
-        <div style="margin-top:20px;font-size:0.8rem;color:var(--text-muted);">
-          ✅ Gratuit & sans engagement · ✅ Équipes certifiées · ✅ Garantie résultat
+      <!-- Review 3 -->
+      <div class="card" style="background: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid rgba(255,255,255,0.05);">
+        <div style="display: flex; gap: 4px; color: var(--accent); margin-bottom: 16px;">★★★★★</div>
+        <p style="font-style: italic; color: var(--text-secondary); margin-bottom: 20px;">"Nettoyage de fin de chantier réalisé avec brio. Ils ont des équipements très performants."</p>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 40px; height: 40px; border-radius: 50%; background: #374151; display: flex; align-items: center; justify-content: center; font-weight: bold;">CD</div>
+          <div>
+            <div style="font-weight: bold; font-size: 0.9rem;">Cheikh D.</div>
+            <div style="color: var(--text-muted); font-size: 0.8rem;">Mbour</div>
+          </div>
+          <div class="badge-blue" style="margin-left: auto; font-size: 0.7rem; padding: 4px 8px; border-radius: 4px; background: rgba(59,130,246,0.1); color: #3b82f6;">Industrie</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+<!-- Stats Section -->
+<section style="padding: 60px 0; background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 30px; text-align: center;">
+      <div>
+        <div class="text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;" class="data-count">4500</div>
+        <div style="color: var(--text-secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Interventions</div>
+      </div>
+      <div>
+        <div class="text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;" class="data-count">120</div>
+        <div style="color: var(--text-secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Agents Qualifiés</div>
+      </div>
+      <div>
+        <div class="text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;"><span class="data-count">98</span>%</div>
+        <div style="color: var(--text-secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Satisfaction</div>
+      </div>
+      <div>
+        <div class="text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 10px;" class="data-count">2</div>
+        <div style="color: var(--text-secondary); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Villes Desservies</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section" style="padding: 100px 0; background: var(--grad-primary); text-align: center; color: white;">
+  <div class="container">
+    <h2 style="font-size: 2.5rem; margin-bottom: 20px; font-weight: 800;">Réservez en Quelques Clics</h2>
+    <p style="font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;">
+      Prêt à vivre dans un espace éclatant de propreté ? Confiez-nous le nettoyage et profitez de votre temps libre.
+    </p>
+    <div style="display: flex; gap: 20px; justify-content: center;">
+      <a href="reservation.html" class="btn btn-primary" style="background: white; color: var(--primary); font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">Réserver maintenant</a>
+      <a href="tarifs.html" class="btn btn-gold" style="background: var(--bg-dark); color: white; border: 1px solid rgba(255,255,255,0.2);">Voir les tarifs</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="nav-logo" style="margin-bottom:16px;display:inline-flex;">
+        <a href="index.html" class="nav-logo" style="margin-bottom:16px;">
           <div class="nav-logo-icon">🫧</div>
-          <div style="margin-left:12px;"><div class="nav-logo-text">CleanSen</div></div>
+          <div><div class="nav-logo-text">CleanSen</div></div>
         </a>
-        <p style="font-size:0.88rem;max-width:260px;margin:16px 0 24px;">La référence du nettoyage professionnel au Sénégal. Domicile, bureaux et industrie à Dakar et Mbour.</p>
-        <div class="social-links">
-          <a href="#" class="social-link">📘</a>
-          <a href="#" class="social-link">💬</a>
-          <a href="#" class="social-link">📸</a>
-          <a href="#" class="social-link">🐦</a>
+        <p style="font-size:0.88rem;max-width:260px;margin:16px 0 24px;">La référence du nettoyage professionnel au Sénégal. Domicile, bureaux et industrie.</p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link">📘</a>
+          <a href="#" class="footer-social-link">💬</a>
+          <a href="#" class="footer-social-link">📸</a>
         </div>
       </div>
       <div>
@@ -356,160 +557,32 @@
         <ul class="footer-links">
           <li><a href="#">Dakar - Plateau</a></li>
           <li><a href="#">Dakar - Almadies</a></li>
-          <li><a href="#">Dakar - Mermoz</a></li>
           <li><a href="#">Mbour - Saly</a></li>
-          <li><a href="#">Mbour - Centre</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-title">CleanSen</div>
         <ul class="footer-links">
-          <li><a href="#">À propos</a></li>
           <li><a href="equipes.html">Nos équipes</a></li>
           <li><a href="galerie.html">Galerie</a></li>
-          <li><a href="#">Devenir agent</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="reservation.html">Réserver</a></li>
+          <li><a href="dashboard-client.html">Mon Espace</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2026 CleanSen · Dakar, Sénégal 🇸🇳</div>
-      <div style="display:flex;gap:20px;">
-        <a href="#" style="color:var(--text-muted);">CGU</a>
-        <a href="#" style="color:var(--text-muted);">Confidentialité</a>
-      </div>
+      <div>© 2026 CleanSen · Dakar & Mbour, Sénégal 🇸🇳</div>
+      <div style="display:flex;gap:20px;"><a href="#" style="color:var(--text-muted);">CGU</a><a href="#" style="color:var(--text-muted);">Confidentialité</a></div>
     </div>
   </div>
 </footer>
 
 <script src="js/app.js"></script>
 <script>
-  // ─── UNIVERS ───
-  function renderUnivers() {
-    document.getElementById('univers-grid').innerHTML = [
-      {
-        id:'domicile', icone:'🏠', titre:'Nettoyage Domicile',
-        sous:'Appartements · Villas · Studios',
-        couleur:'rgba(0,188,212,0.1)', bordure:'rgba(0,188,212,0.3)',
-        services:['Ménage standard & approfondi','Vitrerie & miroirs','Canapés, moquettes & tapis','Cuisine & sanitaires','Fin de chantier & post-déménagement'],
-        prix:'À partir de 8 000 FCFA', lien:'services.html#domicile'
-      },
-      {
-        id:'bureau', icone:'🏢', titre:'Bureaux & Commerces',
-        sous:'Bureaux · Boutiques · Restaurants · Hôtels',
-        couleur:'rgba(0,229,160,0.08)', bordure:'rgba(0,229,160,0.3)',
-        services:['Entretien quotidien ou hebdomadaire','Désinfection sanitaire certifiée','Nettoyage vitrerie façade','Cafétéria & cuisines pro','Parking & espaces communs'],
-        prix:'À partir de 35 000 FCFA/mois', lien:'services.html#bureau'
-      },
-      {
-        id:'industrie', icone:'🏭', titre:'Sites Industriels',
-        sous:'Usines · Entrepôts · Chantiers · Cuves',
-        couleur:'rgba(255,179,0,0.07)', bordure:'rgba(255,179,0,0.3)',
-        services:['Nettoyage sols industriels (autolaveuse)','Cuves & citernes (ATEX)','Dégraissage lignes de production','Ravalement façades & toitures','Nettoyage chantiers travaux publics'],
-        prix:'Sur devis — 150 000 FCFA+', lien:'services.html#industrie'
-      }
-    ].map((u, i) => `
-      <div class="service-universe" style="border-color:${u.bordure};" data-animate data-delay="${i*150}" onclick="window.location.href='${u.lien}'">
-        <div class="service-universe-header" style="background:${u.couleur};">
-          <span class="service-universe-icon">${u.icone}</span>
-          <div class="service-universe-title">${u.titre}</div>
-          <div class="service-universe-subtitle">${u.sous}</div>
-        </div>
-        <ul class="service-list">
-          ${u.services.map(s=>`<li><span class="service-check">✓</span> ${s}</li>`).join('')}
-          <li style="margin-top:8px;">
-            <span style="color:var(--cyan);font-weight:700;font-size:0.9rem;">${u.prix}</span>
-          </li>
-        </ul>
-        <div style="padding:0 32px 24px;">
-          <a href="${u.lien}" class="btn btn-outline-cyan" style="width:100%;justify-content:center;">Voir les services →</a>
-        </div>
-      </div>
-    `).join('');
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
   }
-
-  // ─── ÉQUIPES ACCUEIL ───
-  function renderEquipesAccueil() {
-    document.getElementById('equipes-accueil').innerHTML = EQUIPES.slice(0,3).map((e,i)=>`
-      <div class="team-card" data-animate data-delay="${i*100}" onclick="window.location.href='equipes.html'">
-        <div class="team-card-header">
-          <div class="team-avatar" style="background:${e.couleur}20;border:3px solid ${e.couleur}40;color:${e.couleur};">${e.initiales}</div>
-          <div class="team-name">${e.nom}</div>
-          <div class="team-role">${e.role}</div>
-          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;">
-            <div style="width:6px;height:6px;border-radius:50%;background:${e.disponible?'var(--fresh)':'var(--text-muted)'};${e.disponible?'animation:pulse 1.5s infinite;':''}"></div>
-            <span style="font-size:0.72rem;color:var(--text-muted);">${e.disponible?'Disponible':'Occupée'}</span>
-          </div>
-        </div>
-        <div class="team-body">
-          <div style="display:flex;justify-content:space-around;margin-bottom:12px;">
-            <div style="text-align:center;"><div style="font-weight:800;color:var(--text-primary);">${e.note}</div><div style="font-size:0.68rem;color:var(--text-muted);">Note</div></div>
-            <div style="text-align:center;"><div style="font-weight:800;color:var(--text-primary);">${e.interventions}</div><div style="font-size:0.68rem;color:var(--text-muted);">Missions</div></div>
-            <div style="text-align:center;"><div style="font-weight:800;color:var(--text-primary);">${e.experience}</div><div style="font-size:0.68rem;color:var(--text-muted);">Ans exp.</div></div>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;">
-            ${e.competences.slice(0,2).map(c=>`<span class="badge badge-cyan" style="font-size:0.65rem;">${c}</span>`).join('')}
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ─── GALERIE ACCUEIL ───
-  function renderGalerieAccueil() {
-    document.getElementById('galerie-accueil').innerHTML = GALERIE.slice(0,3).map((g,i)=>`
-      <div class="ba-card" data-animate data-delay="${i*100}">
-        <div class="ba-images">
-          <div class="ba-img ba-img-before">
-            <span style="font-size:3rem;">${g.avant}</span>
-            <span class="ba-label ba-label-before">AVANT</span>
-          </div>
-          <div class="ba-img ba-img-after">
-            <span style="font-size:3rem;">${g.apres}</span>
-            <span class="ba-label ba-label-after">APRÈS</span>
-          </div>
-        </div>
-        <div class="ba-body">
-          <div class="ba-title">${g.titre}</div>
-          <div class="ba-meta">📍 ${g.ville} · ${g.service} · ⏱ ${g.duree}</div>
-          <div style="margin-top:8px;color:var(--warning);font-size:0.8rem;">${genStars(g.note)}</div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // ─── TÉMOIGNAGES ACCUEIL ───
-  function renderTemoignagesAccueil() {
-    document.getElementById('temoignages-accueil').innerHTML = TEMOIGNAGES_CLEAN.slice(0,3).map((t,i)=>`
-      <div class="card card-body" data-animate data-delay="${i*100}" style="transition:var(--t-base);" onmouseover="this.style.borderColor='rgba(0,188,212,0.3)';this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--border)';this.style.transform='';">
-        <div style="font-size:2.5rem;color:var(--cyan);opacity:0.3;font-family:serif;line-height:1;margin-bottom:8px;">"</div>
-        <p style="font-size:0.88rem;font-style:italic;margin-bottom:16px;">${t.texte}</p>
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:38px;height:38px;border-radius:50%;background:${t.couleur}20;border:2px solid ${t.couleur}40;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;color:${t.couleur};">${t.initiales}</div>
-            <div>
-              <div style="font-weight:700;font-size:0.88rem;">${t.auteur}</div>
-              <div style="font-size:0.72rem;color:var(--text-muted);">📍 ${t.ville}</div>
-            </div>
-          </div>
-          <div style="color:var(--warning);font-size:0.8rem;">${genStars(t.note)}</div>
-        </div>
-        <div style="margin-top:10px;font-size:0.72rem;color:var(--cyan);background:rgba(0,188,212,0.08);padding:4px 10px;border-radius:6px;display:inline-block;">${t.service}</div>
-      </div>
-    `).join('');
-  }
-
-  function updateHeroSelect() {}
-  function toggleMenu() {
-    const m=document.getElementById('mob-menu');
-    m.style.display=m.style.display==='none'?'block':'none';
-  }
-
-  // Init
-  renderUnivers();
-  renderEquipesAccueil();
-  renderGalerieAccueil();
-  renderTemoignagesAccueil();
 </script>
 </body>
 </html>

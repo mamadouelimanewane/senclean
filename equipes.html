@@ -1,183 +1,379 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nos Équipes - CleanSen</title>
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .page-header { background: var(--navy); color: white; padding: 4rem 2rem 6rem; text-align: center; position: relative; }
-        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
-        .stats-container { display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; background: white; max-width: 800px; margin: 2rem auto -8rem; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; z-index: 10; }
-        .stat-item { text-align: center; }
-        .stat-value { font-size: 2.5rem; font-weight: bold; color: var(--cyan); }
-        .stat-label { color: var(--navy); font-weight: 500; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem; }
-        
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; margin-top: 6rem; }
-        
-        /* Filters */
-        .filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
-        .filter-chip { padding: 0.5rem 1.5rem; border-radius: 30px; background: #f0f4f8; color: var(--navy); cursor: pointer; font-weight: 500; transition: all 0.3s; border: none; }
-        .filter-chip:hover, .filter-chip.active { background: var(--cyan); color: white; }
-
-        /* Grid & Cards */
-        .equipes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
-        .equipe-card { background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; position: relative; border: 1px solid #eee; transition: transform 0.3s; }
-        .equipe-card:hover { transform: translateY(-5px); border-color: var(--cyan); }
-        
-        .avatar-wrap { position: relative; width: 100px; height: 100px; margin: 0 auto 1.5rem; }
-        .avatar { width: 100%; height: 100%; border-radius: 50%; background: var(--grad-main); color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; }
-        .status-dot { position: absolute; bottom: 5px; right: 5px; width: 20px; height: 20px; background: #2ecc71; border-radius: 50%; border: 3px solid white; animation: pulse 2s infinite; }
-        
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
-
-        .name { font-size: 1.4rem; color: var(--navy); margin-bottom: 0.25rem; font-weight: bold; }
-        .role { color: var(--cyan); font-weight: 500; margin-bottom: 1rem; font-size: 0.95rem; }
-        
-        .card-stats { display: flex; justify-content: space-around; background: #f8f9fa; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; }
-        .c-stat span { display: block; font-weight: bold; color: var(--navy); }
-        .c-stat small { color: #666; font-size: 0.8rem; }
-        
-        .skills { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .skill-badge { background: #e0f7fa; color: #00838f; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
-        
-        .bio { color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 1.5rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        /* Navbar */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
-        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; width: 100%; box-sizing: border-box; }
-        .btn-cyan { background: var(--cyan); color: white; border: none; }
-        .btn-outline-cyan { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
-        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; margin-top: 4rem;}
-        
-        /* CTA Section */
-        .join-cta { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; border-radius: 16px; margin-top: 4rem; }
-        .join-cta h2 { color: var(--cyan); margin-bottom: 1rem; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Équipes | CleanSen - Nettoyage au Sénégal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <style>
+    /* Inline overrides if needed to ensure SenArtisan match */
+    :root {
+      --primary: #00C853;
+      --accent: #FFD600;
+      --bg-dark: #0a0e1a;
+      --bg-card: rgba(255, 255, 255, 0.05);
+      --bg-surface: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #a0aec0;
+      --grad-primary: linear-gradient(135deg, #00C853, #009624);
+      --grad-gold: linear-gradient(135deg, #FFD600, #F57F17);
+      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.4);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .hero {
+      background: var(--bg-dark);
+      padding: 120px 0 60px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      background: var(--grad-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+    }
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .stat-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 20px 40px;
+      border-radius: 12px;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary);
+    }
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+    .artisan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: transform 0.3s ease;
+    }
+    .artisan-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--primary);
+    }
+    .artisan-card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .availability-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      border: 2px solid var(--bg-dark);
+      box-shadow: var(--shadow-glow);
+    }
+    .artisan-info h3 { margin: 0; font-size: 1.2rem; }
+    .artisan-specialty { color: var(--primary); font-size: 0.9rem; }
+    .stars { color: var(--accent); margin-top: 4px; }
+    .artisan-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .artisan-stat-item {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .artisan-stat-item span {
+      display: block;
+      color: var(--text-primary);
+      font-weight: bold;
+    }
+    .competences {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .cta-section {
+      text-align: center;
+      padding: 60px 0;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 60px;
+    }
+  </style>
 </head>
 <body>
-    <header class="navbar">
-        <a href="index.html" class="logo">🫧 CleanSen</a>
-        <nav class="nav-links">
-            <a href="index.html">Accueil</a>
-            <a href="services.html">Nos Services</a>
-            <a href="tarifs.html">Tarifs</a>
-            <a href="equipes.html" style="color: var(--cyan)">Nos Équipes</a>
-            <a href="galerie.html">Galerie</a>
-        </nav>
-        <a href="reservation.html" class="btn btn-cyan" style="width:auto">Réserver</a>
-    </header>
 
-    <div class="page-header">
-        <h1>Nos Équipes de Choc</h1>
-        <p>Des professionnels formés, vérifiés et passionnés par leur métier.</p>
-        
-        <div class="stats-container">
-            <div class="stat-item">
-                <div class="stat-value">120+</div>
-                <div class="stat-label">Agents Formés</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">4.5k</div>
-                <div class="stat-label">Interventions</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">98%</div>
-                <div class="stat-label">Satisfaction</div>
-            </div>
-        </div>
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🫧</div>
+        <div><div class="nav-logo-text">CleanSen</div><span class="nav-logo-sub">Dakar • Mbour</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="tarifs.html">Tarifs</a></li>
+        <li><a href="equipes.html" class="active">Équipes</a></li>
+        <li><a href="galerie.html">Galerie</a></li>
+        <li><a href="reservation.html">Réserver</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="reservation.html" class="btn btn-ghost btn-sm">📅 Réservation</a>
+        <a href="dashboard-client.html" class="btn btn-primary btn-sm">👤 Mon Espace</a>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu" style="display:none;position:fixed;top:68px;left:0;right:0;z-index:999;background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px;backdrop-filter:blur(20px);">
+  <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+    <li><a href="index.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🏠 Accueil</a></li>
+    <li><a href="services.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">🧹 Services</a></li>
+    <li><a href="tarifs.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">💰 Tarifs</a></li>
+    <li><a href="equipes.html" style="display:block;padding:12px 16px;border-radius:10px;color:var(--text-secondary);">👥 Équipes</a></li>
+    <li><a href="reservation.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px;">📅 Réserver</a></li>
+  </ul>
+</div>
+
+<main>
+  <section class="hero container">
+    <h1>Nos Équipes de Nettoyage</h1>
+    <p style="color:var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+      Découvrez les agents professionnels qui interviennent chez vous. Qualifiés, formés et évalués par nos clients.
+    </p>
+    <div class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-number" data-count="120">120</div>
+        <div class="stat-label">Agents Actifs</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="4500">4500+</div>
+        <div class="stat-label">Interventions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="98">98%</div>
+        <div class="stat-label">Satisfaction</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="filters">
+      <div class="filter-chip active">Tous</div>
+      <div class="filter-chip">Dakar</div>
+      <div class="filter-chip">Mbour</div>
+      <div class="filter-chip">Domicile</div>
+      <div class="filter-chip">Bureau</div>
+      <div class="filter-chip">Industrie</div>
     </div>
 
+    <div class="grid">
+      <!-- Card 1 -->
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <div class="avatar" style="background: rgba(0,200,83,0.2); border: 1px solid rgba(0,200,83,0.4); color: var(--primary);">
+            KD
+            <div class="availability-dot pulse"></div>
+          </div>
+          <div class="artisan-info">
+            <h3>Khady Diallo</h3>
+            <div class="artisan-specialty">Spécialiste Domicile • Dakar</div>
+            <div class="stars">★★★★★ <span style="color:var(--text-secondary);font-size:0.8rem;">(124 avis)</span></div>
+          </div>
+        </div>
+        <div class="artisan-stats">
+          <div class="artisan-stat-item">Expérience <span>5 ans</span></div>
+          <div class="artisan-stat-item">Interventions <span>340+</span></div>
+          <div class="artisan-stat-item">Note globale <span>4.9/5</span></div>
+          <div class="artisan-stat-item">Réponse <span>< 1h</span></div>
+        </div>
+        <div class="competences">
+          <span class="badge-green">Grand Ménage</span>
+          <span class="badge-green">Repassage</span>
+          <span class="badge-gold">Vitrerie</span>
+        </div>
+        <div class="artisan-card-footer">
+          <a href="reservation.html?equipe=1" class="btn btn-primary" style="width:100%; justify-content:center;">Réserver avec cet agent</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <div class="avatar" style="background: rgba(255,214,0,0.2); border: 1px solid rgba(255,214,0,0.4); color: var(--accent);">
+            MS
+            <div class="availability-dot pulse"></div>
+          </div>
+          <div class="artisan-info">
+            <h3>Moussa Sow</h3>
+            <div class="artisan-specialty">Expert Bureaux • Mbour</div>
+            <div class="stars">★★★★★ <span style="color:var(--text-secondary);font-size:0.8rem;">(98 avis)</span></div>
+          </div>
+        </div>
+        <div class="artisan-stats">
+          <div class="artisan-stat-item">Expérience <span>3 ans</span></div>
+          <div class="artisan-stat-item">Interventions <span>210+</span></div>
+          <div class="artisan-stat-item">Note globale <span>4.8/5</span></div>
+          <div class="artisan-stat-item">Réponse <span>< 2h</span></div>
+        </div>
+        <div class="competences">
+          <span class="badge-green">Open Space</span>
+          <span class="badge-gold">Moquette</span>
+          <span class="badge-gray">Locaux pros</span>
+        </div>
+        <div class="artisan-card-footer">
+          <a href="reservation.html?equipe=2" class="btn btn-primary" style="width:100%; justify-content:center;">Réserver avec cet agent</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <div class="avatar" style="background: rgba(0,200,83,0.2); border: 1px solid rgba(0,200,83,0.4); color: var(--primary);">
+            FN
+            <div class="availability-dot pulse"></div>
+          </div>
+          <div class="artisan-info">
+            <h3>Fatou Ndiaye</h3>
+            <div class="artisan-specialty">Fin de chantier • Dakar</div>
+            <div class="stars">★★★★★ <span style="color:var(--text-secondary);font-size:0.8rem;">(56 avis)</span></div>
+          </div>
+        </div>
+        <div class="artisan-stats">
+          <div class="artisan-stat-item">Expérience <span>7 ans</span></div>
+          <div class="artisan-stat-item">Interventions <span>420+</span></div>
+          <div class="artisan-stat-item">Note globale <span>5.0/5</span></div>
+          <div class="artisan-stat-item">Réponse <span>< 1h</span></div>
+        </div>
+        <div class="competences">
+          <span class="badge-green">Décapage</span>
+          <span class="badge-gold">Industriel</span>
+        </div>
+        <div class="artisan-card-footer">
+          <a href="reservation.html?equipe=3" class="btn btn-primary" style="width:100%; justify-content:center;">Réserver avec cet agent</a>
+        </div>
+      </div>
+      
+       <!-- Card 4 -->
+      <div class="artisan-card">
+        <div class="artisan-card-header">
+          <div class="avatar" style="background: rgba(255,214,0,0.2); border: 1px solid rgba(255,214,0,0.4); color: var(--accent);">
+            AT
+            <div class="availability-dot pulse"></div>
+          </div>
+          <div class="artisan-info">
+            <h3>Awa Traoré</h3>
+            <div class="artisan-specialty">Spécialiste Domicile • Dakar</div>
+            <div class="stars">★★★★☆ <span style="color:var(--text-secondary);font-size:0.8rem;">(42 avis)</span></div>
+          </div>
+        </div>
+        <div class="artisan-stats">
+          <div class="artisan-stat-item">Expérience <span>2 ans</span></div>
+          <div class="artisan-stat-item">Interventions <span>150+</span></div>
+          <div class="artisan-stat-item">Note globale <span>4.7/5</span></div>
+          <div class="artisan-stat-item">Réponse <span>< 2h</span></div>
+        </div>
+        <div class="competences">
+          <span class="badge-green">Ménage courant</span>
+          <span class="badge-green">Rangement</span>
+        </div>
+        <div class="artisan-card-footer">
+          <a href="reservation.html?equipe=4" class="btn btn-primary" style="width:100%; justify-content:center;">Réserver avec cet agent</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
     <div class="container">
-        <div class="filters" id="filters">
-            <button class="filter-chip active" data-filter="all">Tous</button>
-            <button class="filter-chip" data-filter="dakar">Dakar</button>
-            <button class="filter-chip" data-filter="mbour">Mbour</button>
-            <button class="filter-chip" data-filter="domicile">Domicile</button>
-            <button class="filter-chip" data-filter="bureau">Bureau</button>
-            <button class="filter-chip" data-filter="industrie">Industrie</button>
-        </div>
-
-        <div class="equipes-grid" id="equipes-grid">
-            <!-- Dynamically injected -->
-        </div>
-
-        <div class="join-cta">
-            <h2>Rejoignez l'équipe CleanSen</h2>
-            <p style="margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">Vous êtes professionnel du nettoyage, ponctuel et rigoureux ? Nous recrutons constamment de nouveaux talents pour accompagner notre croissance.</p>
-            <a href="#" class="btn btn-cyan" style="width: auto; padding: 1rem 2rem;">Postuler maintenant</a>
-        </div>
+      <h2>Rejoignez l'élite du nettoyage</h2>
+      <p style="color:var(--text-secondary); margin-bottom: 24px;">Vous êtes passionné(e) par la propreté et le travail bien fait ? Devenez agent CleanSen.</p>
+      <button class="btn btn-gold">Rejoindre notre équipe</button>
     </div>
+  </section>
+</main>
 
-    <footer class="footer">
-        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
-    </footer>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="index.html" class="nav-logo" style="margin-bottom:16px;"><div class="nav-logo-icon">🫧</div><div><div class="nav-logo-text">CleanSen</div></div></a>
+        <p style="font-size:0.88rem;max-width:260px;margin:16px 0 24px;">La référence du nettoyage professionnel au Sénégal.</p>
+        <div class="footer-social"><a href="#" class="footer-social-link">📘</a><a href="#" class="footer-social-link">💬</a></div>
+      </div>
+      <div><div class="footer-title">Services</div><ul class="footer-links"><li><a href="services.html#domicile">Domicile</a></li><li><a href="services.html#bureau">Bureaux</a></li><li><a href="services.html#industrie">Industrie</a></li></ul></div>
+      <div><div class="footer-title">Villes</div><ul class="footer-links"><li><a href="#">Dakar</a></li><li><a href="#">Mbour - Saly</a></li></ul></div>
+      <div><div class="footer-title">CleanSen</div><ul class="footer-links"><li><a href="equipes.html">Équipes</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="reservation.html">Réserver</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><div>© 2026 CleanSen · Sénégal 🇸🇳</div></div>
+  </div>
+</footer>
 
-    <script src="js/app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.getElementById('equipes-grid');
-            
-            const equipesData = typeof EQUIPES !== 'undefined' ? EQUIPES : [
-                { id: '1', prenom: 'Khady', nom: 'Diallo', role: 'Chef d\'équipe', ville: 'Dakar', rating: 4.9, avisCount: 124, exp: 5, interventions: 850, competences: ['Bureau', 'Industrie'], bio: 'Experte en nettoyage de bureaux avec 5 ans d\'expérience.' },
-                { id: '2', prenom: 'Moussa', nom: 'Sarr', role: 'Agent d\'entretien', ville: 'Mbour', rating: 4.7, avisCount: 89, exp: 3, interventions: 420, competences: ['Domicile', 'Vitrerie'], bio: 'Spécialiste des interventions rapides à domicile.' },
-                { id: '3', prenom: 'Fatou', nom: 'Ndiaye', role: 'Spécialiste Domicile', ville: 'Dakar', rating: 4.8, avisCount: 156, exp: 4, interventions: 600, competences: ['Domicile', 'Repassage'], bio: 'Méticuleuse et soucieuse du détail pour votre intérieur.' },
-                { id: '4', prenom: 'Oumar', nom: 'Fall', role: 'Technicien Industriel', ville: 'Dakar', rating: 4.9, avisCount: 75, exp: 7, interventions: 300, competences: ['Industrie', 'Machines'], bio: 'Maîtrise les équipements lourds pour le nettoyage industriel.' }
-            ];
-
-            const renderEquipes = (filter) => {
-                const filtered = filter === 'all' ? equipesData : equipesData.filter(e => {
-                    if (['dakar', 'mbour'].includes(filter)) return e.ville.toLowerCase() === filter;
-                    return e.competences.map(c=>c.toLowerCase()).includes(filter);
-                });
-
-                grid.innerHTML = filtered.map(agent => {
-                    const initials = `${agent.prenom[0]}${agent.nom[0]}`;
-                    return `
-                        <div class="equipe-card">
-                            <div class="avatar-wrap">
-                                <div class="avatar">${initials}</div>
-                                <div class="status-dot" title="Disponible"></div>
-                            </div>
-                            <h3 class="name">${agent.prenom} ${agent.nom}</h3>
-                            <div class="role">${agent.role} • ${agent.ville}</div>
-                            
-                            <div style="color:#f39c12; margin-bottom:1rem;">
-                                ${'★'.repeat(Math.floor(agent.rating))}${agent.rating % 1 !== 0 ? '⯨' : ''}${'☆'.repeat(5 - Math.ceil(agent.rating))} 
-                                <span style="color:#666; font-size:0.9rem;">(${agent.rating} - ${agent.avisCount} avis)</span>
-                            </div>
-
-                            <div class="card-stats">
-                                <div class="c-stat"><span>${agent.exp} ans</span><small>Expérience</small></div>
-                                <div class="c-stat"><span>${agent.interventions}</span><small>Interventions</small></div>
-                            </div>
-
-                            <div class="skills">
-                                ${agent.competences.map(c => `<span class="skill-badge">${c}</span>`).join('')}
-                            </div>
-
-                            <p class="bio">${agent.bio}</p>
-
-                            <a href="reservation.html?equipe=${agent.id}" class="btn btn-outline-cyan">Réserver avec cet agent</a>
-                        </div>
-                    `;
-                }).join('');
-            };
-
-            renderEquipes('all');
-
-            // Filters
-            const filterBtns = document.querySelectorAll('.filter-chip');
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    renderEquipes(e.target.dataset.filter);
-                });
-            });
-        });
-    </script>
+<script src="js/app.js"></script>
+<script>
+  function toggleMobileMenu() {
+    var menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
 </body>
 </html>
