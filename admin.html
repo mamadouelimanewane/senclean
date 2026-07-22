@@ -45,6 +45,7 @@
       z-index: 100;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s ease;
     }
 
     .admin-main {
@@ -65,40 +66,101 @@
       width: 100%;
     }
 
-    /* Responsive adjustments */
+    .desktop-dual-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+      margin-bottom: 32px;
+    }
+
+    .mobile-header {
+      display: none;
+    }
+
+    /* ─── MOBILE RESPONSIVE ADAPTATIONS ─── */
     @media (max-width: 1200px) {
       .desktop-kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
       .admin-main { padding: 24px; }
     }
 
     @media (max-width: 900px) {
-      .admin-container { grid-template-columns: 1fr; }
-      .admin-sidebar {
-        position: static;
-        width: 100%;
-        border-right: none;
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        background: var(--bg-card);
         border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        backdrop-filter: blur(15px);
       }
-      .admin-main { margin-left: 0; padding: 20px 16px; }
-      .desktop-kpi-grid { grid-template-columns: 1fr; }
+
+      .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      }
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .admin-main {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 16px !important;
+      }
+
+      .desktop-kpi-grid { grid-template-columns: 1fr; gap: 16px; }
+      .desktop-dual-grid { grid-template-columns: 1fr; gap: 20px; }
+
+      .header-actions {
+        flex-direction: column;
+        align-items: stretch !important;
+        width: 100%;
+        gap: 10px;
+      }
+      .header-actions button, .header-actions a {
+        width: 100%;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
 <div class="toast-container" id="toast-container"></div>
 
+<!-- HEADER MOBILE COMPACT -->
+<div class="mobile-header">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div style="width:34px;height:34px;background:var(--grad-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:var(--shadow-glow);">🫧</div>
+    <div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:1.1rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">CleanSen Admin</div>
+    </div>
+  </div>
+  <button onclick="toggleAdminDrawer()" style="background:var(--bg-surface);border:1px solid var(--border);color:var(--text-primary);padding:8px 14px;border-radius:8px;font-size:1.2rem;cursor:pointer;">
+    ☰
+  </button>
+</div>
+
 <div class="admin-container">
 
-  <!-- SIDEBAR ADMIN DESKTOP -->
-  <aside class="admin-sidebar">
-    <div style="padding:0 24px 24px;border-bottom:1px solid var(--border);">
+  <!-- SIDEBAR ADMIN DESKTOP & DRAWER MOBILE -->
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <div style="padding:0 24px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:12px;">
         <div style="width:42px;height:42px;background:var(--grad-primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:var(--shadow-glow);">🫧</div>
         <div>
           <div style="font-family:var(--font-display);font-weight:900;font-size:1.25rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">CleanSen</div>
-          <div style="font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;font-weight:600;">BACKOFFICE DESKTOP</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;font-weight:600;">PANEL ADMIN</div>
         </div>
       </div>
+      <button onclick="toggleAdminDrawer()" style="background:none;border:none;color:var(--text-secondary);font-size:1.5rem;cursor:pointer;" class="mobile-only">✕</button>
     </div>
 
     <nav style="padding:20px 16px;flex:1;">
@@ -107,15 +169,15 @@
         <li><a href="#" onclick="showAdminTab('overview', this)" id="tab-overview" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--primary);background:rgba(0,200,83,0.12);font-weight:700;font-size:0.92rem;text-decoration:none;">
           <span>📊</span> Vue d'ensemble
         </a></li>
-        <li><a href="#" onclick="showAdminTab('reservations', this)" id="tab-reservations" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
+        <li><a href="#" onclick="showAdminTab('reservations', this)" id="tab-reservations" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;">
           <span>📅</span> Interventions
           <span style="margin-left:auto;background:var(--primary);color:#000;font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:12px;">4</span>
         </a></li>
-        <li><a href="#" onclick="showAdminTab('equipes', this)" id="tab-equipes" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
+        <li><a href="#" onclick="showAdminTab('equipes', this)" id="tab-equipes" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;">
           <span>👥</span> Équipes
           <span style="margin-left:auto;background:rgba(255,214,0,0.15);color:var(--accent);font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:12px;">6 en mission</span>
         </a></li>
-        <li><a href="#" onclick="showAdminTab('revenus', this)" id="tab-revenus" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
+        <li><a href="#" onclick="showAdminTab('revenus', this)" id="tab-revenus" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;">
           <span>💰</span> Revenus & Bilans
         </a></li>
       </ul>
@@ -143,16 +205,16 @@
     </div>
   </aside>
 
-  <!-- CONTENU PRINCIPAL DESKTOP -->
+  <!-- CONTENU PRINCIPAL -->
   <main class="admin-main">
 
     <!-- DESKTOP TOP BAR -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:20px;">
       <div>
         <h1 style="font-size:1.8rem;margin:0 0 6px 0;font-family:var(--font-display);" id="admin-title">Vue d'ensemble CleanSen</h1>
-        <p style="font-size:0.88rem;color:var(--text-muted);margin:0;" id="admin-date">Lundi 22 Juillet 2026 · Centre d'opérations Dakar & Mbour</p>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin:0;" id="admin-date">Lundi 22 Juillet 2026 · Operations Dakar & Mbour</p>
       </div>
-      <div style="display:flex;gap:14px;align-items:center;">
+      <div class="header-actions" style="display:flex;gap:14px;align-items:center;">
         <button onclick="showToast('Rapport d\'activité exporté !', 'success')" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);cursor:pointer;padding:12px 20px;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:10px;transition:0.2s;">
           <span>📥</span> Exporter Bilan Excel
         </button>
@@ -160,10 +222,10 @@
       </div>
     </div>
 
-    <!-- ─── TAB 1: VUE D'ENSEMBLE (DESKTOP) ─── -->
+    <!-- ─── TAB 1: VUE D'ENSEMBLE ─── -->
     <div id="section-overview">
 
-      <!-- DESKTOP 4-COLUMN KPIS -->
+      <!-- 4-COLUMN KPIS -->
       <div class="desktop-kpi-grid">
         <div class="stat-card stat-card-green" data-animate>
           <div class="stat-icon" style="background:rgba(0,200,83,0.15);font-size:1.5rem;">✨</div>
@@ -194,12 +256,12 @@
         </div>
       </div>
 
-      <!-- DESKTOP DUAL SECTION: TABLE (2FR) + TEAMS (1FR) -->
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;margin-bottom:32px;" class="desktop-dual-grid">
+      <!-- DUAL SECTION: TABLE + TEAMS -->
+      <div class="desktop-dual-grid">
         
         <!-- TABLE DES RÉSERVATIONS RÉCENTES -->
-        <div class="card card-body" style="padding:28px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+        <div class="card card-body" style="padding:24px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
             <h3 style="font-size:1.1rem;margin:0;">📋 Dernières Interventions Enregistrées</h3>
             <button onclick="showAdminTab('reservations', document.getElementById('tab-reservations'))" class="btn btn-ghost btn-sm">Voir tout →</button>
           </div>
@@ -223,14 +285,14 @@
         </div>
 
         <!-- STATUT ÉQUIPES EN DIRECT -->
-        <div class="card card-body" style="padding:28px;">
+        <div class="card card-body" style="padding:24px;">
           <h3 style="font-size:1.1rem;margin:0 0 20px 0;">👥 Disponibilité des Équipes</h3>
           <div id="equipes-status-list" style="display:flex;flex-direction:column;gap:14px;"></div>
         </div>
       </div>
 
       <!-- REVENUS PAR UNIVERS DE SERVICE -->
-      <div class="card card-body" style="padding:28px;">
+      <div class="card card-body" style="padding:24px;">
         <h3 style="font-size:1.1rem;margin:0 0 20px 0;">📊 Répartition du Chiffre d'Affaires par Univers (Juillet 2026)</h3>
         <div style="display:flex;flex-direction:column;gap:16px;">
           <div>
@@ -274,7 +336,7 @@
           <button class="filter-chip" onclick="filterAdminRes('en_cours', this)">🔄 En cours</button>
           <button class="filter-chip" onclick="filterAdminRes('termine', this)">🏆 Terminées</button>
         </div>
-        <input type="text" class="form-control" placeholder="🔍 Rechercher client, réf, adresse..." style="width:280px;font-size:0.9rem;padding:10px 16px;border-radius:12px;" oninput="searchAdminRes(this.value)">
+        <input type="text" class="form-control" placeholder="🔍 Rechercher client, réf..." style="width:280px;font-size:0.9rem;padding:10px 16px;border-radius:12px;" oninput="searchAdminRes(this.value)">
       </div>
 
       <div class="card" style="overflow:hidden;">
@@ -299,7 +361,7 @@
       </div>
     </div>
 
-    <!-- ─── TAB 3: ÉQUIPES DESKTOP ─── -->
+    <!-- ─── TAB 3: ÉQUIPES ─── -->
     <div id="section-equipes" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
         <h3 style="font-size:1.2rem;margin:0;">👥 Gestion & Affectation des Équipes</h3>
@@ -396,6 +458,11 @@
     { id:'RES-005', client:'Bineta Sall', tel:'+221 70 333 22 11', service:'Lavage de Vitres', date:'29/07/2026', heure:'11:00', adresse:'Mermoz, Rue 10', ville:'Dakar', equipe:'Khady Diallo', montant:8000, statut:'confirme' },
   ];
 
+  function toggleAdminDrawer() {
+    const sidebar = document.getElementById('admin-sidebar');
+    sidebar.classList.toggle('open');
+  }
+
   function showAdminTab(name, linkEl) {
     ['overview','reservations','equipes','revenus','services','parametres'].forEach(s => {
       const el = document.getElementById(`section-${s}`);
@@ -417,6 +484,10 @@
 
     const titles = { overview:"Vue d'ensemble CleanSen", reservations:"Gestion des Interventions", equipes:"Gestion & Affectation des Équipes", revenus:"Bilans & Revenus", services:"Services & Tarifs", parametres:"Paramètres Système" };
     document.getElementById('admin-title').textContent = titles[name] || name;
+
+    if(window.innerWidth < 900) {
+      document.getElementById('admin-sidebar').classList.remove('open');
+    }
 
     if(name === 'overview') renderOverview();
     if(name === 'reservations') renderAllRes('all');
