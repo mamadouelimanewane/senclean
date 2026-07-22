@@ -109,6 +109,23 @@
     .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
     .status-active { background: rgba(0,200,83,0.2); color: var(--primary); }
     .status-pending { background: rgba(255,214,0,0.2); color: var(--accent); }
+
+    @media (max-width: 900px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .sidebar { border-right: none; border-bottom: 1px solid var(--border); padding: 16px; }
+      .user-profile { margin-bottom: 16px; }
+      .nav-menu { display: flex; flex-direction: row; overflow-x: auto; white-space: nowrap; gap: 8px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+      .nav-item { margin-bottom: 0; flex-shrink: 0; }
+      .main-content { padding: 16px; }
+      .upcoming-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .res-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .header-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; gap: 12px; }
+      .stat-card { padding: 16px; }
+      .res-info { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
   </style>
 </head>
 <body>

@@ -64,6 +64,22 @@
     .gallery-panel.avant { background: rgba(255,255,255,0.05); }
     .gallery-panel.apres { background: rgba(0,200,83,0.1); }
     .panel-label { position: absolute; top: 10px; left: 10px; font-size: 0.7rem; font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 4px; }
+    
+    @media (max-width: 768px) {
+      .hero { padding: 100px 0 50px; }
+      .search-bar {
+        flex-direction: column;
+        border-radius: 16px;
+        padding: 12px;
+        width: 100%;
+      }
+      .search-bar select, .search-bar input, .search-bar .btn, .search-bar a {
+        border-right: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+      .gallery-card { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
