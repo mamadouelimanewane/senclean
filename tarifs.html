@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarifs - CleanSen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        /* Toggle */
+        .toggle-container { display: flex; justify-content: center; align-items: center; margin: 2rem 0 4rem; gap: 1rem; font-weight: 500; color: var(--navy); }
+        .switch { position: relative; display: inline-block; width: 60px; height: 34px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--cyan); }
+        input:checked + .slider:before { transform: translateX(26px); }
+
+        /* Pricing Cards */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .pricing-card { background: white; border-radius: 16px; padding: 2.5rem 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; position: relative; display: flex; flex-direction: column; border: 1px solid #eee; }
+        .pricing-card.featured { transform: scale(1.05); border: 2px solid var(--cyan); box-shadow: 0 0 20px rgba(0, 191, 255, 0.2); z-index: 1; }
+        .badge { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--grad-main); color: white; padding: 0.5rem 1.5rem; border-radius: 20px; font-size: 0.9rem; font-weight: bold; white-space: nowrap; }
+        
+        .plan-name { font-size: 1.5rem; color: var(--navy); margin-bottom: 1rem; }
+        .plan-price { font-size: 2.5rem; font-weight: bold; color: var(--cyan); margin-bottom: 0.5rem; }
+        .plan-price span { font-size: 1rem; color: #888; font-weight: normal; }
+        .plan-desc { color: #666; margin-bottom: 2rem; font-size: 0.95rem; }
+        
+        .features { list-style: none; padding: 0; margin: 0 0 2rem; text-align: left; flex-grow: 1; }
+        .features li { margin-bottom: 1rem; color: #444; display: flex; align-items: flex-start; gap: 0.5rem; }
+        .features li.included::before { content: '✓'; color: var(--cyan); font-weight: bold; }
+        .features li.excluded { color: #aaa; text-decoration: line-through; }
+        .features li.excluded::before { content: '✗'; color: #ccc; text-decoration: none; display: inline-block; }
+        
+        /* Industrial section */
+        .industrial-section { background: #f8f9fa; padding: 4rem 2rem; border-radius: 16px; margin-bottom: 4rem; text-align: center; }
+        .industrial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .ind-card { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        /* FAQ */
+        .faq-section { max-width: 800px; margin: 0 auto 4rem; }
+        .faq-section h2 { text-align: center; color: var(--navy); margin-bottom: 2rem; }
+        .faq-item { border-bottom: 1px solid #eee; padding: 1.5rem 0; }
+        .faq-question { font-weight: bold; color: var(--navy); margin-bottom: 0.5rem; display: flex; justify-content: space-between; cursor: pointer; }
+        .faq-answer { color: #666; display: none; line-height: 1.6; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question::after { content: '−'; }
+        .faq-question::after { content: '+'; color: var(--cyan); font-weight: bold; }
+
+        /* Navbar & Button */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
+        .btn { padding: 1rem 2rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; width: 100%; box-sizing: border-box; }
+        .btn-cyan { background: var(--cyan); color: white; border: none; }
+        .btn-outline-cyan { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
+        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">🫧 CleanSen</a>
+        <nav class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="services.html">Nos Services</a>
+            <a href="tarifs.html" style="color: var(--cyan)">Tarifs</a>
+            <a href="equipes.html">Nos Équipes</a>
+            <a href="galerie.html">Galerie</a>
+        </nav>
+        <a href="reservation.html" class="btn btn-cyan" style="width:auto">Réserver</a>
+    </header>
+
+    <div class="page-header">
+        <h1>Grille Tarifaire Transparente</h1>
+        <p>Des formules adaptées à tous les besoins, sans frais cachés.</p>
+    </div>
+
+    <div class="container">
+        <div class="toggle-container">
+            <span>Mensuel (Abonnement)</span>
+            <label class="switch">
+                <input type="checkbox" id="pricing-toggle">
+                <span class="slider"></span>
+            </label>
+            <span>Ponctuel</span>
+        </div>
+
+        <div class="pricing-grid" id="pricing-cards">
+            <!-- Dynamically injected -->
+        </div>
+
+        <div class="industrial-section">
+            <h2 style="color: var(--navy); margin-bottom: 1rem;">Services Industriels</h2>
+            <p style="color: #666; margin-bottom: 2rem;">Des solutions sur mesure pour les besoins spécifiques des entreprises et industries.</p>
+            <div class="industrial-grid">
+                <div class="ind-card">
+                    <h3>🏭 Nettoyage Usine</h3>
+                    <p style="color:var(--cyan); font-weight:bold; margin:1rem 0;">Sur devis</p>
+                    <a href="reservation.html" style="color:var(--navy); text-decoration:underline;">Demander un devis</a>
+                </div>
+                <div class="ind-card">
+                    <h3>🏗️ Fin de Chantier</h3>
+                    <p style="color:var(--cyan); font-weight:bold; margin:1rem 0;">Sur devis</p>
+                    <a href="reservation.html" style="color:var(--navy); text-decoration:underline;">Demander un devis</a>
+                </div>
+                <div class="ind-card">
+                    <h3>🏥 Milieu Médical</h3>
+                    <p style="color:var(--cyan); font-weight:bold; margin:1rem 0;">Sur devis</p>
+                    <a href="reservation.html" style="color:var(--navy); text-decoration:underline;">Demander un devis</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <h2>Questions Fréquentes</h2>
+            <div class="faq-item">
+                <div class="faq-question">Comment fonctionne l'abonnement mensuel ?</div>
+                <div class="faq-answer">L'abonnement vous garantit des interventions régulières (hebdomadaires ou bi-mensuelles) à un tarif préférentiel. Vous êtes prélevé automatiquement chaque mois.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Puis-je annuler ou modifier une réservation ?</div>
+                <div class="faq-answer">Oui, vous pouvez modifier ou annuler sans frais jusqu'à 24h avant l'intervention depuis votre espace client.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Fournissez-vous les produits d'entretien ?</div>
+                <div class="faq-answer">Nos équipes apportent tout le matériel et les produits professionnels nécessaires, inclus dans le prix (sauf mention contraire).</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Les agents sont-ils assurés ?</div>
+                <div class="faq-answer">Absolument, tous nos agents sont déclarés, formés et couverts par notre assurance responsabilité civile en cas de casse.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Quels moyens de paiement acceptez-vous ?</div>
+                <div class="faq-answer">Nous acceptons Wave, Orange Money, carte bancaire et les paiements en espèces à la fin de l'intervention.</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <a href="reservation.html" class="btn btn-cyan" style="width: auto; padding: 1.25rem 2.5rem; font-size: 1.1rem;">Obtenir un devis personnalisé →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggle = document.getElementById('pricing-toggle');
+            const container = document.getElementById('pricing-cards');
+            
+            const formulesData = typeof FORMULES !== 'undefined' ? FORMULES : [
+                { id: 'essentiel', name: 'Essentiel', desc: 'L\'essentiel pour un intérieur propre', priceMensuel: 30000, features: ['Nettoyage surfaces', 'Dépoussiérage'], missing: ['Vitres', 'Repassage'] },
+                { id: 'confort', name: 'Confort', desc: 'Notre formule la plus complète', priceMensuel: 50000, features: ['Tout de Essentiel', 'Nettoyage vitres', 'Linge de maison'], missing: ['Shampoing moquette'] },
+                { id: 'premium', name: 'Premium', desc: 'Le service haut de gamme', priceMensuel: 80000, features: ['Tout de Confort', 'Shampoing moquette', 'Produits écologiques'], missing: [] }
+            ];
+
+            const renderPricing = (isPonctuel) => {
+                container.innerHTML = formulesData.map((plan, index) => {
+                    const price = isPonctuel ? Math.round(plan.priceMensuel * 1.3) : plan.priceMensuel;
+                    const isFeatured = index === 1;
+                    return `
+                        <div class="pricing-card ${isFeatured ? 'featured' : ''}">
+                            ${isFeatured ? '<div class="badge">Le plus populaire</div>' : ''}
+                            <h3 class="plan-name">${plan.name}</h3>
+                            <p class="plan-desc">${plan.desc}</p>
+                            <div class="plan-price">${price.toLocaleString('fr-FR')} FCFA <span>/${isPonctuel ? 'intervention' : 'mois'}</span></div>
+                            <ul class="features">
+                                ${(plan.features || []).map(f => `<li class="included">${f}</li>`).join('')}
+                                ${(plan.missing || []).map(f => `<li class="excluded">${f}</li>`).join('')}
+                            </ul>
+                            <a href="reservation.html?formule=${plan.id}" class="btn ${isFeatured ? 'btn-cyan' : 'btn-outline-cyan'}">Choisir ce plan</a>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            renderPricing(false);
+
+            toggle.addEventListener('change', (e) => {
+                renderPricing(e.target.checked);
+            });
+
+            // FAQ Toggle
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                    if(!isActive) item.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

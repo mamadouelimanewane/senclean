@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie & Réalisations - CleanSen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        
+        .stats-bar { display: flex; justify-content: space-around; background: var(--grad-main); color: white; padding: 2rem; border-radius: 12px; margin: -4rem auto 3rem; max-width: 900px; position: relative; z-index: 10; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .stats-bar div { text-align: center; }
+        .stats-bar strong { display: block; font-size: 2rem; margin-bottom: 0.5rem; }
+
+        .filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+        .filter-chip { padding: 0.5rem 1.5rem; border-radius: 30px; background: #f0f4f8; color: var(--navy); cursor: pointer; font-weight: 500; transition: all 0.3s; border: none; }
+        .filter-chip:hover, .filter-chip.active { background: var(--cyan); color: white; }
+
+        .galerie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+        .galerie-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .galerie-card.featured { grid-column: 1 / -1; display: flex; flex-direction: row; }
+        
+        .ba-container { display: flex; width: 100%; aspect-ratio: 16/9; background: #eee; }
+        .featured .ba-container { width: 60%; }
+        .panel { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 4rem; position: relative; }
+        .panel-avant { background: #dcdde1; }
+        .panel-apres { background: #e0f7fa; }
+        .ba-label { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.5); color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        
+        .card-info { padding: 1.5rem; }
+        .featured .card-info { width: 40%; display: flex; flex-direction: column; justify-content: center; }
+        .card-title { color: var(--navy); font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .card-meta { display: flex; gap: 1rem; color: #666; font-size: 0.9rem; margin-bottom: 1rem; }
+        .badge { background: var(--fresh); color: var(--navy); padding: 0.2rem 0.8rem; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
+        
+        /* Testimonials */
+        .testimonials { background: #f8f9fa; padding: 4rem 2rem; border-radius: 16px; margin-bottom: 4rem; text-align: center; }
+        .testimonials h2 { color: var(--navy); margin-bottom: 2rem; }
+        .carousel { display: flex; overflow-x: auto; gap: 2rem; padding: 1rem; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .carousel::-webkit-scrollbar { display: none; }
+        .testi-card { flex: 0 0 300px; background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); scroll-snap-align: center; text-align: left; }
+        .stars { color: #f39c12; margin-bottom: 1rem; }
+
+        /* Navbar & Button */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
+        .btn { padding: 1rem 2rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; }
+        .btn-cyan { background: var(--cyan); color: white; border: none; }
+        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; }
+        
+        @media (max-width: 768px) {
+            .galerie-card.featured { flex-direction: column; }
+            .featured .ba-container { width: 100%; }
+            .featured .card-info { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">🫧 CleanSen</a>
+        <nav class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="services.html">Nos Services</a>
+            <a href="tarifs.html">Tarifs</a>
+            <a href="equipes.html">Nos Équipes</a>
+            <a href="galerie.html" style="color: var(--cyan)">Galerie</a>
+        </nav>
+        <a href="reservation.html" class="btn btn-cyan">Réserver</a>
+    </header>
+
+    <div class="page-header">
+        <h1>Nos Réalisations</h1>
+        <p>L'excellence en images. Découvrez l'effet CleanSen.</p>
+    </div>
+
+    <div class="container">
+        <div class="stats-bar">
+            <div><strong>850+</strong> Projets Réalisés</div>
+            <div><strong>4</strong> Villes Couvertes</div>
+            <div><strong>99%</strong> Satisfaction</div>
+        </div>
+
+        <div class="filters" id="filters">
+            <button class="filter-chip active" data-filter="all">Tous</button>
+            <button class="filter-chip" data-filter="domicile">Domicile</button>
+            <button class="filter-chip" data-filter="bureau">Bureaux</button>
+            <button class="filter-chip" data-filter="industrie">Industrie</button>
+        </div>
+
+        <div class="galerie-grid" id="galerie-grid">
+            <!-- Dynamically injected -->
+        </div>
+
+        <div class="testimonials">
+            <h2>Ils nous font confiance</h2>
+            <div class="carousel" id="testi-carousel">
+                <!-- Dynamically injected -->
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2>Convaincu ?</h2>
+            <p style="color: #666; margin-bottom: 1.5rem;">Réservez votre intervention en quelques clics.</p>
+            <a href="reservation.html" class="btn btn-cyan">Réserver maintenant →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('galerie-grid');
+            const carousel = document.getElementById('testi-carousel');
+
+            const galerieData = typeof GALERIE !== 'undefined' ? GALERIE : [
+                { id: 1, type: 'domicile', title: 'Grand nettoyage de printemps', ville: 'Dakar', duree: '4h', note: 5, emojiAvant: '🏚️', emojiApres: '✨' },
+                { id: 2, type: 'bureau', title: 'Remise en état Open Space', ville: 'Mbour', duree: '6h', note: 5, emojiAvant: '📉', emojiApres: '📈' },
+                { id: 3, type: 'industrie', title: 'Nettoyage fin de chantier', ville: 'Dakar', duree: '12h', note: 4.8, emojiAvant: '🏗️', emojiApres: '🏢' },
+                { id: 4, type: 'domicile', title: 'Nettoyage Canapé & Tapis', ville: 'Dakar', duree: '2h', note: 5, emojiAvant: '🛋️', emojiApres: '💎' }
+            ];
+
+            const testimonalsData = typeof TEMOIGNAGES_CLEAN !== 'undefined' ? TEMOIGNAGES_CLEAN : [
+                { author: 'Awa C.', text: 'Service impeccable, équipe ponctuelle et très professionnelle. Mon appartement n\'a jamais été aussi propre !', stars: 5 },
+                { author: 'TechCorp SN', text: 'Nous utilisons CleanSen pour nos bureaux depuis 6 mois. Une vraie différence au quotidien.', stars: 5 },
+                { author: 'Ibrahim F.', text: 'Intervention post-travaux parfaite. Ils ont fait des miracles en une journée.', stars: 4 }
+            ];
+
+            const renderGalerie = (filter) => {
+                const filtered = filter === 'all' ? galerieData : galerieData.filter(item => item.type === filter);
+                
+                grid.innerHTML = filtered.map((item, index) => {
+                    const isFeatured = index === 0 && filter === 'all';
+                    return `
+                        <div class="galerie-card ${isFeatured ? 'featured' : ''}">
+                            <div class="ba-container">
+                                <div class="panel panel-avant">
+                                    <span class="ba-label">AVANT</span>
+                                    ${item.emojiAvant}
+                                </div>
+                                <div class="panel panel-apres">
+                                    <span class="ba-label">APRÈS</span>
+                                    ${item.emojiApres}
+                                </div>
+                            </div>
+                            <div class="card-info">
+                                <span class="badge">${item.type.toUpperCase()}</span>
+                                <h3 class="card-title" style="margin-top: 1rem;">${item.title}</h3>
+                                <div class="card-meta">
+                                    <span>📍 ${item.ville}</span>
+                                    <span>⏱️ ${item.duree}</span>
+                                </div>
+                                <div style="color:#f39c12;">${'★'.repeat(Math.floor(item.note))}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            };
+
+            const renderTestimonials = () => {
+                carousel.innerHTML = testimonalsData.map(t => `
+                    <div class="testi-card">
+                        <div class="stars">${'★'.repeat(t.stars)}</div>
+                        <p style="color:#444; font-style:italic; margin-bottom:1rem; line-height:1.5;">"${t.text}"</p>
+                        <strong style="color:var(--navy);">${t.author}</strong>
+                    </div>
+                `).join('');
+            };
+
+            renderGalerie('all');
+            renderTestimonials();
+
+            // Filters
+            const filterBtns = document.querySelectorAll('.filter-chip');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    renderGalerie(e.target.dataset.filter);
+                });
+            });
+            
+            // Auto scroll carousel
+            setInterval(() => {
+                if(carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                    carousel.scrollLeft = 0;
+                } else {
+                    carousel.scrollBy({ left: 300, behavior: 'smooth' });
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

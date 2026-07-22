@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Services - CleanSen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header { background: var(--navy); color: white; padding: 4rem 2rem; text-align: center; }
+        .page-header h1 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--cyan); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .services-layout { display: flex; gap: 2rem; position: relative; }
+        .side-nav { position: sticky; top: 100px; width: 250px; height: fit-content; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: none; }
+        @media(min-width: 768px) { .side-nav { display: block; } }
+        .side-nav a { display: block; padding: 0.75rem 1rem; color: var(--navy); text-decoration: none; border-radius: 8px; margin-bottom: 0.5rem; transition: all 0.3s ease; }
+        .side-nav a:hover, .side-nav a.active { background: var(--grad-main); color: white; }
+        .content { flex: 1; }
+        .section-label { color: var(--cyan); font-weight: bold; text-transform: uppercase; font-size: 0.875rem; letter-spacing: 1px; }
+        .service-section { margin-bottom: 4rem; scroll-margin-top: 100px; }
+        .service-section h2 { color: var(--navy); font-size: 2rem; margin: 0.5rem 0 1rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: transform 0.3s ease; border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-5px); border-color: var(--cyan); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; display: inline-block; padding: 1rem; background: var(--fresh); border-radius: 50%; }
+        .card h3 { color: var(--navy); margin-bottom: 0.5rem; font-size: 1.25rem; }
+        .card p { color: #666; margin-bottom: 1rem; flex-grow: 1; line-height: 1.5; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; }
+        .price { font-weight: bold; color: var(--cyan); font-size: 1.1rem; }
+        .duration { color: #888; font-size: 0.9rem; }
+        .cta-bar { background: var(--grad-main); color: white; padding: 3rem 2rem; text-align: center; border-radius: 16px; margin: 4rem 0; }
+        .cta-bar h2 { margin-bottom: 1.5rem; font-size: 1.8rem; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
+        .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: bold; text-decoration: none; cursor: pointer; display: inline-block; text-align: center; }
+        .btn-cyan { background: var(--cyan); color: white; border: none; }
+        .btn-outline-cyan { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
+        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">🫧 CleanSen</a>
+        <nav class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="services.html" style="color: var(--cyan)">Nos Services</a>
+            <a href="tarifs.html">Tarifs</a>
+            <a href="equipes.html">Nos Équipes</a>
+            <a href="galerie.html">Galerie</a>
+        </nav>
+        <a href="reservation.html" class="btn btn-cyan">Réserver</a>
+    </header>
+
+    <div class="page-header">
+        <h1>Nos Services de Nettoyage</h1>
+        <p>Découvrez notre catalogue complet d'interventions pour tous vos besoins</p>
+    </div>
+
+    <div class="container services-layout">
+        <aside class="side-nav">
+            <a href="#domicile" class="active">🏠 Nettoyage Domicile</a>
+            <a href="#bureau">🏢 Nettoyage Bureau</a>
+            <a href="#industrie">🏭 Nettoyage Industriel</a>
+        </aside>
+
+        <main class="content">
+            <!-- Domicile -->
+            <section id="domicile" class="service-section">
+                <span class="section-label">Particuliers</span>
+                <h2>Nettoyage à Domicile</h2>
+                <p>Des services sur mesure pour garder votre maison impeccable au quotidien.</p>
+                <div class="grid" id="grid-domicile">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <div class="cta-bar">
+                <h2>Besoin d'un devis sur mesure ?</h2>
+                <a href="reservation.html" class="btn" style="background: white; color: var(--navy);">Contactez-nous</a>
+            </div>
+
+            <!-- Bureau -->
+            <section id="bureau" class="service-section">
+                <span class="section-label">Professionnels</span>
+                <h2>Nettoyage de Bureaux</h2>
+                <p>Un environnement de travail sain et productif pour vos équipes.</p>
+                <div class="grid" id="grid-bureau">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- Industrie -->
+            <section id="industrie" class="service-section">
+                <span class="section-label">Spécialisé</span>
+                <h2>Nettoyage Industriel</h2>
+                <p>Expertise et équipements professionnels pour les environnements exigeants.</p>
+                <div class="grid" id="grid-industrie">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 CleanSen. L'excellence du nettoyage au Sénégal.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const renderCards = (dataArray, containerId) => {
+                const container = document.getElementById(containerId);
+                if(!container) return;
+                
+                // Fallback dummy data if app.js arrays are not available
+                const fallbackData = dataArray || [
+                    { id: '1', icon: '✨', name: 'Service Standard', description: 'Nettoyage complet.', duration: '2h', price: '15 000 FCFA' },
+                    { id: '2', icon: '🧼', name: 'Service Approfondi', description: 'Nettoyage en profondeur.', duration: '4h', price: '25 000 FCFA' }
+                ];
+                
+                container.innerHTML = fallbackData.map(item => `
+                    <div class="card">
+                        <div class="card-icon">${item.icon || '🫧'}</div>
+                        <h3>${item.name || 'Service'}</h3>
+                        <p>${item.description || 'Description du service'}</p>
+                        <div class="card-meta">
+                            <span class="duration">⏱️ ${item.duration || 'Sur devis'}</span>
+                            <span class="price">${item.price || 'Sur devis'}</span>
+                        </div>
+                        <a href="reservation.html?service=${item.id}" class="btn btn-outline-cyan" style="margin-top:1.5rem; display:block;">Réserver</a>
+                    </div>
+                `).join('');
+            };
+
+            // Assuming arrays SERVICES_DOMICILE, SERVICES_BUREAU, SERVICES_INDUSTRIE exist globally
+            renderCards(typeof SERVICES_DOMICILE !== 'undefined' ? SERVICES_DOMICILE : null, 'grid-domicile');
+            renderCards(typeof SERVICES_BUREAU !== 'undefined' ? SERVICES_BUREAU : null, 'grid-bureau');
+            renderCards(typeof SERVICES_INDUSTRIE !== 'undefined' ? SERVICES_INDUSTRIE : null, 'grid-industrie');
+
+            // Side nav highlighting
+            const sections = document.querySelectorAll('.service-section');
+            const navLinks = document.querySelectorAll('.side-nav a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if(pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

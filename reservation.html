@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réserver - CleanSen</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { background: #f4f7f6; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--navy); text-decoration: none; }
+        .nav-links a { margin: 0 1rem; text-decoration: none; color: var(--navy); font-weight: 500; }
+        
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1rem; }
+        
+        /* Stepper */
+        .stepper { display: flex; justify-content: space-between; margin-bottom: 3rem; position: relative; }
+        .stepper::before { content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px; background: #ddd; z-index: 1; }
+        .step { position: relative; z-index: 2; text-align: center; flex: 1; }
+        .step-num { width: 32px; height: 32px; background: #ddd; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; font-weight: bold; transition: all 0.3s; }
+        .step.active .step-num { background: var(--cyan); box-shadow: 0 0 0 5px rgba(0,191,255,0.2); }
+        .step.completed .step-num { background: var(--navy); }
+        .step-label { font-size: 0.85rem; color: #666; font-weight: 500; }
+        .step.active .step-label { color: var(--cyan); font-weight: bold; }
+
+        .step-content { display: none; background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .step-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h2 { color: var(--navy); margin-bottom: 1.5rem; }
+
+        /* Step 1 */
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; padding-bottom: 1rem; }
+        .tab-btn { background: none; border: none; font-size: 1.1rem; color: #666; cursor: pointer; padding: 0.5rem 1rem; font-weight: 500; }
+        .tab-btn.active { color: var(--cyan); border-bottom: 2px solid var(--cyan); margin-bottom: -1rem; }
+        
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .service-card { border: 2px solid #eee; border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s; }
+        .service-card:hover { border-color: #b3e5fc; }
+        .service-card.selected { border-color: var(--cyan); background: #e1f5fe; }
+        .service-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; color: var(--navy); font-weight: 500; }
+        .form-control { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; }
+        
+        /* Step 2 - Calendar & Times */
+        .calendar-widget { border: 1px solid #eee; border-radius: 12px; padding: 1rem; margin-bottom: 2rem; }
+        .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-weight: bold; color: var(--navy); }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+        .cal-day-name { font-size: 0.8rem; color: #888; margin-bottom: 0.5rem; }
+        .cal-day { padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: 0.2s; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+        .cal-day:hover:not(.disabled) { background: #eee; }
+        .cal-day.disabled { color: #ccc; cursor: not-allowed; }
+        .cal-day.today { border: 2px solid var(--cyan); color: var(--cyan); font-weight: bold; }
+        .cal-day.selected { background: var(--grad-main); color: white; border: none; }
+
+        .time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .time-slot { border: 1px solid #ddd; padding: 0.75rem; border-radius: 8px; text-align: center; cursor: pointer; }
+        .time-slot.disabled { background: #f9f9f9; color: #aaa; cursor: not-allowed; text-decoration: line-through; }
+        .time-slot.selected { background: var(--cyan); color: white; border-color: var(--cyan); }
+
+        /* Step 3 */
+        .recap-box { background: #f8f9fa; border: 1px solid #eee; padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; }
+        .recap-item { display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px dashed #ddd; padding-bottom: 0.5rem; }
+        .recap-total { display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: bold; color: var(--cyan); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid #ddd; }
+
+        .actions { display: flex; justify-content: space-between; margin-top: 2rem; }
+        .btn { padding: 0.75rem 2rem; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; }
+        .btn-outline { background: white; color: var(--navy); border: 1px solid #ddd; }
+        .btn-cyan { background: var(--cyan); color: white; }
+        
+        /* Success state */
+        .success-state { text-align: center; padding: 3rem 1rem; display: none; }
+        .success-icon { font-size: 4rem; color: #2ecc71; margin-bottom: 1rem; }
+        
+        .footer { background: var(--navy); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <a href="index.html" class="logo">🫧 CleanSen</a>
+        <nav class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="services.html">Nos Services</a>
+            <a href="tarifs.html">Tarifs</a>
+            <a href="equipes.html">Nos Équipes</a>
+            <a href="galerie.html">Galerie</a>
+        </nav>
+        <a href="#" class="btn btn-cyan" style="visibility:hidden">Réserver</a>
+    </header>
+
+    <div class="container">
+        <div class="stepper" id="stepper">
+            <div class="step active" data-step="1">
+                <div class="step-num">1</div>
+                <div class="step-label">Service</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-num">2</div>
+                <div class="step-label">Date & Lieu</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-num">3</div>
+                <div class="step-label">Confirmation</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Service -->
+        <div class="step-content active" id="step-1">
+            <h2>Choisissez votre service</h2>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="domicile">Domicile</button>
+                <button class="tab-btn" data-tab="bureau">Bureau</button>
+                <button class="tab-btn" data-tab="industrie">Industrie</button>
+            </div>
+            
+            <div class="service-grid" id="service-options">
+                <!-- Injected via JS -->
+            </div>
+
+            <div class="form-group">
+                <label>Surface estimée (en m²)</label>
+                <input type="number" class="form-control" id="surface" placeholder="Ex: 80">
+            </div>
+            <div class="form-group">
+                <label>Notes ou demandes particulières</label>
+                <textarea class="form-control" id="notes" rows="3" placeholder="Où trouver les clés, présence d'animaux..."></textarea>
+            </div>
+
+            <div class="actions">
+                <div></div>
+                <button class="btn btn-cyan next-btn">Continuer →</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Date & Lieu -->
+        <div class="step-content" id="step-2">
+            <h2>Date et Lieu de l'intervention</h2>
+            
+            <div class="calendar-widget">
+                <div class="cal-header">
+                    <span>Juillet 2026</span>
+                    <div>
+                        <button style="border:none;background:none;cursor:pointer">&lt;</button>
+                        <button style="border:none;background:none;cursor:pointer">&gt;</button>
+                    </div>
+                </div>
+                <div class="cal-grid" id="calendar-grid">
+                    <div class="cal-day-name">Lun</div><div class="cal-day-name">Mar</div><div class="cal-day-name">Mer</div><div class="cal-day-name">Jeu</div><div class="cal-day-name">Ven</div><div class="cal-day-name">Sam</div><div class="cal-day-name">Dim</div>
+                    <!-- Days injected via JS. Today = 22 -->
+                </div>
+            </div>
+
+            <label style="display:block;margin-bottom:0.5rem;font-weight:500;color:var(--navy);">Heure souhaitée</label>
+            <div class="time-grid" id="time-grid">
+                <div class="time-slot">09h00</div>
+                <div class="time-slot disabled">10h00</div>
+                <div class="time-slot">11h00</div>
+                <div class="time-slot">14h00</div>
+                <div class="time-slot disabled">15h00</div>
+                <div class="time-slot">16h00</div>
+            </div>
+
+            <div class="form-group">
+                <label>Ville</label>
+                <select class="form-control" id="ville">
+                    <option value="Dakar">Dakar</option>
+                    <option value="Mbour">Mbour</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Adresse complète</label>
+                <input type="text" class="form-control" id="adresse" placeholder="Quartier, rue, numéro...">
+            </div>
+            
+            <div class="form-group">
+                <label>Préférence d'équipe (Optionnel)</label>
+                <select class="form-control" id="equipe">
+                    <option value="">Peu importe</option>
+                    <option value="1">Khady Diallo</option>
+                    <option value="2">Moussa Sarr</option>
+                    <option value="3">Fatou Ndiaye</option>
+                </select>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-outline prev-btn">← Retour</button>
+                <button class="btn btn-cyan next-btn">Continuer →</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="step-content" id="step-3">
+            <h2>Vos coordonnées</h2>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group">
+                    <label>Prénom</label>
+                    <input type="text" class="form-control" id="prenom" required>
+                </div>
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" class="form-control" id="nom" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Téléphone</label>
+                <div style="display:flex;">
+                    <span style="background:#eee; padding:0.75rem; border:1px solid #ddd; border-right:none; border-radius:8px 0 0 8px;">+221</span>
+                    <input type="tel" class="form-control" id="telephone" style="border-radius:0 8px 8px 0;" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control" id="email">
+            </div>
+
+            <div class="recap-box">
+                <h3 style="margin-top:0; color:var(--navy); font-size:1.1rem; margin-bottom:1rem;">Récapitulatif</h3>
+                <div class="recap-item"><span>Service</span> <strong id="recap-service">-</strong></div>
+                <div class="recap-item"><span>Date & Heure</span> <strong id="recap-datetime">-</strong></div>
+                <div class="recap-item"><span>Adresse</span> <strong id="recap-address">-</strong></div>
+                <div class="recap-total"><span>Total estimé</span> <span id="recap-price">25 000 FCFA</span></div>
+            </div>
+
+            <div class="form-group" style="display:flex; align-items:flex-start; gap:0.5rem;">
+                <input type="checkbox" id="cgu" style="margin-top:0.3rem;" required>
+                <label for="cgu" style="font-weight:normal; font-size:0.9rem;">J'accepte les Conditions Générales d'Utilisation et confirme l'exactitude de mes informations.</label>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-outline prev-btn">← Retour</button>
+                <button class="btn btn-cyan submit-btn" id="submit-btn">Confirmer la réservation</button>
+            </div>
+        </div>
+
+        <!-- Success State -->
+        <div class="step-content success-state" id="success-state">
+            <div class="success-icon">✓</div>
+            <h2 style="color: #2ecc71;">Réservation Confirmée !</h2>
+            <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">Votre numéro de réservation : <strong>#CS-8942</strong></p>
+            <p>Notre équipe a été notifiée. Khady Diallo sera votre chef d'équipe.</p>
+            
+            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                <a href="dashboard-client.html" class="btn btn-cyan">Accéder à mon espace client</a>
+                <button class="btn btn-outline" style="border-color: #25D366; color: #25D366; display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Recevoir confirmation sur WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 CleanSen. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentStep = 1;
+            let selection = { service: null, serviceName: '', date: null, time: null, price: '25 000 FCFA' };
+
+            // Step Navigation
+            const showStep = (step) => {
+                document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.step').forEach(el => {
+                    el.classList.remove('active');
+                    if(parseInt(el.dataset.step) < step) el.classList.add('completed');
+                    else el.classList.remove('completed');
+                });
+                
+                document.getElementById(`step-${step}`).classList.add('active');
+                document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+                
+                if(step === 3) updateRecap();
+            };
+
+            document.querySelectorAll('.next-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if(currentStep === 1 && !selection.service) return alert("Veuillez choisir un service.");
+                    if(currentStep === 2 && (!selection.date || !selection.time)) return alert("Veuillez choisir une date et une heure.");
+                    
+                    if(currentStep < 3) { currentStep++; showStep(currentStep); }
+                });
+            });
+
+            document.querySelectorAll('.prev-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if(currentStep > 1) { currentStep--; showStep(currentStep); }
+                });
+            });
+
+            // Service Selection
+            const services = {
+                domicile: [
+                    { id: 'd1', name: 'Nettoyage Standard', icon: '✨' },
+                    { id: 'd2', name: 'Grand Nettoyage', icon: '🧽' },
+                    { id: 'd3', name: 'Canapé & Tapis', icon: '🛋️' }
+                ],
+                bureau: [
+                    { id: 'b1', name: 'Entretien Quotidien', icon: '🏢' },
+                    { id: 'b2', name: 'Vitrerie', icon: '🪟' }
+                ],
+                industrie: [
+                    { id: 'i1', name: 'Fin de Chantier', icon: '🏗️' }
+                ]
+            };
+
+            const renderServices = (type) => {
+                const grid = document.getElementById('service-options');
+                grid.innerHTML = services[type].map(s => `
+                    <div class="service-card ${selection.service === s.id ? 'selected' : ''}" data-id="${s.id}" data-name="${s.name}">
+                        <div class="service-icon">${s.icon}</div>
+                        <strong>${s.name}</strong>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+                        e.currentTarget.classList.add('selected');
+                        selection.service = e.currentTarget.dataset.id;
+                        selection.serviceName = e.currentTarget.dataset.name;
+                    });
+                });
+            };
+
+            renderServices('domicile');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    selection.service = null;
+                    renderServices(e.currentTarget.dataset.tab);
+                });
+            });
+
+            // Calendar July 2026 (starts Wed)
+            const calGrid = document.getElementById('calendar-grid');
+            let daysHtml = '';
+            // empty slots for mon, tue (July 1 is Wed)
+            daysHtml += `<div></div><div></div>`;
+            for(let i=1; i<=31; i++) {
+                let cls = 'cal-day';
+                if(i < 22) cls += ' disabled';
+                if(i === 22) cls += ' today';
+                daysHtml += `<div class="${cls}" ${i>=22 ? `data-day="${i}"` : ''}>${i}</div>`;
+            }
+            calGrid.innerHTML += daysHtml;
+
+            document.querySelectorAll('.cal-day:not(.disabled)').forEach(day => {
+                day.addEventListener('click', (e) => {
+                    document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('selected'));
+                    e.currentTarget.classList.add('selected');
+                    selection.date = `${e.currentTarget.dataset.day} Juillet 2026`;
+                });
+            });
+
+            // Times
+            document.querySelectorAll('.time-slot:not(.disabled)').forEach(slot => {
+                slot.addEventListener('click', (e) => {
+                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                    e.currentTarget.classList.add('selected');
+                    selection.time = e.currentTarget.innerText;
+                });
+            });
+
+            // Recap
+            const updateRecap = () => {
+                document.getElementById('recap-service').innerText = selection.serviceName;
+                document.getElementById('recap-datetime').innerText = `${selection.date} à ${selection.time}`;
+                document.getElementById('recap-address').innerText = document.getElementById('adresse').value || 'Dakar';
+            };
+
+            // Submit
+            document.getElementById('submit-btn').addEventListener('click', () => {
+                if(!document.getElementById('cgu').checked) return alert("Veuillez accepter les CGU.");
+                
+                const btn = document.getElementById('submit-btn');
+                btn.innerText = "Traitement...";
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    document.getElementById('stepper').style.display = 'none';
+                    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+                    document.getElementById('success-state').style.display = 'block';
+                }, 1500);
+            });
+            
+            // Check URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('equipe')) {
+                document.getElementById('equipe').value = urlParams.get('equipe');
+            }
+        });
+    </script>
+</body>
+</html>
