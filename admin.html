@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration — CleanSen Sénégal</title>
+  <title>Administration CleanSen — Panel Desktop & Mobile</title>
   <meta name="description" content="Panel d'administration CleanSen : gestion des interventions, équipes de nettoyage, réservations et revenus à Dakar et Mbour.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
@@ -13,145 +13,207 @@
       --primary: #00C853;
       --accent: #FFD600;
       --bg-dark: #0a0e1a;
-      --bg-card: rgba(17,24,39,0.7);
+      --bg-card: rgba(17,24,39,0.75);
       --bg-surface: rgba(17,24,39,0.9);
       --text-primary: #ffffff;
       --text-secondary: #9ca3af;
       --grad-primary: linear-gradient(135deg, #00C853 0%, #009624 100%);
       --grad-gold: linear-gradient(135deg, #FFD600 0%, #F57F17 100%);
-      --shadow-glow: 0 0 20px rgba(0, 200, 83, 0.3);
+      --shadow-glow: 0 0 25px rgba(0, 200, 83, 0.35);
       --border: rgba(0,200,83,0.2);
     }
-    body { background-color: var(--bg-dark); color: var(--text-primary); margin: 0; }
+    body { background-color: var(--bg-dark); color: var(--text-primary); margin: 0; font-family: var(--font-body); }
+
+    /* ─── DESKTOP LAYOUT ─── */
+    .admin-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+    }
+
+    .admin-main {
+      margin-left: 260px;
+      padding: 40px;
+      background: var(--bg-dark);
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    /* Desktop KPI cards */
+    .desktop-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+      .desktop-kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .admin-main { padding: 24px; }
+    }
+
+    @media (max-width: 900px) {
+      .admin-container { grid-template-columns: 1fr; }
+      .admin-sidebar {
+        position: static;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .admin-main { margin-left: 0; padding: 20px 16px; }
+      .desktop-kpi-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 <div class="toast-container" id="toast-container"></div>
 
-<div style="display:grid;grid-template-columns:250px 1fr;min-height:100vh;" class="admin-layout">
+<div class="admin-container">
 
-  <!-- SIDEBAR ADMIN -->
-  <aside style="background:var(--bg-card);border-right:1px solid var(--border);padding:24px 0;position:fixed;top:0;left:0;bottom:0;width:250px;overflow-y:auto;z-index:100;">
-    <div style="padding:0 20px 24px;border-bottom:1px solid var(--border);">
+  <!-- SIDEBAR ADMIN DESKTOP -->
+  <aside class="admin-sidebar">
+    <div style="padding:0 24px 24px;border-bottom:1px solid var(--border);">
       <div style="display:flex;align-items:center;gap:12px;">
-        <div style="width:40px;height:40px;background:var(--grad-primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;">🫧</div>
+        <div style="width:42px;height:42px;background:var(--grad-primary);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:var(--shadow-glow);">🫧</div>
         <div>
-          <div style="font-family:var(--font-display);font-weight:900;font-size:1.15rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">CleanSen</div>
-          <div style="font-size:0.68rem;color:var(--text-muted);letter-spacing:0.05em;">Administration</div>
+          <div style="font-family:var(--font-display);font-weight:900;font-size:1.25rem;background:var(--grad-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">CleanSen</div>
+          <div style="font-size:0.68rem;color:var(--text-muted);letter-spacing:0.08em;font-weight:600;">BACKOFFICE DESKTOP</div>
         </div>
       </div>
     </div>
 
-    <nav style="padding:16px 12px;">
-      <div style="font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;padding:8px 8px;font-weight:600;">TABLEAU DE BORD</div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:4px;">
-        <li><a href="#" onclick="showAdminTab('overview', this)" id="tab-overview" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--primary);background:rgba(0,200,83,0.1);font-weight:600;font-size:0.88rem;text-decoration:none;">
+    <nav style="padding:20px 16px;flex:1;">
+      <div style="font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;padding:8px 8px;font-weight:700;">NAVIGATION PRINCIPALE</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;padding:0;margin:0;">
+        <li><a href="#" onclick="showAdminTab('overview', this)" id="tab-overview" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--primary);background:rgba(0,200,83,0.12);font-weight:700;font-size:0.92rem;text-decoration:none;">
           <span>📊</span> Vue d'ensemble
         </a></li>
-        <li><a href="#" onclick="showAdminTab('reservations', this)" id="tab-reservations" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:0.88rem;text-decoration:none;">
+        <li><a href="#" onclick="showAdminTab('reservations', this)" id="tab-reservations" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
           <span>📅</span> Interventions
-          <span style="margin-left:auto;background:var(--primary);color:#000;font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px;">4</span>
+          <span style="margin-left:auto;background:var(--primary);color:#000;font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:12px;">4</span>
         </a></li>
-        <li><a href="#" onclick="showAdminTab('equipes', this)" id="tab-equipes" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:0.88rem;text-decoration:none;">
+        <li><a href="#" onclick="showAdminTab('equipes', this)" id="tab-equipes" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
           <span>👥</span> Équipes
-          <span style="margin-left:auto;background:rgba(255,214,0,0.15);color:var(--accent);font-size:0.65rem;font-weight:700;padding:2px 7px;border-radius:10px;">6 active</span>
+          <span style="margin-left:auto;background:rgba(255,214,0,0.15);color:var(--accent);font-size:0.68rem;font-weight:800;padding:2px 8px;border-radius:12px;">6 en mission</span>
         </a></li>
-        <li><a href="#" onclick="showAdminTab('revenus', this)" id="tab-revenus" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:0.88rem;text-decoration:none;">
+        <li><a href="#" onclick="showAdminTab('revenus', this)" id="tab-revenus" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;transition:0.2s;" onmouseover="if(!this.style.background.includes('0,200,83'))this.style.background='rgba(255,255,255,0.04)'" onmouseout="if(!this.style.background.includes('0,200,83'))this.style.background=''">
           <span>💰</span> Revenus & Bilans
         </a></li>
       </ul>
 
-      <div style="font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;padding:20px 8px 8px;font-weight:600;">GESTION & RÉGLAGES</div>
-      <ul style="list-style:none;display:flex;flex-direction:column;gap:4px;">
-        <li><a href="#" onclick="showAdminTab('services', this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:0.88rem;text-decoration:none;">
+      <div style="font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;padding:24px 8px 8px;font-weight:700;">CONFIGURATION</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;padding:0;margin:0;">
+        <li><a href="#" onclick="showAdminTab('services', this)" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;">
           <span>🧹</span> Services & Tarifs
         </a></li>
-        <li><a href="#" onclick="showAdminTab('parametres', this)" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;color:var(--text-secondary);font-size:0.88rem;text-decoration:none;">
-          <span>⚙️</span> Paramètres
+        <li><a href="#" onclick="showAdminTab('parametres', this)" style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;color:var(--text-secondary);font-size:0.92rem;text-decoration:none;">
+          <span>⚙️</span> Paramètres Systèmes
         </a></li>
       </ul>
     </nav>
 
-    <div style="padding:16px 20px;margin-top:auto;border-top:1px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-        <div style="width:34px;height:34px;border-radius:50%;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;">AD</div>
+    <div style="padding:20px 24px;border-top:1px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;color:white;box-shadow:var(--shadow-glow);">AD</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:600;">Super Admin</div>
-          <div style="font-size:0.7rem;color:var(--text-muted);">admin@cleansen.sn</div>
+          <div style="font-size:0.88rem;font-weight:700;">Mamadou Eliman</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">admin@cleansen.sn</div>
         </div>
       </div>
-      <a href="index.html" style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-muted);text-decoration:none;">← Voir le site public</a>
+      <a href="index.html" style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-muted);text-decoration:none;font-weight:500;">← Accéder au site public</a>
     </div>
   </aside>
 
-  <!-- CONTENU ADMIN MAIN -->
-  <main style="margin-left:250px;padding:32px;background:var(--bg-dark);min-height:100vh;">
+  <!-- CONTENU PRINCIPAL DESKTOP -->
+  <main class="admin-main">
 
-    <!-- TOPBAR HEADER -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
+    <!-- DESKTOP TOP BAR -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:20px;">
       <div>
-        <h1 style="font-size:1.6rem;margin-bottom:4px;" id="admin-title">Vue d'ensemble CleanSen</h1>
-        <p style="font-size:0.82rem;color:var(--text-muted);" id="admin-date">Lundi 22 Juillet 2026 · Operations Dakar & Mbour</p>
+        <h1 style="font-size:1.8rem;margin:0 0 6px 0;font-family:var(--font-display);" id="admin-title">Vue d'ensemble CleanSen</h1>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin:0;" id="admin-date">Lundi 22 Juillet 2026 · Centre d'opérations Dakar & Mbour</p>
       </div>
-      <div style="display:flex;gap:12px;align-items:center;">
-        <button onclick="showToast('Rapport PDF généré avec succès !', 'success')" style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);cursor:pointer;padding:10px 16px;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
-          <span>📥</span> Exporter le Bilan
+      <div style="display:flex;gap:14px;align-items:center;">
+        <button onclick="showToast('Rapport d\'activité exporté !', 'success')" style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);cursor:pointer;padding:12px 20px;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:10px;transition:0.2s;">
+          <span>📥</span> Exporter Bilan Excel
         </button>
-        <a href="reservation.html" class="btn btn-primary btn-sm">+ Nouvelle Intervention</a>
+        <a href="reservation.html" class="btn btn-primary btn-md" style="padding:12px 24px;font-weight:700;">+ Nouvelle Intervention</a>
       </div>
     </div>
 
-    <!-- ─── TAB 1: OVERVIEW ─── -->
+    <!-- ─── TAB 1: VUE D'ENSEMBLE (DESKTOP) ─── -->
     <div id="section-overview">
 
-      <!-- KPIS -->
-      <div class="grid-4" style="margin-bottom:28px;">
+      <!-- DESKTOP 4-COLUMN KPIS -->
+      <div class="desktop-kpi-grid">
         <div class="stat-card stat-card-green" data-animate>
-          <div class="stat-icon" style="background:rgba(0,200,83,0.12);">✨</div>
-          <div class="stat-value" data-count="4500">0</div>
-          <div class="stat-label">Interventions réalisées</div>
-          <div class="stat-trend stat-trend-up">↑ +14% ce mois</div>
+          <div class="stat-icon" style="background:rgba(0,200,83,0.15);font-size:1.5rem;">✨</div>
+          <div class="stat-value" data-count="4500" style="font-size:2.2rem;">0</div>
+          <div class="stat-label" style="font-size:0.9rem;">Interventions réalisées</div>
+          <div class="stat-trend stat-trend-up" style="margin-top:8px;">↑ +14% ce mois</div>
         </div>
+
         <div class="stat-card stat-card-gold" data-animate data-delay="100">
-          <div class="stat-icon" style="background:rgba(255,214,0,0.12);">💰</div>
-          <div class="stat-value">3.8M</div>
-          <div class="stat-label">Revenus du mois (FCFA)</div>
-          <div class="stat-trend stat-trend-up">↑ +22% vs Juin</div>
+          <div class="stat-icon" style="background:rgba(255,214,0,0.15);font-size:1.5rem;">💰</div>
+          <div class="stat-value" style="font-size:2.2rem;">3.8M</div>
+          <div class="stat-label" style="font-size:0.9rem;">Chiffre d'Affaires Juillet (FCFA)</div>
+          <div class="stat-trend stat-trend-up" style="margin-top:8px;">↑ +22% vs Juin</div>
         </div>
+
         <div class="stat-card stat-card-blue" data-animate data-delay="200">
-          <div class="stat-icon" style="background:rgba(33,150,243,0.12);">📅</div>
-          <div class="stat-value" data-count="24">0</div>
-          <div class="stat-label">Réservations actives</div>
-          <div class="stat-trend stat-trend-up">● 100% assignées</div>
+          <div class="stat-icon" style="background:rgba(33,150,243,0.15);font-size:1.5rem;">📅</div>
+          <div class="stat-value" data-count="24" style="font-size:2.2rem;">0</div>
+          <div class="stat-label" style="font-size:0.9rem;">Réservations actives</div>
+          <div class="stat-trend stat-trend-up" style="margin-top:8px;">● 100% planifiées</div>
         </div>
+
         <div class="stat-card stat-card-purple" data-animate data-delay="300">
-          <div class="stat-icon" style="background:rgba(156,39,176,0.12);">👥</div>
-          <div class="stat-value">6/6</div>
-          <div class="stat-label">Équipes sur le terrain</div>
-          <div class="stat-trend stat-trend-up">⭐ Note moy: 4.85</div>
+          <div class="stat-icon" style="background:rgba(156,39,176,0.15);font-size:1.5rem;">👥</div>
+          <div class="stat-value" style="font-size:2.2rem;">6/6</div>
+          <div class="stat-label" style="font-size:0.9rem;">Équipes sur le terrain</div>
+          <div class="stat-trend stat-trend-up" style="margin-top:8px;">⭐ Note moyenne: 4.85</div>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:28px;">
+      <!-- DESKTOP DUAL SECTION: TABLE (2FR) + TEAMS (1FR) -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:30px;margin-bottom:32px;" class="desktop-dual-grid">
         
-        <!-- TABLE RÉSERVATIONS RÉCENTES -->
-        <div class="card card-body">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-            <h3 style="font-size:1rem;">📋 Dernières Réservations</h3>
+        <!-- TABLE DES RÉSERVATIONS RÉCENTES -->
+        <div class="card card-body" style="padding:28px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;">
+            <h3 style="font-size:1.1rem;margin:0;">📋 Dernières Interventions Enregistrées</h3>
             <button onclick="showAdminTab('reservations', document.getElementById('tab-reservations'))" class="btn btn-ghost btn-sm">Voir tout →</button>
           </div>
-          <div style="overflow-x:auto;">
-            <table style="width:100%;border-collapse:collapse;font-size:0.85rem;" id="recent-res-table">
+          <div class="table-responsive">
+            <table style="width:100%;border-collapse:collapse;font-size:0.88rem;" id="recent-res-table">
               <thead>
                 <tr style="border-bottom:1px solid var(--border);color:var(--text-muted);text-align:left;">
-                  <th style="padding:8px;">RÉF</th>
-                  <th style="padding:8px;">CLIENT</th>
-                  <th style="padding:8px;">SERVICE</th>
-                  <th style="padding:8px;">DATE</th>
-                  <th style="padding:8px;">ÉQUIPE</th>
-                  <th style="padding:8px;">PRIX</th>
-                  <th style="padding:8px;">STATUT</th>
-                  <th style="padding:8px;">ACTION</th>
+                  <th style="padding:12px 10px;">RÉF</th>
+                  <th style="padding:12px 10px;">CLIENT</th>
+                  <th style="padding:12px 10px;">SERVICE</th>
+                  <th style="padding:12px 10px;">DATE</th>
+                  <th style="padding:12px 10px;">ÉQUIPE</th>
+                  <th style="padding:12px 10px;">PRIX</th>
+                  <th style="padding:12px 10px;">STATUT</th>
+                  <th style="padding:12px 10px;">ACTION</th>
                 </tr>
               </thead>
               <tbody id="recent-res-tbody"></tbody>
@@ -159,29 +221,29 @@
           </div>
         </div>
 
-        <!-- STATUT DES ÉQUIPES EN DIRECT -->
-        <div class="card card-body">
-          <h3 style="font-size:1rem;margin-bottom:16px;">👥 Équipes sur le Terrain</h3>
-          <div id="equipes-status-list" style="display:flex;flex-direction:column;gap:12px;"></div>
+        <!-- STATUT ÉQUIPES EN DIRECT -->
+        <div class="card card-body" style="padding:28px;">
+          <h3 style="font-size:1.1rem;margin:0 0 20px 0;">👥 Disponibilité des Équipes</h3>
+          <div id="equipes-status-list" style="display:flex;flex-direction:column;gap:14px;"></div>
         </div>
       </div>
 
-      <!-- REVENUS PAR CATÉGORIE -->
-      <div class="card card-body">
-        <h3 style="font-size:1rem;margin-bottom:16px;">📊 Répartition des Services (Ce Mois)</h3>
-        <div style="display:flex;flex-direction:column;gap:12px;">
+      <!-- REVENUS PAR UNIVERS DE SERVICE -->
+      <div class="card card-body" style="padding:28px;">
+        <h3 style="font-size:1.1rem;margin:0 0 20px 0;">📊 Répartition du Chiffre d'Affaires par Univers (Juillet 2026)</h3>
+        <div style="display:flex;flex-direction:column;gap:16px;">
           ${[
-            {name:'Nettoyage Domicile', pct:55, color:'var(--primary)', val:'2 090 000 FCFA'},
-            {name:'Bureaux & Commerces', pct:30, color:'var(--accent)', val:'1 140 000 FCFA'},
-            {name:'Sites Industriels', pct:15, color:'var(--info)', val:'570 000 FCFA'},
+            {name:'🏠 Nettoyage Domicile (Villas & Appartements)', pct:55, color:'var(--primary)', val:'2 090 000 FCFA'},
+            {name:'🏢 Bureaux & Locaux Commerciaux', pct:30, color:'var(--accent)', val:'1 140 000 FCFA'},
+            {name:'🏭 Sites Industriels & Chantiers', pct:15, color:'var(--info)', val:'570 000 FCFA'},
           ].map(r => `
             <div>
-              <div style="display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:4px;">
-                <span>${r.name}</span>
-                <span style="font-weight:700;">${r.val} (${r.pct}%)</span>
+              <div style="display:flex;justify-content:space-between;font-size:0.9rem;margin-bottom:6px;">
+                <span style="font-weight:600;">${r.name}</span>
+                <span style="font-weight:700;color:var(--text-primary);">${r.val} (${r.pct}%)</span>
               </div>
-              <div style="height:8px;background:var(--bg-surface);border-radius:4px;overflow:hidden;">
-                <div style="height:100%;width:${r.pct}%;background:${r.color};border-radius:4px;transition:width 1s ease;"></div>
+              <div style="height:10px;background:var(--bg-surface);border-radius:5px;overflow:hidden;">
+                <div style="height:100%;width:${r.pct}%;background:${r.color};border-radius:5px;transition:width 1s ease;"></div>
               </div>
             </div>
           `).join('')}
@@ -189,33 +251,33 @@
       </div>
     </div>
 
-    <!-- ─── TAB 2: INTERVENTIONS / RÉSERVATIONS ─── -->
+    <!-- ─── TAB 2: INTERVENTIONS ─── -->
     <div id="section-reservations" style="display:none;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px;">
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="filter-chip active" onclick="filterAdminRes('all', this)">Toutes</button>
+          <button class="filter-chip active" onclick="filterAdminRes('all', this)">Toutes les interventions</button>
           <button class="filter-chip" onclick="filterAdminRes('confirme', this)">✅ Confirmées</button>
           <button class="filter-chip" onclick="filterAdminRes('en_attente', this)">⏳ En attente</button>
           <button class="filter-chip" onclick="filterAdminRes('en_cours', this)">🔄 En cours</button>
           <button class="filter-chip" onclick="filterAdminRes('termine', this)">🏆 Terminées</button>
         </div>
-        <input type="text" class="form-control" placeholder="🔍 Rechercher client, réf, adresse..." style="width:240px;font-size:0.85rem;padding:8px 14px;" oninput="searchAdminRes(this.value)">
+        <input type="text" class="form-control" placeholder="🔍 Rechercher client, réf, adresse..." style="width:280px;font-size:0.9rem;padding:10px 16px;border-radius:12px;" oninput="searchAdminRes(this.value)">
       </div>
 
       <div class="card" style="overflow:hidden;">
-        <div style="overflow-x:auto;">
-          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+        <div class="table-responsive">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
             <thead style="background:var(--bg-surface);">
               <tr style="text-align:left;color:var(--text-muted);">
-                <th style="padding:12px 16px;">RÉFÉRENCE</th>
-                <th style="padding:12px 16px;">CLIENT & TEL</th>
-                <th style="padding:12px 16px;">SERVICE</th>
-                <th style="padding:12px 16px;">DATE & HEURE</th>
-                <th style="padding:12px 16px;">LOCALISATION</th>
-                <th style="padding:12px 16px;">ÉQUIPE ASSIGNÉE</th>
-                <th style="padding:12px 16px;">MONTANT</th>
-                <th style="padding:12px 16px;">STATUT</th>
-                <th style="padding:12px 16px;">ACTIONS</th>
+                <th style="padding:14px 18px;">RÉFÉRENCE</th>
+                <th style="padding:14px 18px;">CLIENT & TEL</th>
+                <th style="padding:14px 18px;">SERVICE</th>
+                <th style="padding:14px 18px;">DATE & HEURE</th>
+                <th style="padding:14px 18px;">LOCALISATION</th>
+                <th style="padding:14px 18px;">ÉQUIPE ASSIGNÉE</th>
+                <th style="padding:14px 18px;">MONTANT</th>
+                <th style="padding:14px 18px;">STATUT</th>
+                <th style="padding:14px 18px;">ACTIONS</th>
               </tr>
             </thead>
             <tbody id="all-res-tbody"></tbody>
@@ -224,10 +286,10 @@
       </div>
     </div>
 
-    <!-- ─── TAB 3: ÉQUIPES ─── -->
+    <!-- ─── TAB 3: ÉQUIPES DESKTOP ─── -->
     <div id="section-equipes" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:1.1rem;">👥 Gestion des Équipes de Nettoyage</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+        <h3 style="font-size:1.2rem;margin:0;">👥 Gestion & Affectation des Équipes</h3>
         <button onclick="showToast('Modal d\'ajout d\'équipe ouvert','info')" class="btn btn-primary btn-sm">+ Nouvelle Équipe</button>
       </div>
       <div class="grid-3" id="admin-equipes-grid"></div>
@@ -235,47 +297,49 @@
 
     <!-- ─── TAB 4: REVENUS ─── -->
     <div id="section-revenus" style="display:none;">
-      <div class="grid-3" style="margin-bottom:24px;">
-        <div class="card card-body text-center">
-          <div style="font-size:2rem;margin-bottom:8px;">💰</div>
-          <div style="font-size:1.8rem;font-weight:900;color:var(--primary);">3 800 000 FCFA</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);">Revenus Juillet 2026</div>
+      <div class="grid-3" style="margin-bottom:28px;">
+        <div class="card card-body text-center" style="padding:28px;">
+          <div style="font-size:2.4rem;margin-bottom:8px;">💰</div>
+          <div style="font-size:2rem;font-weight:900;color:var(--primary);">3 800 000 FCFA</div>
+          <div style="font-size:0.88rem;color:var(--text-muted);">Revenus Juillet 2026</div>
         </div>
-        <div class="card card-body text-center">
-          <div style="font-size:2rem;margin-bottom:8px;">📈</div>
-          <div style="font-size:1.8rem;font-weight:900;color:var(--accent);">24 500 000 FCFA</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);">Cumul Année 2026</div>
+        <div class="card card-body text-center" style="padding:28px;">
+          <div style="font-size:2.4rem;margin-bottom:8px;">📈</div>
+          <div style="font-size:2rem;font-weight:900;color:var(--accent);">24 500 000 FCFA</div>
+          <div style="font-size:0.88rem;color:var(--text-muted);">Cumul Année 2026</div>
         </div>
-        <div class="card card-body text-center">
-          <div style="font-size:2rem;margin-bottom:8px;">🎯</div>
-          <div style="font-size:1.8rem;font-weight:900;color:var(--info);">45 000 FCFA</div>
-          <div style="font-size:0.82rem;color:var(--text-muted);">Panier Moyen par Client</div>
+        <div class="card card-body text-center" style="padding:28px;">
+          <div style="font-size:2.4rem;margin-bottom:8px;">🎯</div>
+          <div style="font-size:2rem;font-weight:900;color:var(--info);">45 000 FCFA</div>
+          <div style="font-size:0.88rem;color:var(--text-muted);">Panier Moyen Client</div>
         </div>
       </div>
-      <div class="card card-body">
-        <h3 style="font-size:1rem;margin-bottom:16px;">Revenus Mensuels (2026)</h3>
-        <div style="display:flex;align-items:flex-end;gap:12px;height:180px;padding-top:20px;">
+      <div class="card card-body" style="padding:28px;">
+        <h3 style="font-size:1.1rem;margin:0 0 20px 0;">Histogramme des Revenus Mensuels 2026</h3>
+        <div style="display:flex;align-items:flex-end;gap:16px;height:220px;padding-top:20px;">
           ${[2.1,2.8,3.2,3.5,3.6,3.4,3.8].map((v,i)=>`
-            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
-              <div style="font-size:0.72rem;color:var(--text-muted);font-weight:700;">${v}M</div>
-              <div style="width:100%;height:${(v/4)*100}%;background:var(--grad-primary);border-radius:6px 6px 0 0;min-height:10px;"></div>
-              <div style="font-size:0.72rem;color:var(--text-muted);">${['Jan','Fév','Mar','Avr','Mai','Jun','Jul'][i]}</div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+              <div style="font-size:0.78rem;color:var(--text-primary);font-weight:700;">${v}M</div>
+              <div style="width:100%;height:${(v/4)*100}%;background:var(--grad-primary);border-radius:8px 8px 0 0;min-height:12px;box-shadow:var(--shadow-glow);"></div>
+              <div style="font-size:0.8rem;color:var(--text-muted);font-weight:600;">${['Jan','Fév','Mar','Avr','Mai','Jun','Jul'][i]}</div>
             </div>
           `).join('')}
         </div>
       </div>
     </div>
 
-    <!-- TAB PLACEHOLDERS -->
-    <div id="section-services" style="display:none;text-align:center;padding:60px;">
-      <div style="font-size:3rem;margin-bottom:12px;">🧹</div>
-      <h3>Gestion des Services & Tarifs</h3>
-      <p style="color:var(--text-muted);">Catalogue des 21 services et formules d'abonnement</p>
+    <!-- SECTIONS DE CONFIGURATION -->
+    <div id="section-services" style="display:none;text-align:center;padding:80px 20px;">
+      <div style="font-size:3.5rem;margin-bottom:16px;">🧹</div>
+      <h2>Gestion du Catalogue Services & Tarifs</h2>
+      <p style="color:var(--text-muted);max-width:500px;margin:0 auto 24px;">Modifier les prix, durées et descriptions des 21 services Domicile, Bureau et Industrie.</p>
+      <a href="services.html" class="btn btn-primary">Voir les services →</a>
     </div>
-    <div id="section-parametres" style="display:none;text-align:center;padding:60px;">
-      <div style="font-size:3rem;margin-bottom:12px;">⚙️</div>
-      <h3>Paramètres Système CleanSen</h3>
-      <p style="color:var(--text-muted);">Horaires d'ouverture, notifications WhatsApp et intégration API</p>
+
+    <div id="section-parametres" style="display:none;text-align:center;padding:80px 20px;">
+      <div style="font-size:3.5rem;margin-bottom:16px;">⚙️</div>
+      <h2>Paramètres Généraux CleanSen</h2>
+      <p style="color:var(--text-muted);max-width:500px;margin:0 auto 24px;">Configuration de la passerelle SMS/WhatsApp, des alertes de réservation et des comptes utilisateurs.</p>
     </div>
 
   </main>
@@ -299,18 +363,18 @@
     const target = document.getElementById(`section-${name}`);
     if(target) target.style.display = 'block';
 
-    document.querySelectorAll('aside nav a').forEach(a => {
+    document.querySelectorAll('.admin-sidebar nav a').forEach(a => {
       a.style.background = '';
       a.style.color = 'var(--text-secondary)';
       a.style.fontWeight = '400';
     });
     if(linkEl) {
-      linkEl.style.background = 'rgba(0,200,83,0.1)';
+      linkEl.style.background = 'rgba(0,200,83,0.12)';
       linkEl.style.color = 'var(--primary)';
-      linkEl.style.fontWeight = '600';
+      linkEl.style.fontWeight = '700';
     }
 
-    const titles = { overview:"Vue d'ensemble CleanSen", reservations:"Gestion des Interventions", equipes:"Gestion des Équipes", revenus:"Bilans & Revenus", services:"Services & Tarifs", parametres:"Paramètres Système" };
+    const titles = { overview:"Vue d'ensemble CleanSen", reservations:"Gestion des Interventions", equipes:"Gestion & Affectation des Équipes", revenus:"Bilans & Revenus", services:"Services & Tarifs", parametres:"Paramètres Système" };
     document.getElementById('admin-title').textContent = titles[name] || name;
 
     if(name === 'overview') renderOverview();
@@ -329,15 +393,15 @@
       const st = getStatutBadge(r.statut);
       return `
         <tr style="border-bottom:1px solid var(--border);">
-          <td style="padding:10px 8px;font-weight:700;color:var(--primary);">${r.id}</td>
-          <td style="padding:10px 8px;">${r.client}</td>
-          <td style="padding:10px 8px;">${r.service}</td>
-          <td style="padding:10px 8px;color:var(--text-muted);">${r.date}</td>
-          <td style="padding:10px 8px;">${r.equipe}</td>
-          <td style="padding:10px 8px;font-weight:700;">${r.montant.toLocaleString('fr-SN')} FCFA</td>
-          <td style="padding:10px 8px;"><span class="badge ${st.cls}" style="font-size:0.68rem;">${st.label}</span></td>
-          <td style="padding:10px 8px;">
-            <button class="btn btn-ghost btn-sm" style="padding:2px 8px;font-size:0.72rem;" onclick="showToast('Changement statut pour ${r.id}','info')">⚙️</button>
+          <td style="padding:12px 10px;font-weight:700;color:var(--primary);">${r.id}</td>
+          <td style="padding:12px 10px;font-weight:600;">${r.client}</td>
+          <td style="padding:12px 10px;">${r.service}</td>
+          <td style="padding:12px 10px;color:var(--text-muted);">${r.date}</td>
+          <td style="padding:12px 10px;font-weight:500;">${r.equipe}</td>
+          <td style="padding:12px 10px;font-weight:700;">${r.montant.toLocaleString('fr-SN')} FCFA</td>
+          <td style="padding:12px 10px;"><span class="badge ${st.cls}" style="font-size:0.7rem;">${st.label}</span></td>
+          <td style="padding:12px 10px;">
+            <button class="btn btn-ghost btn-sm" style="padding:4px 10px;font-size:0.75rem;" onclick="showToast('Option pour ${r.id}','info')">⚙️</button>
           </td>
         </tr>
       `;
@@ -347,15 +411,15 @@
   function renderEquipesStatus() {
     const container = document.getElementById('equipes-status-list');
     container.innerHTML = EQUIPES.map(e => `
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg-surface);border-radius:10px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-          <div style="width:32px;height:32px;border-radius:50%;background:${e.couleur}20;border:2px solid ${e.couleur}40;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.72rem;color:${e.couleur};">${e.initiales}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg-surface);border-radius:12px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:36px;height:36px;border-radius:50%;background:${e.couleur}20;border:2px solid ${e.couleur}40;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:${e.couleur};">${e.initiales}</div>
           <div>
-            <div style="font-weight:600;font-size:0.85rem;">${e.nom}</div>
-            <div style="font-size:0.72rem;color:var(--text-muted);">${e.ville} · ${e.role}</div>
+            <div style="font-weight:700;font-size:0.88rem;">${e.nom}</div>
+            <div style="font-size:0.74rem;color:var(--text-muted);">${e.ville} · ${e.role}</div>
           </div>
         </div>
-        <button onclick="toggleEquipeDispo(${e.id}, this)" class="badge ${e.disponible?'badge-green':'badge-gray'}" style="cursor:pointer;border:none;">
+        <button onclick="toggleEquipeDispo(${e.id}, this)" class="badge ${e.disponible?'badge-green':'badge-gray'}" style="cursor:pointer;border:none;padding:6px 12px;font-size:0.75rem;">
           ${e.disponible ? '● En ligne' : '○ En pause'}
         </button>
       </div>
@@ -380,21 +444,21 @@
       const st = getStatutBadge(r.statut);
       return `
         <tr style="border-bottom:1px solid var(--border);">
-          <td style="padding:12px 16px;font-weight:700;color:var(--primary);">${r.id}</td>
-          <td style="padding:12px 16px;">
-            <div style="font-weight:600;">${r.client}</div>
-            <div style="font-size:0.72rem;color:var(--text-muted);">${r.tel}</div>
+          <td style="padding:14px 18px;font-weight:700;color:var(--primary);">${r.id}</td>
+          <td style="padding:14px 18px;">
+            <div style="font-weight:700;">${r.client}</div>
+            <div style="font-size:0.76rem;color:var(--text-muted);">${r.tel}</div>
           </td>
-          <td style="padding:12px 16px;">${r.service}</td>
-          <td style="padding:12px 16px;color:var(--text-secondary);">${r.date} à ${r.heure}</td>
-          <td style="padding:12px 16px;font-size:0.8rem;color:var(--text-muted);">${r.adresse} (${r.ville})</td>
-          <td style="padding:12px 16px;font-weight:600;">${r.equipe}</td>
-          <td style="padding:12px 16px;font-weight:700;">${r.montant.toLocaleString('fr-SN')} FCFA</td>
-          <td style="padding:12px 16px;"><span class="badge ${st.cls}" style="font-size:0.7rem;">${st.label}</span></td>
-          <td style="padding:12px 16px;">
+          <td style="padding:14px 18px;">${r.service}</td>
+          <td style="padding:14px 18px;color:var(--text-secondary);">${r.date} à ${r.heure}</td>
+          <td style="padding:14px 18px;font-size:0.85rem;color:var(--text-muted);">${r.adresse} (${r.ville})</td>
+          <td style="padding:14px 18px;font-weight:600;">${r.equipe}</td>
+          <td style="padding:14px 18px;font-weight:800;">${r.montant.toLocaleString('fr-SN')} FCFA</td>
+          <td style="padding:14px 18px;"><span class="badge ${st.cls}" style="font-size:0.72rem;">${st.label}</span></td>
+          <td style="padding:14px 18px;">
             <div style="display:flex;gap:6px;">
-              <button onclick="changeStatutRes('${r.id}', 'confirme')" class="btn btn-primary btn-sm" style="padding:4px 8px;font-size:0.7rem;">✓</button>
-              <button onclick="changeStatutRes('${r.id}', 'termine')" class="btn btn-gold btn-sm" style="padding:4px 8px;font-size:0.7rem;">🏆</button>
+              <button onclick="changeStatutRes('${r.id}', 'confirme')" class="btn btn-primary btn-sm" style="padding:6px 10px;font-size:0.75rem;">✓ Valider</button>
+              <button onclick="changeStatutRes('${r.id}', 'termine')" class="btn btn-gold btn-sm" style="padding:6px 10px;font-size:0.75rem;">🏆 Terminer</button>
             </div>
           </td>
         </tr>
@@ -419,7 +483,7 @@
     const tbody = document.getElementById('all-res-tbody');
     tbody.innerHTML = filtered.map(r => {
       const st = getStatutBadge(r.statut);
-      return `<tr style="border-bottom:1px solid var(--border);"><td style="padding:12px 16px;">${r.id}</td><td style="padding:12px 16px;">${r.client}</td><td style="padding:12px 16px;">${r.service}</td><td style="padding:12px 16px;">${r.date}</td><td style="padding:12px 16px;">${r.adresse}</td><td style="padding:12px 16px;">${r.equipe}</td><td style="padding:12px 16px;">${r.montant.toLocaleString('fr-SN')} FCFA</td><td style="padding:12px 16px;"><span class="badge ${st.cls}">${st.label}</span></td><td style="padding:12px 16px;">✓</td></tr>`;
+      return `<tr style="border-bottom:1px solid var(--border);"><td style="padding:14px 18px;font-weight:700;color:var(--primary);">${r.id}</td><td style="padding:14px 18px;">${r.client}</td><td style="padding:14px 18px;">${r.service}</td><td style="padding:14px 18px;">${r.date}</td><td style="padding:14px 18px;">${r.adresse}</td><td style="padding:14px 18px;">${r.equipe}</td><td style="padding:14px 18px;font-weight:800;">${r.montant.toLocaleString('fr-SN')} FCFA</td><td style="padding:14px 18px;"><span class="badge ${st.cls}">${st.label}</span></td><td style="padding:14px 18px;">✓</td></tr>`;
     }).join('');
   }
 
@@ -435,21 +499,21 @@
   function renderAdminEquipes() {
     const grid = document.getElementById('admin-equipes-grid');
     grid.innerHTML = EQUIPES.map(e => `
-      <div class="card card-body">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <div style="width:48px;height:48px;border-radius:50%;background:${e.couleur}20;border:2px solid ${e.couleur}40;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:${e.couleur};">${e.initiales}</div>
+      <div class="card card-body" style="padding:24px;">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:${e.couleur}20;border:2px solid ${e.couleur}40;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:${e.couleur};box-shadow:var(--shadow-glow);">${e.initiales}</div>
           <div>
-            <div style="font-weight:700;font-size:0.95rem;">${e.nom}</div>
-            <div style="font-size:0.78rem;color:var(--primary);">${e.role}</div>
-            <div style="font-size:0.72rem;color:var(--text-muted);">📍 ${e.ville} (${e.quartier})</div>
+            <div style="font-weight:700;font-size:1rem;">${e.nom}</div>
+            <div style="font-size:0.8rem;color:var(--primary);font-weight:600;">${e.role}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">📍 ${e.ville} (${e.quartier})</div>
           </div>
         </div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.8rem;background:var(--bg-surface);padding:8px 12px;border-radius:8px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px;font-size:0.85rem;background:var(--bg-surface);padding:10px 14px;border-radius:10px;">
           <span>⭐ ${e.note} (${e.avis} avis)</span>
           <span><b>${e.interventions}</b> missions</span>
         </div>
-        <div style="display:flex;gap:8px;">
-          <button onclick="showToast('Modification ouverte','info')" class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">⚙️ Gérer</button>
+        <div style="display:flex;gap:10px;">
+          <button onclick="showToast('Panneau d\'édition ouvert','info')" class="btn btn-ghost btn-sm" style="flex:1;justify-content:center;">⚙️ Gérer</button>
           <button onclick="toggleEquipeDispo(${e.id}, this)" class="btn btn-primary btn-sm">${e.disponible?'En ligne':'En pause'}</button>
         </div>
       </div>
