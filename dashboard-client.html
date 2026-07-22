@@ -374,7 +374,7 @@
           </div>
           <div style="display:flex; gap:12px; align-items:center;">
             <span style="font-weight:700;font-size:0.95rem;">${r.montant.toLocaleString('fr-SN')} FCFA</span>
-            <span class="status-badge ${st.cls}">${st.label}</span>
+            <button class="btn btn-ghost btn-sm" onclick="telechargerFactureDemo('${r.id}')">📄 Facture</button>
             ${r.statut==='termine' ? `<button class="btn btn-gold btn-sm" onclick="showToast('Avis 5/5 enregistré ! Merci','success')">⭐ Avis</button>` : `<button class="btn btn-ghost btn-sm" onclick="showToast('Code QR intervention prêt','info')">📱 QR Code</button>`}
           </div>
         </div>

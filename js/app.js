@@ -319,6 +319,47 @@ function simulerNouvelleReservationDemo() {
   return newRes;
 }
 
+// 📄 TÉLÉCHARGEMENT FACTURE DÉMO
+function telechargerFactureDemo(id) {
+  const list = getStoredReservations();
+  const r = list.find(x => x.id === id) || { id: id || 'RES-001', client: 'Seynabou Ndiaye', service: 'Ménage Standard', montant: 15000, date: '28/07/2026', equipe: 'Khady Diallo' };
+  
+  const content = `================================================
+          FACTURE OFFICIELLE CLEANSEN SÉNÉGAL
+================================================
+Référence      : ${r.id}
+Client         : ${r.client}
+Service        : ${r.service}
+Date Prestation: ${r.date}
+Montant Total  : ${r.montant ? r.montant.toLocaleString('fr-SN') : '15 000'} FCFA
+Statut Paiement: RÉGLÉ EN TOTALITÉ (TVA Incluse)
+Équipe assignée: ${r.equipe || 'Khady Diallo'}
+================================================
+CleanSen Dakar • Mbour, Sénégal
+NINEA: 009847123 • Tel: +221 33 800 00 00
+Merci de votre confiance !
+================================================`;
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Facture_${r.id}_CleanSen.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast(`📥 Facture ${r.id} générée et téléchargée !`, 'success');
+}
+
+// 📲 NOTIFICATION WHATSAPP DÉMO
+function afficherModalWhatsApp(id) {
+  const list = getStoredReservations();
+  const r = list.find(x => x.id === id) || { id: id || 'RES-001', client: 'Seynabou Ndiaye', tel: '+221 77 123 45 67', service: 'Ménage Standard', date: '28/07/2026', heure: '09:00', equipe: 'Khady Diallo' };
+  
+  const msg = `💬 SIMULATION NOTIFICATION WHATSAPP :\n----------------------------------------\nPour: ${r.tel} (${r.client})\n\n"Bonjour ${r.client} ! Your CleanSen booking ${r.id} (${r.service}) is confirmed for ${r.date} at ${r.heure}. Team lead: ${r.equipe}."`;
+  alert(msg);
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   initNavbar();
   initAnimations();
