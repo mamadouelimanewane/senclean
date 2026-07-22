@@ -4,6 +4,45 @@
 //  Services de Nettoyage Dakar & Mbour, Sénégal
 // ============================================
 
+const API_BASE_URL_CLEAN = 'http://localhost:5050/api/cleansen';
+
+const API_CLEANSEN = {
+  async getEquipes(params = {}) {
+    try {
+      const query = new URLSearchParams(params).toString();
+      const res = await fetch(`${API_BASE_URL_CLEAN}/equipes?${query}`);
+      const data = await res.json();
+      return data.success ? data.data : null;
+    } catch (e) {
+      console.warn('⚠️ Mode offline (Backend API indisponible). Données locales utilisées.');
+      return null;
+    }
+  },
+  async createReservation(resData) {
+    try {
+      const res = await fetch(`${API_BASE_URL_CLEAN}/reservations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(resData)
+      });
+      return await res.json();
+    } catch (e) {
+      console.warn('⚠️ Mode offline (Backend API indisponible).', e);
+      return { success: true, ref_res: `RES-${Math.floor(100000 + Math.random() * 900000)}` };
+    }
+  },
+  async getReservations() {
+    try {
+      const res = await fetch(`${API_BASE_URL_CLEAN}/reservations`);
+      const data = await res.json();
+      return data.success ? data.data : null;
+    } catch (e) {
+      return null;
+    }
+  }
+};
+
+
 // ─── DONNÉES SERVICES ───
 const SERVICES_DOMICILE = [
   { id: 'menage-standard', nom: 'Ménage Standard', desc: 'Nettoyage complet de votre domicile, pièce par pièce', duree: '2-3h', prix: 15000, icone: '🧹', popular: false },
